@@ -17,6 +17,7 @@ namespace Diablo3.Api.Core
             var dataFetchingTasks = new List<Task<LeaderBoard>>()
             {
                 GetForClassAsync(PlayerClass.Barbarian),
+                GetForClassAsync(PlayerClass.Crusader),
                 GetForClassAsync(PlayerClass.DemonHunter),
                 GetForClassAsync(PlayerClass.Monk),
                 GetForClassAsync(PlayerClass.Necromancer),
@@ -33,6 +34,7 @@ namespace Diablo3.Api.Core
             var dataFetchingTasks = new List<Task<LeaderBoard>>()
             {
                 GetHardcoreForClassAsync(PlayerClass.Barbarian),
+                GetHardcoreForClassAsync(PlayerClass.Crusader),
                 GetHardcoreForClassAsync(PlayerClass.DemonHunter),
                 GetHardcoreForClassAsync(PlayerClass.Monk),
                 GetHardcoreForClassAsync(PlayerClass.Necromancer),

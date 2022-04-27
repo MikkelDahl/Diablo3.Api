@@ -32,6 +32,11 @@
         Mundunugu,
         HellTooth,
         JadeHarvester,
-        Zunnimassa
+        Zunnimassa,
+        Akkhan,
+        Invoker,
+        Aegis,
+        Roland,
+        Seeker
     }
 }

@@ -3,6 +3,7 @@
     public enum PlayerClass
     {
         Barbarian,
+        Crusader,
         DemonHunter,
         Monk,
         Necromancer,
