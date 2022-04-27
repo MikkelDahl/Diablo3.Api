@@ -1,5 +1,6 @@
 # Diablo3.Api
 [![build](https://github.com/MikkelDahl/Diablo3.Api/actions/workflows/build.yml/badge.svg)](https://github.com/MikkelDahl/Diablo3.Api/actions/workflows/build.yml)
+
 Diablo3.Api is a C# .Net library for the [Diablo 3 API](https://develop.battle.net/documentation/diablo-3/game-data-apis). Information on how to connect to blizzards API can be found here: [Get started with Blizzard API](https://develop.battle.net/documentation/guides/getting-started)
 
 # Examples
