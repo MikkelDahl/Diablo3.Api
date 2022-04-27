@@ -1,8 +1,9 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public enum CacheOptions
+﻿namespace Diablo3.Api.Core.Models
 {
-    Default,
-    Preload,
-    NoCache
+    public enum CacheOptions
+    {
+        Default,
+        Preload,
+        NoCache
+    }
 }

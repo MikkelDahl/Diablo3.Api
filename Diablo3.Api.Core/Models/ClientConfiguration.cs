@@ -1,11 +1,12 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public class ClientConfiguration
+﻿namespace Diablo3.Api.Core.Models
 {
-    public CacheConfiguration CacheConfiguration { get; }
-
-    public ClientConfiguration(CacheConfiguration cacheConfiguration)
+    public class ClientConfiguration
     {
-        CacheConfiguration = cacheConfiguration;
+        public CacheConfiguration CacheConfiguration { get; }
+
+        public ClientConfiguration(CacheConfiguration cacheConfiguration)
+        {
+            CacheConfiguration = cacheConfiguration;
+        }
     }
 }

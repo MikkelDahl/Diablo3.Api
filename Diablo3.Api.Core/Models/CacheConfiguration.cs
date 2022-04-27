@@ -1,15 +1,16 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public class CacheConfiguration
+﻿namespace Diablo3.Api.Core.Models
 {
-    public CacheConfiguration(CacheOptions options, int cacheTtlSeconds = 100)
+    public class CacheConfiguration
     {
-        Options = options;
-        CacheTtl = new TimeSpan(0, 0, cacheTtlSeconds);
-    }
+        public CacheConfiguration(CacheOptions options, int cacheTtlSeconds = 100)
+        {
+            Options = options;
+            CacheTtl = new TimeSpan(0, 0, cacheTtlSeconds);
+        }
     
-    public CacheOptions Options { get; }
-    public TimeSpan CacheTtl { get; }
+        public CacheOptions Options { get; }
+        public TimeSpan CacheTtl { get; }
 
    
+    }
 }

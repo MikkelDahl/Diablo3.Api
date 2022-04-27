@@ -1,13 +1,14 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public struct Credentials
+﻿namespace Diablo3.Api.Core.Models
 {
-    internal Credentials(string clientId, string secret)
+    public struct Credentials
     {
-        ClientId = clientId;
-        Secret = secret;
-    }
+        internal Credentials(string clientId, string secret)
+        {
+            ClientId = clientId;
+            Secret = secret;
+        }
 
-    public string ClientId { get; }
-    public string Secret { get; }
+        public string ClientId { get; }
+        public string Secret { get; }
+    }
 }

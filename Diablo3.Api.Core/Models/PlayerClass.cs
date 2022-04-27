@@ -1,11 +1,12 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public enum PlayerClass
+﻿namespace Diablo3.Api.Core.Models
 {
-    Barbarian,
-    DemonHunter,
-    Monk,
-    Necromancer,
-    WitchDoctor,
-    Wizard
+    public enum PlayerClass
+    {
+        Barbarian,
+        DemonHunter,
+        Monk,
+        Necromancer,
+        WitchDoctor,
+        Wizard
+    }
 }

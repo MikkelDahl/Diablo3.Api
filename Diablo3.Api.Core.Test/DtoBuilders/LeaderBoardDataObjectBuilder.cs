@@ -1,85 +1,86 @@
 ﻿using System.Collections.Generic;
 using Diablo3.Api.Core.Models.DTOs;
 
-namespace Diablo3.Api.Core.Test.DtoBuilders;
-
-public class LeaderBoardDataObjectBuilder
+namespace Diablo3.Api.Core.Test.DtoBuilders
 {
-    private List<LeaderBoardEntryObject> leaderBoardEntryObjects;
-
-    private LeaderBoardDataObjectBuilder(List<LeaderBoardEntryObject> entryObjects)
+    public class LeaderBoardDataObjectBuilder
     {
-        leaderBoardEntryObjects = entryObjects;
-    }
+        private List<LeaderBoardEntryObject> leaderBoardEntryObjects;
 
-    public static LeaderBoardDataObjectBuilder WithDefaultValues()
-    {
-        var firstEntryplayerDtos = new List<PlayerDto>()
+        private LeaderBoardDataObjectBuilder(List<LeaderBoardEntryObject> entryObjects)
         {
-            PlayerDtoBuilder.WithDefaultValues().Build(),
-            PlayerDtoBuilder.WithDefaultValues().WithPlayerName("herbert1").Build(),
-            PlayerDtoBuilder.WithDefaultValues().WithPlayerName("herbert2").Build(),
-            PlayerDtoBuilder.WithDefaultValues().WithPlayerName("testermann").Build(),
-            PlayerDtoBuilder.WithDefaultValues().WithPlayerName("test").Build(),
-        };
+            leaderBoardEntryObjects = entryObjects;
+        }
 
-        var riftData = new List<Data>
+        public static LeaderBoardDataObjectBuilder WithDefaultValues()
         {
-            new Data(10, 1000),
-            new Data(10, 2500),
-            new Data(11, 1000),
-            new Data(8, 1000),
-            new Data(11, 2000),
-            new Data(11, 2000)
-        };
-        
-        var riftData2 = new List<Data>
-        {
-            new Data(10, 1000),
-            new Data(10, 2500),
-            new Data(11, 1000),
-            new Data(8, 1000),
-            new Data(8, 1000),
-            new Data(11, 2000)
-        };
-        
-        var riftData3 = new List<Data>
-        {
-            new Data(10, 1000),
-            new Data(10, 2500),
-            new Data(11, 1000),
-            new Data(8, 1000),
-            new Data(8, 1000),
-            new Data(11, 2000)
-        };
-        
-        var riftData4 = new List<Data>
-        {
-            new Data(10, 1000),
-            new Data(10, 2500),
-            new Data(11, 1000),
-            new Data(8, 1000),
-            new Data(8, 1000),
-            new Data(11, 2000)
-        };
-        
-        var riftData5 = new List<Data>
-        {
-            new Data(10, 1000),
-            new Data(10, 2500),
-            new Data(11, 1000),
-            new Data(8, 1000),
-            new Data(8, 1000),
-            new Data(11, 2000)
-        };
+            var firstEntryplayerDtos = new List<PlayerDto>()
+            {
+                PlayerDtoBuilder.WithDefaultValues().Build(),
+                PlayerDtoBuilder.WithDefaultValues().WithPlayerName("herbert1").Build(),
+                PlayerDtoBuilder.WithDefaultValues().WithPlayerName("herbert2").Build(),
+                PlayerDtoBuilder.WithDefaultValues().WithPlayerName("testermann").Build(),
+                PlayerDtoBuilder.WithDefaultValues().WithPlayerName("test").Build(),
+            };
 
-        var entries = new List<LeaderBoardEntryObject>
-        {
-            new LeaderBoardEntryObject(firstEntryplayerDtos, riftData)
-        };
+            var riftData = new List<Data>
+            {
+                new Data(10, 1000),
+                new Data(10, 2500),
+                new Data(11, 1000),
+                new Data(8, 1000),
+                new Data(11, 2000),
+                new Data(11, 2000)
+            };
+        
+            var riftData2 = new List<Data>
+            {
+                new Data(10, 1000),
+                new Data(10, 2500),
+                new Data(11, 1000),
+                new Data(8, 1000),
+                new Data(8, 1000),
+                new Data(11, 2000)
+            };
+        
+            var riftData3 = new List<Data>
+            {
+                new Data(10, 1000),
+                new Data(10, 2500),
+                new Data(11, 1000),
+                new Data(8, 1000),
+                new Data(8, 1000),
+                new Data(11, 2000)
+            };
+        
+            var riftData4 = new List<Data>
+            {
+                new Data(10, 1000),
+                new Data(10, 2500),
+                new Data(11, 1000),
+                new Data(8, 1000),
+                new Data(8, 1000),
+                new Data(11, 2000)
+            };
+        
+            var riftData5 = new List<Data>
+            {
+                new Data(10, 1000),
+                new Data(10, 2500),
+                new Data(11, 1000),
+                new Data(8, 1000),
+                new Data(8, 1000),
+                new Data(11, 2000)
+            };
+
+            var entries = new List<LeaderBoardEntryObject>
+            {
+                new LeaderBoardEntryObject(firstEntryplayerDtos, riftData)
+            };
             
-        return new LeaderBoardDataObjectBuilder(entries);
-    }
+            return new LeaderBoardDataObjectBuilder(entries);
+        }
 
-    public LeaderBoardDataObject Build() => new() {row = leaderBoardEntryObjects};
+        public LeaderBoardDataObject Build() => new() {row = leaderBoardEntryObjects};
+    }
 }

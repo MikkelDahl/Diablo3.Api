@@ -1,13 +1,14 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public class LeaderBoardEntry
+﻿namespace Diablo3.Api.Core.Models
 {
-    public LeaderBoardEntry(Player player, RiftInformation riftInformation)
+    public class LeaderBoardEntry
     {
-        Player = player;
-        RiftInformation = riftInformation;
-    }
+        public LeaderBoardEntry(Player player, RiftInformation riftInformation)
+        {
+            Player = player;
+            RiftInformation = riftInformation;
+        }
 
-    public Player Player { get; }
-    public RiftInformation RiftInformation { get; }
+        public Player Player { get; }
+        public RiftInformation RiftInformation { get; }
+    }
 }
