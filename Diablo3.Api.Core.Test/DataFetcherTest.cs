@@ -32,17 +32,17 @@ namespace Diablo3.Api.Core.Test
             Assert.Throws<ArgumentNullException>(() => new DataFetcher(null));
         }
 
-        [Test]
-        public async Task GetLeaderBoardAsync_returns_entries_ordered_by_rift_level()
-        {
-            var leaderBoard = await sut.GetLeaderBoardAsync(PlayerClass.Barbarian);
-            Assert.IsTrue(leaderBoard.Entries.All(e => e.RiftInformation.Level <= leaderBoard.Entries.First().RiftInformation.Level));
-        }
-    
-        [Test]
-        public async Task GetLeaderBoardAsync_returns_entries_secondary_ordered_by_clear_time()
-        {
-        
-        }
+        // [Test]
+        // public async Task GetLeaderBoardAsync_returns_entries_ordered_by_rift_level()
+        // {
+        //     var leaderBoard = await sut.GetLeaderBoardAsync(PlayerClass.Barbarian);
+        //     Assert.IsTrue(leaderBoard.Entries.All(e => e.RiftInformation.Level <= leaderBoard.Entries.First().RiftInformation.Level));
+        // }
+        //
+        // [Test]
+        // public async Task GetLeaderBoardAsync_returns_entries_secondary_ordered_by_clear_time()
+        // {
+        //
+        // }
     }
 }
