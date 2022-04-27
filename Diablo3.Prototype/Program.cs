@@ -13,9 +13,7 @@ var data = await client.GetForClassAsync(PlayerClass.Barbarian);
 watch.Stop();
 Console.WriteLine($"Barbarian leaderboard loaded in {watch.ElapsedMilliseconds / 1000}s");
 foreach (var entry in data.Entries)
-{
-    Console.WriteLine(entry.Player.Name + " - " + entry.RiftInformation.ItemSet);
-}
+    Console.WriteLine(entry.RiftInformation.Level + ": " + entry.Player.Name + " - " + entry.RiftInformation.ItemSet);
 
 // watch.Restart();
 // var data4 = await client.GetAllAsync();
