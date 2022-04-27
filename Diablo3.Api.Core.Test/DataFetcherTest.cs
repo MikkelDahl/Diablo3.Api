@@ -1,7 +1,4 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.DTOs;
 using Diablo3.Api.Core.Services;
 using Diablo3.Api.Core.Test.DtoBuilders;
