@@ -11,7 +11,7 @@ namespace Diablo3.Api.Core.Services
             { new ItemSetCacheKey(PlayerClass.Barbarian, 2), ItemSet.NinetySavages },
             { new ItemSetCacheKey(PlayerClass.Barbarian, 3), ItemSet.WhirlWind },
             { new ItemSetCacheKey(PlayerClass.Barbarian, 4), ItemSet.MoTE },
-            { new ItemSetCacheKey(PlayerClass.Barbarian, 5), ItemSet.NinetySavages },
+            { new ItemSetCacheKey(PlayerClass.Barbarian, 5), ItemSet.ImmortalKings },
 
             { new ItemSetCacheKey(PlayerClass.Crusader, 0), ItemSet.None },
             { new ItemSetCacheKey(PlayerClass.Crusader, 1), ItemSet.Akkhan },
