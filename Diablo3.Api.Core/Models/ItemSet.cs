@@ -1,0 +1,36 @@
+﻿namespace Diablo3.Api.Core.Models;
+
+public enum ItemSet
+{
+    None,
+    Raekor,
+    MoTE,
+    WhirlWind,
+    ImmortalKings,
+    NinetySavages,
+    Danetta,
+    Marauder,
+    Natalya,
+    Dreadlands,
+    UE,
+    Innas,
+    MonkeyKing,
+    PatternOfJustice,
+    RaimentOfAThousandStorms,
+    Uliana,
+    DMO,
+    Firebird,
+    TalRasha,
+    TyphonsVeil,
+    Vyr,
+    Pestilence,
+    Rathmas,
+    Inarius,
+    TragOuls,
+    Carnival,
+    Arachyr,
+    Mundunugu,
+    HellTooth,
+    JadeHarvester,
+    Zunnimassa
+}
