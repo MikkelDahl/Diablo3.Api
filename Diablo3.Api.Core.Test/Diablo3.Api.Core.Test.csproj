@@ -21,8 +21,4 @@
       <ProjectReference Include="..\Diablo3.Api.Core\Diablo3.Api.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Builders" />
-    </ItemGroup>
-
 </Project>

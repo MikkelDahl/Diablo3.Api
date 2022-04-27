@@ -2,19 +2,24 @@
 {
     public class LeaderBoard
     {
-        // public LeaderBoard(LeaderBoardDataObject leaderBoardDto)
-        // {
-        //     var players  = leaderBoardDto.row.SelectMany(a => a.player.Select(p => p.ToPlayer())).ToList();
-        //     var riftInfo = leaderBoardDto.row.Select(a => new RiftInformation(a.data[1].number, TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now)).ToList();
-        //     var entries = players.Select((p, i) => new LeaderBoardEntry(p, riftInfo[i])).ToList();
-        //     Entries = entries;
-        // }
-
-        public LeaderBoard(List<LeaderBoardEntry> entries)
+        public LeaderBoard(IEnumerable<LeaderBoardEntry> entries)
         {
-            Entries = entries;
+            Entries = entries.OrderByDescending(e => e.RiftInformation.Level).ToList();
         }
     
         public List<LeaderBoardEntry> Entries { get; }
+        public Player GetHighestRankedPlayer() => Entries.First().Player;
+        public Player GetHighestParagonPlayer() => Entries
+            .OrderByDescending(e => e.Player.Paragon)
+            .First()
+            .Player;
+        
+        public ItemSet GetMostPopularSet() => Entries
+            .Select(e => e.RiftInformation)
+            .GroupBy(a => a.ItemSet)
+            .Select(g => new { Set = g.Key, Count = g.Count()})
+            .OrderByDescending(s => s.Count)
+            .First()
+            .Set;
     }
 }
