@@ -10,7 +10,7 @@ namespace Diablo3.Api.Core.Extensions
             {
                 ItemSet.Raekor or ItemSet.MoTE or ItemSet.WhirlWind or ItemSet.ImmortalKings or ItemSet.NinetySavages =>
                     PlayerClass.Barbarian,
-                ItemSet.Marauder or ItemSet.Natalya or ItemSet.Dreadlands or ItemSet.UE or ItemSet.Danetta => PlayerClass
+                ItemSet.Marauder or ItemSet.Natalyas or ItemSet.Dreadlands or ItemSet.UE or ItemSet.Danetta => PlayerClass
                     .DemonHunter,
                 ItemSet.Innas or ItemSet.MonkeyKing or ItemSet.PatternOfJustice or ItemSet.RaimentOfAThousandStorms
                     or ItemSet.Uliana => PlayerClass.Monk,

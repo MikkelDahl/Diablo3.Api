@@ -10,7 +10,7 @@
         NinetySavages,
         Danetta,
         Marauder,
-        Natalya,
+        Natalyas,
         Dreadlands,
         UE,
         Innas,

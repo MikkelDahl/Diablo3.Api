@@ -21,17 +21,17 @@ namespace Diablo3.Api.Core.Services
             { new ItemSetCacheKey(PlayerClass.Crusader, 5), ItemSet.Seeker },
             
             { new ItemSetCacheKey(PlayerClass.DemonHunter, 0), ItemSet.None },
-            { new ItemSetCacheKey(PlayerClass.DemonHunter, 1), ItemSet.UE },
-            { new ItemSetCacheKey(PlayerClass.DemonHunter, 2), ItemSet.Natalya },
-            { new ItemSetCacheKey(PlayerClass.DemonHunter, 3), ItemSet.Marauder },
+            { new ItemSetCacheKey(PlayerClass.DemonHunter, 1), ItemSet.Marauder },
+            { new ItemSetCacheKey(PlayerClass.DemonHunter, 2), ItemSet.Natalyas },
+            { new ItemSetCacheKey(PlayerClass.DemonHunter, 3), ItemSet.UE },
             { new ItemSetCacheKey(PlayerClass.DemonHunter, 4), ItemSet.Danetta },
             { new ItemSetCacheKey(PlayerClass.DemonHunter, 5), ItemSet.Dreadlands },
         
             { new ItemSetCacheKey(PlayerClass.Monk, 0), ItemSet.None },
-            { new ItemSetCacheKey(PlayerClass.Monk, 1), ItemSet.Innas },
+            { new ItemSetCacheKey(PlayerClass.Monk, 1), ItemSet.PatternOfJustice },
             { new ItemSetCacheKey(PlayerClass.Monk, 2), ItemSet.Uliana },
             { new ItemSetCacheKey(PlayerClass.Monk, 3), ItemSet.MonkeyKing },
-            { new ItemSetCacheKey(PlayerClass.Monk, 4), ItemSet.PatternOfJustice },
+            { new ItemSetCacheKey(PlayerClass.Monk, 4), ItemSet.Innas },
             { new ItemSetCacheKey(PlayerClass.Monk, 5), ItemSet.RaimentOfAThousandStorms },
         
             { new ItemSetCacheKey(PlayerClass.Necromancer, 0), ItemSet.None },

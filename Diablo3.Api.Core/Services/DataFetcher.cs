@@ -31,7 +31,7 @@ namespace Diablo3.Api.Core.Services
                 var players  = leaderBoards[i].row.SelectMany(a => a.player.Select(p => p.ToPlayer())).ToList();
                 var itemSet = ItemSetConverter.GetConvertedSet(players[0].PlayerClass, i);
                 var riftInfo =  leaderBoards[i].row.Select(a => new RiftInformation(a.data[1].number, TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
-                var entries = players.Select((p, i) => new LeaderBoardEntry(p, riftInfo[i])).ToList();
+                var entries = players.Select((p, index) => new LeaderBoardEntry(p, riftInfo[index])).ToList();
                 leaderBoardEntries.AddRange(entries);
             }
 
