@@ -2,7 +2,7 @@
 
 namespace Diablo3.Api.Core.Services
 {
-    public static class ItemSetConverter
+    internal static class ItemSetConverter
     {
         private static readonly Dictionary<ItemSetCacheKey, ItemSet> itemSets = new()
         {
@@ -56,7 +56,7 @@ namespace Diablo3.Api.Core.Services
             { new ItemSetCacheKey(PlayerClass.Wizard, 5), ItemSet.DMO }
         };
 
-        public static ItemSet GetConvertedSet(PlayerClass playerClass, int set)
+        internal static ItemSet GetConvertedSet(PlayerClass playerClass, int set)
         {
             var cacheKey = new ItemSetCacheKey(playerClass, set);
             return itemSets[cacheKey];

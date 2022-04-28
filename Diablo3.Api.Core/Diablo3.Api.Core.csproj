@@ -5,6 +5,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Diablo3 Api</Title>
+        <Description>Simple API for fetching data for Diablo3</Description>
+        <RepositoryUrl>https://github.com/MikkelDahl/Diablo3.Api.git</RepositoryUrl>
+        <PackageVersion>1.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
