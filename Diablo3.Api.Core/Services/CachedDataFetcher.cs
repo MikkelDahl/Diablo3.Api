@@ -34,6 +34,8 @@ namespace Diablo3.Api.Core.Services
             return data;
         }
 
+        public async Task<int> GetCurrentSeasonAsync() => await dataFetcher.GetCurrentSeasonAsync();
+
         private async Task InitializeCache()
         {
             logger.Information($"Cache initialization started");

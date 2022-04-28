@@ -8,5 +8,7 @@ namespace Diablo3.Api.Core
         Task<ICollection<LeaderBoard>> GetAllHardcoreAsync();
         Task<LeaderBoard> GetForClassAsync(PlayerClass playerClass);
         Task<LeaderBoard> GetHardcoreForClassAsync(PlayerClass playerClass);
+
+        Task<int> GetCurrentSeasonAsync();
     }
 }

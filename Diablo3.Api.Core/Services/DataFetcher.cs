@@ -13,14 +13,23 @@ namespace Diablo3.Api.Core.Services
         
         public async Task<LeaderBoard> GetLeaderBoardAsync(PlayerClass playerClass, bool hardcore = false)
         {
+            var currentSeason = await GetCurrentSeasonAsync();
             var requests = new List<string>();
             for (var i = 0; i < 6; i++) 
-                requests.Add(CreateGetRequest(playerClass, i, hardcore));
+                requests.Add(CreateGetRequest(playerClass, i, hardcore, currentSeason));
             
             var requestTasks = requests.Select(GetDataObjectAsync).ToList();
             await Task.WhenAll(requestTasks);
             
             return BuildLeaderBoard(requestTasks.Select(t => t.Result).ToList());
+        }
+
+        public async Task<int> GetCurrentSeasonAsync()
+        {
+            const string request = "https://eu.api.blizzard.com/data/d3/season/?access_token=USf56m8BU5LNl13XSnu7x8c0EMNwprwNCB";
+            var seasonDataObject = await battleNetApiHttpClient.GetBnetApiResponseAsync<SeasonDataObject>(request);
+
+            return seasonDataObject.current_season;
         }
 
         private static LeaderBoard BuildLeaderBoard(IReadOnlyList<LeaderBoardDataObject> leaderBoards)
@@ -42,15 +51,17 @@ namespace Diablo3.Api.Core.Services
             
             return new LeaderBoard(trimmedEntries);
         }
+        
+        
 
         private async Task<LeaderBoardDataObject> GetDataObjectAsync(string request) => await battleNetApiHttpClient.GetBnetApiResponseAsync<LeaderBoardDataObject>(request);
 
-        private string CreateGetRequest(PlayerClass playerClass, int setItemIndex, bool isHardcore)
+        private string CreateGetRequest(PlayerClass playerClass, int setItemIndex, bool isHardcore, int season)
         {
             var region = battleNetApiHttpClient.GetCurrentRegion();
             var setIndex = setItemIndex > 0 ? $"set{setItemIndex}" : "noset";
             var hardcore = isHardcore ? "hardcore-" : "";
-            return $"https://{region.ToString().ToLower()}.api.blizzard.com/data/d3/season/26/leaderboard/rift-{hardcore}{playerClass.ToString().ToLower()}-{setIndex}?access_token=USSBRq1wybH5l8pk8Yy7ojhUJQX2yOOGZQ";
+            return $"https://{region.ToString().ToLower()}.api.blizzard.com/data/d3/season/{season}/leaderboard/rift-{hardcore}{playerClass.ToString().ToLower()}-{setIndex}?access_token=USSBRq1wybH5l8pk8Yy7ojhUJQX2yOOGZQ";
         }
     }
 }

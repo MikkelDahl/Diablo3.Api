@@ -51,6 +51,8 @@ namespace Diablo3.Api.Core
 
         public async Task<LeaderBoard> GetHardcoreForClassAsync(PlayerClass playerClass) =>
             await dataFetcher.GetLeaderBoardAsync(playerClass, true);
+
+        public async Task<int> GetCurrentSeasonAsync() => await dataFetcher.GetCurrentSeasonAsync();
     }
 }
   
