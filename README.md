@@ -1,6 +1,8 @@
 # Diablo3.Api
 [![build](https://github.com/MikkelDahl/Diablo3.Api/actions/workflows/build.yml/badge.svg)](https://github.com/MikkelDahl/Diablo3.Api/actions/workflows/build.yml)
 [![tests](https://github.com/MikkelDahl/Diablo3.Api/actions/workflows/tests.yml/badge.svg)](https://github.com/MikkelDahl/Diablo3.Api/actions/workflows/tests.yml)
+[![version](https://img.shields.io/badge/latest-1.0.0-orange)]()
+[![.Net](https://img.shields.io/badge/.Net-6.0.x-red)](https://versionsof.net/)
 
 Diablo3.Api is a C# .Net library for the [Diablo 3 API](https://develop.battle.net/documentation/diablo-3/game-data-apis). Information on how to connect to blizzards API can be found here: [Get started with Blizzard API](https://develop.battle.net/documentation/guides/getting-started). Note that all leaderboard data is seasonal only. There are currently no plans to support non-seasonal leaderboards.
 
