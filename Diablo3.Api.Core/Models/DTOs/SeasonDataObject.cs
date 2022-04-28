@@ -1,6 +1,6 @@
 namespace Diablo3.Api.Core.Models.DTOs
 {
-    public class SeasonDataObject
+    internal class SeasonDataObject
     {
         public int current_season { get; set; }
     }
