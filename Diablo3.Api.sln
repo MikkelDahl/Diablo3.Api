@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diablo3.Api.Core", "Diablo3.Api.Core\Diablo3.Api.Core.csproj", "{DE2E011F-4028-412E-8D91-E28073DD4A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diablo3.Prototype", "Diablo3.Prototype\Diablo3.Prototype.csproj", "{FB309806-E66E-41EF-A8DF-5557E9B0393C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diablo3.Api.Core.Test", "Diablo3.Api.Core.Test\Diablo3.Api.Core.Test.csproj", "{3D44F8A3-8BB8-41AB-B517-4B505845837B}"
 EndProject
 Global
