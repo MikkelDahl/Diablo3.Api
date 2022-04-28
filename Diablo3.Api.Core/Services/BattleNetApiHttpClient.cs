@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Diablo3.Api.Core.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 
 namespace Diablo3.Api.Core.Services
@@ -26,6 +27,16 @@ namespace Diablo3.Api.Core.Services
         var token = await GetNewIfExpired(accessToken);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
         var response = await httpClient.GetFromJsonAsync<T>(request);
+
+        return response;
+    }
+    
+    public async Task<string> GetBnetApiStringResponseAsync(string request)
+    {
+        var httpClient = new HttpClient();
+        var token = await GetNewIfExpired(accessToken);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+        var response = await httpClient.GetStringAsync(request);
 
         return response;
     }

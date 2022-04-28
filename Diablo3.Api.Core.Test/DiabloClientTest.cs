@@ -12,12 +12,12 @@ namespace Diablo3.Api.Core.Test
     public class DiabloClientTest
     {
         private DiabloClient sut = null!;
-        private Mock<IFetcher> dataFetcherMock = null!;
+        private Mock<ILeaderBoardFetcher> dataFetcherMock = null!;
 
         [SetUp]
         public void Setup()
         {
-            dataFetcherMock = new Mock<IFetcher>();
+            dataFetcherMock = new Mock<ILeaderBoardFetcher>();
             sut = new DiabloClient(dataFetcherMock.Object);
         
             SetupDataFetcherMock();
@@ -32,15 +32,15 @@ namespace Diablo3.Api.Core.Test
         [Test]
         public async Task GetForClassAsync_calls_fetcher_once()
         {
-            var _ = await sut.GetForClassAsync(PlayerClass.Barbarian);
-            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<PlayerClass>(), It.IsAny<bool>()), Times.Once);
+            var _ = await sut.GetForClassAsync(HeroClass.Barbarian);
+            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<HeroClass>(), It.IsAny<bool>()), Times.Once);
         }
     
         [Test]
         public async Task GetAllAsync_calls_fetcher_once_per_class()
         {
             var _ = await sut.GetAllAsync();
-            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<PlayerClass>(), It.IsAny<bool>()), Times.Exactly(7));
+            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<HeroClass>(), It.IsAny<bool>()), Times.Exactly(7));
 
         }
     
@@ -48,15 +48,15 @@ namespace Diablo3.Api.Core.Test
         public async Task GetAllHardcoreAsync_calls_fetcher_once_per_class()
         {
             var _ = await sut.GetAllHardcoreAsync();
-            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<PlayerClass>(), It.IsAny<bool>()), Times.Exactly(7));
+            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<HeroClass>(), It.IsAny<bool>()), Times.Exactly(7));
 
         }
     
         [Test]
         public async Task GetHardcoreForClassAsync_calls_fetcher_with_hardcore_param_set_to_true()
         {
-            var _ = await sut.GetHardcoreForClassAsync(PlayerClass.Barbarian);
-            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<PlayerClass>(), It.Is<bool>(b => b == true)), Times.Once);
+            var _ = await sut.GetHardcoreForClassAsync(HeroClass.Barbarian);
+            dataFetcherMock.Verify(a => a.GetLeaderBoardAsync(It.IsAny<HeroClass>(), It.Is<bool>(b => b == true)), Times.Once);
 
         }
 
@@ -65,7 +65,7 @@ namespace Diablo3.Api.Core.Test
             var leaderBoardEntries = new List<LeaderBoardEntry>();
 
             dataFetcherMock.Setup(a =>
-                    a.GetLeaderBoardAsync(It.IsAny<PlayerClass>(), It.IsAny<bool>()))
+                    a.GetLeaderBoardAsync(It.IsAny<HeroClass>(), It.IsAny<bool>()))
                 .ReturnsAsync(new LeaderBoard(leaderBoardEntries));
         }
     }

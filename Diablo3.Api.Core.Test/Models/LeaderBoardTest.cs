@@ -27,11 +27,11 @@ namespace Diablo3.Api.Core.Test.Models
                 LeaderBoardEntryBuilder.WithDefaultValues().WithRiftInformation(riftInformations[0]).Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues().WithRiftInformation(riftInformations[1]).Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues()
-                    .WithPlayer(new Player("highestRankedPlayer", "", PlayerClass.Barbarian, 1000))
+                    .WithPlayer(new Hero(1234567, "highestRankedPlayer", "", HeroClass.Barbarian, 1000, 100))
                     .WithRiftInformation(riftInformations[2])
                     .Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues()
-                    .WithPlayer(new Player("highestParagonPlayer", "", PlayerClass.Barbarian, 2000))
+                    .WithPlayer(new Hero(1111111, "highestParagonPlayer", "", HeroClass.Barbarian, 2000, 150))
                     .WithRiftInformation(riftInformations[3]).Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues().WithRiftInformation(riftInformations[4]).Build()
             };

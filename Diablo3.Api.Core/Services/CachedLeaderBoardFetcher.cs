@@ -4,16 +4,16 @@ using Serilog;
 
 namespace Diablo3.Api.Core.Services
 {
-    internal class CachedDataFetcher : IFetcher
+    internal class CachedLeaderBoardFetcher : ILeaderBoardFetcher
     {
-        private readonly DataFetcher dataFetcher;
+        private readonly LeaderBoardFetcher leaderBoardFetcher;
         private readonly CacheConfiguration cacheConfiguration;
         private readonly ILogger logger;
         private readonly ConcurrentDictionary<CacheKey, (LeaderBoard Data, DateTime CacheExpiration)> cachedData;
 
-        public CachedDataFetcher(DataFetcher dataFetcher, ILogger logger, CacheConfiguration cacheConfiguration)
+        public CachedLeaderBoardFetcher(LeaderBoardFetcher leaderBoardFetcher, ILogger logger, CacheConfiguration cacheConfiguration)
         {
-            this.dataFetcher = dataFetcher ?? throw new ArgumentNullException(nameof(dataFetcher));
+            this.leaderBoardFetcher = leaderBoardFetcher ?? throw new ArgumentNullException(nameof(leaderBoardFetcher));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.cacheConfiguration = cacheConfiguration;
             cachedData = new ConcurrentDictionary<CacheKey, (LeaderBoard Data, DateTime CacheExpiration)>();
@@ -22,28 +22,28 @@ namespace Diablo3.Api.Core.Services
                 Task.WaitAny(InitializeCache());
         }
 
-        public async Task<LeaderBoard> GetLeaderBoardAsync(PlayerClass playerClass, bool hardcore)
+        public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass, bool hardcore)
         {
-            var cacheKey = new CacheKey(playerClass, hardcore);
+            var cacheKey = new CacheKey(heroClass, hardcore);
             if (cachedData.ContainsKey(cacheKey) && DateTime.UtcNow < cachedData[cacheKey].CacheExpiration) 
                 return cachedData[cacheKey].Data;
 
-            var data = await dataFetcher.GetLeaderBoardAsync(playerClass);
+            var data = await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
             cachedData[cacheKey] = (data, DateTime.UtcNow + cacheConfiguration.CacheTtl);
 
             return data;
         }
 
-        public async Task<int> GetCurrentSeasonAsync() => await dataFetcher.GetCurrentSeasonAsync();
+        public async Task<int> GetCurrentSeasonAsync() => await leaderBoardFetcher.GetCurrentSeasonAsync();
 
         private async Task InitializeCache()
         {
             logger.Information($"Cache initialization started");
             for (int i = 0; i < 6; i++)
             {
-                var playerClass = (PlayerClass)i;
-                var normalData = await dataFetcher.GetLeaderBoardAsync(playerClass);
-                var hcData = await dataFetcher.GetLeaderBoardAsync(playerClass, true);
+                var playerClass = (HeroClass)i;
+                var normalData = await leaderBoardFetcher.GetLeaderBoardAsync(playerClass);
+                var hcData = await leaderBoardFetcher.GetLeaderBoardAsync(playerClass, true);
                 
                 var normalCacheKey = new CacheKey(playerClass, false);
                 var hcCacheKey = new CacheKey(playerClass, true);

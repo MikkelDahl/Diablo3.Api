@@ -1,6 +1,6 @@
 ﻿namespace Diablo3.Api.Core.Models
 {
-    public enum PlayerClass
+    public enum HeroClass
     {
         Barbarian,
         Crusader,

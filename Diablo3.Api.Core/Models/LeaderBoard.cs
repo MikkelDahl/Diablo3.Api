@@ -8,11 +8,11 @@
         }
     
         public List<LeaderBoardEntry> Entries { get; }
-        public Player GetHighestRankedPlayer() => Entries.First().Player;
-        public Player GetHighestParagonPlayer() => Entries
-            .OrderByDescending(e => e.Player.Paragon)
+        public Hero GetHighestRankedPlayer() => Entries.First().Hero;
+        public Hero GetHighestParagonPlayer() => Entries
+            .OrderByDescending(e => e.Hero.Paragon)
             .First()
-            .Player;
+            .Hero;
         
         public ItemSet GetMostPopularSet() => Entries
             .Select(e => e.RiftInformation)

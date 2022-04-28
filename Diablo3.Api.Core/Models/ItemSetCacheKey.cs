@@ -2,13 +2,13 @@
 {
     internal readonly struct ItemSetCacheKey : IEquatable<ItemSetCacheKey>
     {
-        public ItemSetCacheKey(PlayerClass playerClass, int set)
+        public ItemSetCacheKey(HeroClass heroClass, int set)
         {
-            PlayerClass = playerClass;
+            HeroClass = heroClass;
             Set = set;
         }
         
-        public PlayerClass PlayerClass { get; }
+        public HeroClass HeroClass { get; }
         public int Set { get; }
 
         public override bool Equals(object? obj) =>
@@ -16,9 +16,9 @@
             Equals(other);
 
         public bool Equals(ItemSetCacheKey other) =>
-            other.PlayerClass == PlayerClass &&
+            other.HeroClass == HeroClass &&
             other.Set == Set;
 
-        public override int GetHashCode() => HashCode.Combine(PlayerClass, Set);
+        public override int GetHashCode() => HashCode.Combine(HeroClass, Set);
     }
 }

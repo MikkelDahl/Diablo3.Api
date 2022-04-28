@@ -2,13 +2,14 @@
 {
     public class LeaderBoardEntry
     {
-        public LeaderBoardEntry(Player player, RiftInformation riftInformation)
+        public LeaderBoardEntry(Hero hero, RiftInformation riftInformation)
         {
-            Player = player;
+            Hero = hero;
             RiftInformation = riftInformation;
         }
 
-        public Player Player { get; }
+        public Hero Hero { get; }
         public RiftInformation RiftInformation { get; }
+        
     }
 }

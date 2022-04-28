@@ -2,13 +2,13 @@ namespace Diablo3.Api.Core.Models
 {
     internal readonly struct CacheKey : IEquatable<CacheKey>
     {
-        public CacheKey(PlayerClass playerClass, bool hardcore)
+        public CacheKey(HeroClass heroClass, bool hardcore)
         {
-            PlayerClass = playerClass;
+            HeroClass = heroClass;
             Hardcore = hardcore;
         }
         
-        public PlayerClass PlayerClass { get; }
+        public HeroClass HeroClass { get; }
         public bool Hardcore { get; }
 
         public override bool Equals(object? obj) =>
@@ -16,9 +16,9 @@ namespace Diablo3.Api.Core.Models
             Equals(other);
 
         public bool Equals(CacheKey other) =>
-            other.PlayerClass == PlayerClass &&
+            other.HeroClass == HeroClass &&
             other.Hardcore == Hardcore;
 
-        public override int GetHashCode() => HashCode.Combine(PlayerClass, Hardcore);
+        public override int GetHashCode() => HashCode.Combine(HeroClass, Hardcore);
     }
 }
