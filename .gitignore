@@ -59,8 +59,6 @@ Diablo3.Api.Core.Test/obj/
 
 *.user
 
-Diablo3.Prototype/
-
 Diablo3.Api.Core/obj/
 
 Diablo3.Api.Core/bin/Debug/net6.0/
@@ -68,3 +66,8 @@ Diablo3.Api.Core/bin/Debug/net6.0/
 Diablo3.Api.Core.Test/bin/Debug/net6.0/
 
 Diablo3.Api.Core/bin/Debug/
+
+Diablo3.Prototype/obj/
+Diablo3.Prototype/bin/Debug/net6.0/
+
+Diablo3.Prototype/appSettings.json

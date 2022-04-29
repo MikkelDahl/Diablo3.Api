@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diablo3.Api.Core", "Diablo3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diablo3.Api.Core.Test", "Diablo3.Api.Core.Test\Diablo3.Api.Core.Test.csproj", "{3D44F8A3-8BB8-41AB-B517-4B505845837B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diablo3.Prototype", "Diablo3.Prototype\Diablo3.Prototype.csproj", "{7BC12711-32E1-4477-8E81-6072F1631874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,5 +24,9 @@ Global
 		{3D44F8A3-8BB8-41AB-B517-4B505845837B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D44F8A3-8BB8-41AB-B517-4B505845837B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D44F8A3-8BB8-41AB-B517-4B505845837B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC12711-32E1-4477-8E81-6072F1631874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC12711-32E1-4477-8E81-6072F1631874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC12711-32E1-4477-8E81-6072F1631874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC12711-32E1-4477-8E81-6072F1631874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
