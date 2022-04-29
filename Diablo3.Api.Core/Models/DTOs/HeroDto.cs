@@ -1,6 +1,6 @@
 ﻿namespace Diablo3.Api.Core.Models.DTOs
 {
-    public class HeroDto
+    internal class HeroDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
