@@ -23,16 +23,15 @@ namespace Diablo3.Api.Core
 
         public IClient Build(ClientConfiguration configuration)
         {
-            var dataFetcher = BuildDataFetcher(configuration);
+            var dataFetcher = BuildLeaderBoardFetcher(configuration);
             return new DiabloClient(dataFetcher);
         }
 
-        private ILeaderBoardFetcher BuildDataFetcher(ClientConfiguration configuration)
+        private ILeaderBoardFetcher BuildLeaderBoardFetcher(ClientConfiguration configuration)
         {
-            var heroFetcher = new HeroFetcher(battleNetApiHttpClient);
             return configuration.CacheConfiguration.Options == CacheOptions.NoCache
-                ? new LeaderBoardFetcher(battleNetApiHttpClient, heroFetcher)
-                : new CachedLeaderBoardFetcher(new LeaderBoardFetcher(battleNetApiHttpClient, heroFetcher), logger,
+                ? new LeaderBoardFetcher(battleNetApiHttpClient)
+                : new CachedLeaderBoardFetcher(new LeaderBoardFetcher(battleNetApiHttpClient), logger,
                     configuration.CacheConfiguration);
         }
     }

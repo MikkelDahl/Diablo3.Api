@@ -2,13 +2,13 @@
 {
     public class LeaderBoardEntry
     {
-        public LeaderBoardEntry(Hero hero, RiftInformation riftInformation)
+        public LeaderBoardEntry(LadderHero ladderHero, RiftInformation riftInformation)
         {
-            Hero = hero;
+            LadderHero = ladderHero;
             RiftInformation = riftInformation;
         }
 
-        public Hero Hero { get; }
+        public LadderHero LadderHero { get; }
         public RiftInformation RiftInformation { get; }
         
     }

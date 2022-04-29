@@ -27,11 +27,11 @@ namespace Diablo3.Api.Core.Test.Models
                 LeaderBoardEntryBuilder.WithDefaultValues().WithRiftInformation(riftInformations[0]).Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues().WithRiftInformation(riftInformations[1]).Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues()
-                    .WithPlayer(new Hero(1234567, "highestRankedPlayer", "", HeroClass.Barbarian, 1000, 100))
+                    .WithPlayer(new LadderHero(1234567, "highestRankedPlayer", HeroClass.Barbarian, 1000, 100))
                     .WithRiftInformation(riftInformations[2])
                     .Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues()
-                    .WithPlayer(new Hero(1111111, "highestParagonPlayer", "", HeroClass.Barbarian, 2000, 150))
+                    .WithPlayer(new LadderHero(1111111, "highestParagonPlayer", HeroClass.Barbarian, 2000, 150))
                     .WithRiftInformation(riftInformations[3]).Build(),
                 LeaderBoardEntryBuilder.WithDefaultValues().WithRiftInformation(riftInformations[4]).Build()
             };
@@ -42,13 +42,13 @@ namespace Diablo3.Api.Core.Test.Models
         [Test]
         public void GetHighestRankedPlayer_returns_player_with_highest_rift_level_clear()
         {
-            Assert.That(sut.GetHighestRankedPlayer().Name, Is.EqualTo("highestRankedPlayer"));
+            Assert.That(sut.GetHighestRankedPlayer().BattleTag, Is.EqualTo("highestRankedPlayer"));
         }
 
         [Test]
         public void GetHighestParagonPlayer_returns_player_with_highest_paragon_level()
         {
-            Assert.That(sut.GetHighestParagonPlayer().Name, Is.EqualTo("highestParagonPlayer"));
+            Assert.That(sut.GetHighestParagonPlayer().BattleTag, Is.EqualTo("highestParagonPlayer"));
         }
 
         [Test]
