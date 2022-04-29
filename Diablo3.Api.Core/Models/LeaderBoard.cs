@@ -2,8 +2,11 @@
 {
     public class LeaderBoard
     {
-        public LeaderBoard(IEnumerable<LeaderBoardEntry> entries)
+        public LeaderBoard(List<LeaderBoardEntry> entries)
         {
+            if (entries.Any(e => e.LadderHero.HeroClass != entries[0].LadderHero.HeroClass))
+                throw new ArgumentException("Inconsistent LeaderBoard Entries: All entries must have same Hero Class", nameof(entries));
+            
             Entries = entries.OrderByDescending(e => e.RiftInformation.Level).ToList();
         }
     
