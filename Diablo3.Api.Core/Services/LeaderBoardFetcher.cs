@@ -25,7 +25,7 @@ namespace Diablo3.Api.Core.Services
             var requestTasks = requests.Select(GetDataObjectAsync).ToList();
             await Task.WhenAll(requestTasks);
             
-            return BuildLeaderBoard(requestTasks.Select(t => t.Result).ToList());
+            return await BuildLeaderBoard(requestTasks.Select(t => t.Result).ToList());
         }
 
         public async Task<int> GetCurrentSeasonAsync()
@@ -36,14 +36,16 @@ namespace Diablo3.Api.Core.Services
             return seasonDataObject.current_season;
         }
 
-        private LeaderBoard BuildLeaderBoard(IReadOnlyList<LeaderBoardDataObject> leaderBoards)
+        private async Task<LeaderBoard> BuildLeaderBoard(IReadOnlyList<LeaderBoardDataObject> leaderBoards)
         {
             var leaderBoardEntries = new List<LeaderBoardEntry>();
             for (var i = 0; i < 6; i++)
             {
-                var heroes  = leaderBoards[i].row.Select(e => heroFetcher.Get(e.player[8].number)).ToList();
+                var heroTasks = leaderBoards[i].Row.Select(e => heroFetcher.GetAsync(e.player[8].number, e.player[0].String)).ToList();
+                await Task.WhenAll(heroTasks);
+                var heroes = heroTasks.Select(t => t.Result).ToList();
                 var itemSet = ItemSetConverter.GetConvertedSet(heroes[0].HeroClass, i);
-                var riftInfo =  leaderBoards[i].row.Select(a => new RiftInformation(a.data[1].number, TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
+                var riftInfo =  leaderBoards[i].Row.Select(a => new RiftInformation(a.data[1].number, TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
                 var entries = heroes.Select((p, index) => new LeaderBoardEntry(p, riftInfo[index])).ToList();
                 if (!entries.All(e => e.Verify()))
                     throw new ConstraintException("RiftInformation is inconsistent with Hero data.");

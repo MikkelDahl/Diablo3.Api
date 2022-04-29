@@ -4,7 +4,7 @@ namespace Diablo3.Api.Core.Services
 {
     public interface IHeroFetcher
     {
-        Hero Get(int id);
-        Hero GetByBattleTag(string battleTag);
+        Hero Get(int id, string battleTag);
+        Task<Hero> GetAsync(int id, string battleTag);
     }
 }

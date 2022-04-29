@@ -2,6 +2,6 @@
 {
     public class LeaderBoardDataObject
     {
-        public List<LeaderBoardEntryObject> row { get; set; } 
+        public List<LeaderBoardEntryObject> Row { get; set; } 
     }
 }
