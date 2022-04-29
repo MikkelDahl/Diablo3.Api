@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Diablo3.Api.Core.Models;
-using Diablo3.Api.Core.Models.DTOs;
 using Newtonsoft.Json;
 using RestSharp;
 
