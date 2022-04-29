@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Diablo3.Api.Core.Services;
 
-public class CachedHeroFetcher : IHeroFetcher
+internal class CachedHeroFetcher : IHeroFetcher
 {
     private readonly IHeroFetcher heroFetcher;
     private readonly CacheConfiguration cacheConfiguration;
