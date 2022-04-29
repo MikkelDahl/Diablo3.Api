@@ -1,5 +1,4 @@
 ﻿using Diablo3.Api.Core.Models;
-using Serilog;
 
 namespace Diablo3.Api.Core.Services;
 
@@ -7,14 +6,12 @@ internal class CachedHeroFetcher : IHeroFetcher
 {
     private readonly IHeroFetcher heroFetcher;
     private readonly CacheConfiguration cacheConfiguration;
-    private readonly ILogger logger;
     private readonly Dictionary<int, (Hero Data, DateTime CacheExpiration)> cachedData;
 
 
-    public CachedHeroFetcher(IHeroFetcher heroFetcher, ILogger logger, CacheConfiguration cacheConfiguration)
+    public CachedHeroFetcher(IHeroFetcher heroFetcher, CacheConfiguration cacheConfiguration)
     {
         this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         this.cacheConfiguration = cacheConfiguration ?? throw new ArgumentNullException(nameof(cacheConfiguration));
         cachedData = new Dictionary<int, (Hero Data, DateTime CacheExpiration)>();
     }

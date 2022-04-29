@@ -42,7 +42,7 @@ namespace Diablo3.Api.Core
             var heroFetcher = new HeroFetcher(battleNetApiHttpClient); 
             return configuration.CacheConfiguration.Options == CacheOptions.NoCache
                 ? heroFetcher
-                : new CachedHeroFetcher(heroFetcher, logger, configuration.CacheConfiguration);
+                : new CachedHeroFetcher(heroFetcher, configuration.CacheConfiguration);
         }
     }
 }
