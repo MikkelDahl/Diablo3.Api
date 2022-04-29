@@ -1,4 +1,4 @@
-namespace Diablo3.Api.Core.Models
+namespace Diablo3.Api.Core.Models.Cache
 {
     internal readonly struct CacheKey : IEquatable<CacheKey>
     {
