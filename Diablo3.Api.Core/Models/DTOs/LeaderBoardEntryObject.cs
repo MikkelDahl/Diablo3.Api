@@ -1,6 +1,6 @@
 ﻿namespace Diablo3.Api.Core.Models.DTOs
 {
-    public class LeaderBoardEntryObject
+    internal class LeaderBoardEntryObject
     {
         public LeaderBoardEntryObject()
         {

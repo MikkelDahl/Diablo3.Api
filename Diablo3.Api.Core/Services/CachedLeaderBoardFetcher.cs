@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using Diablo3.Api.Core.Models;
+using Diablo3.Api.Core.Models.Cache;
 using Serilog;
 
 namespace Diablo3.Api.Core.Services
@@ -15,7 +16,7 @@ namespace Diablo3.Api.Core.Services
         {
             this.leaderBoardFetcher = leaderBoardFetcher ?? throw new ArgumentNullException(nameof(leaderBoardFetcher));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.cacheConfiguration = cacheConfiguration;
+            this.cacheConfiguration = cacheConfiguration ?? throw new ArgumentNullException(nameof(cacheConfiguration));
             cachedData = new ConcurrentDictionary<CacheKey, (LeaderBoard Data, DateTime CacheExpiration)>();
 
             if (cacheConfiguration.Options == CacheOptions.Preload)

@@ -25,19 +25,9 @@ namespace Diablo3.Api.Core.Services
         var httpClient = new HttpClient();
         var token = await GetNewIfExpired(accessToken);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-        try
-        {
-            var response = await httpClient.GetFromJsonAsync<T>(request);
 
-            return response;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            Console.WriteLine("Failed request: " + request);
-        }
-
-        return default;
+        var response = await httpClient.GetFromJsonAsync<T>(request);
+        return response ?? throw new NullReferenceException("Missing or invalild response from BattleNet API");
     }
     
     public async Task<string> GetBnetApiStringResponseAsync(string request)
