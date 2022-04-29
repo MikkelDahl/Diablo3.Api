@@ -61,5 +61,49 @@ namespace Diablo3.Api.Core.Services
             var cacheKey = new ItemSetCacheKey(heroClass, set);
             return ItemSets[cacheKey];
         }
+        
+        internal static HeroClass GetConvertedHeroClass(ItemSet itemSet)
+        {
+            return itemSet switch
+            {
+                ItemSet.None => throw new ArgumentException($"Ambiguous parameter {itemSet}"),
+                ItemSet.Raekor => HeroClass.Barbarian,
+                ItemSet.MoTE => HeroClass.Barbarian,
+                ItemSet.WhirlWind => HeroClass.Barbarian,
+                ItemSet.ImmortalKings => HeroClass.Barbarian,
+                ItemSet.NinetySavages => HeroClass.Barbarian,
+                ItemSet.ShadowsMantle => HeroClass.DemonHunter,
+                ItemSet.Marauder => HeroClass.DemonHunter,
+                ItemSet.Natalyas => HeroClass.DemonHunter,
+                ItemSet.Dreadlands => HeroClass.DemonHunter,
+                ItemSet.UE => HeroClass.DemonHunter,
+                ItemSet.Innas => HeroClass.Monk,
+                ItemSet.MonkeyKing => HeroClass.Monk,
+                ItemSet.PatternOfJustice => HeroClass.Monk,
+                ItemSet.RaimentOfAThousandStorms => HeroClass.Monk,
+                ItemSet.Uliana => HeroClass.Monk,
+                ItemSet.DMO => HeroClass.Wizard,
+                ItemSet.Firebird => HeroClass.Wizard,
+                ItemSet.TalRasha => HeroClass.Wizard,
+                ItemSet.TyphonsVeil => HeroClass.Wizard,
+                ItemSet.Vyr => HeroClass.Wizard,
+                ItemSet.Pestilence => HeroClass.Necromancer,
+                ItemSet.Rathma => HeroClass.Necromancer,
+                ItemSet.Inarius => HeroClass.Necromancer,
+                ItemSet.TragOuls => HeroClass.Necromancer,
+                ItemSet.Masquerade => HeroClass.Necromancer,
+                ItemSet.Arachyr => HeroClass.WitchDoctor,
+                ItemSet.Mundunugu => HeroClass.WitchDoctor,
+                ItemSet.HellTooth => HeroClass.WitchDoctor,
+                ItemSet.JadeHarvester => HeroClass.WitchDoctor,
+                ItemSet.Zunnimassa => HeroClass.WitchDoctor,
+                ItemSet.Aegis => HeroClass.Crusader,
+                ItemSet.Akkhan => HeroClass.Crusader,
+                ItemSet.Invoker => HeroClass.Crusader,
+                ItemSet.Roland => HeroClass.Crusader,
+                ItemSet.Seeker => HeroClass.Crusader,
+                _ => throw new ArgumentOutOfRangeException(nameof(itemSet), itemSet, null)
+            };
+        }
     }
 }
