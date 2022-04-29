@@ -24,7 +24,8 @@ namespace Diablo3.Api.Core
         public IClient Build(ClientConfiguration configuration)
         {
             var dataFetcher = BuildLeaderBoardFetcher(configuration);
-            return new DiabloClient(dataFetcher);
+            var heroFetcher = BuildHeroFetcher();
+            return new DiabloClient(dataFetcher, heroFetcher);
         }
 
         private ILeaderBoardFetcher BuildLeaderBoardFetcher(ClientConfiguration configuration)
@@ -33,6 +34,11 @@ namespace Diablo3.Api.Core
                 ? new LeaderBoardFetcher(battleNetApiHttpClient)
                 : new CachedLeaderBoardFetcher(new LeaderBoardFetcher(battleNetApiHttpClient), logger,
                     configuration.CacheConfiguration);
+        }
+        
+        private IHeroFetcher BuildHeroFetcher()
+        {
+            return new HeroFetcher(battleNetApiHttpClient);
         }
     }
 }

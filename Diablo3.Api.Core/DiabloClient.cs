@@ -6,10 +6,12 @@ namespace Diablo3.Api.Core
     public class DiabloClient : IClient
     {
         private readonly ILeaderBoardFetcher dataLeaderBoardFetcher;
+        private readonly IHeroFetcher heroFetcher;
 
-        public DiabloClient(ILeaderBoardFetcher dataLeaderBoardFetcher)
+        public DiabloClient(ILeaderBoardFetcher dataLeaderBoardFetcher, IHeroFetcher heroFetcher)
         {
             this.dataLeaderBoardFetcher = dataLeaderBoardFetcher ?? throw new ArgumentNullException(nameof(dataLeaderBoardFetcher));
+            this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
         }
 
         public async Task<ICollection<LeaderBoard>> GetAllAsync()
@@ -51,6 +53,10 @@ namespace Diablo3.Api.Core
 
         public async Task<LeaderBoard> GetHardcoreForClassAsync(HeroClass heroClass) =>
             await dataLeaderBoardFetcher.GetLeaderBoardAsync(heroClass, true);
+
+        public Hero Get(int id, string battleTag) => heroFetcher.Get(id, battleTag);
+
+        public async Task<Hero> GetAsync(int id, string battleTag) => await heroFetcher.GetAsync(id, battleTag);
 
         public async Task<int> GetCurrentSeasonAsync() => await dataLeaderBoardFetcher.GetCurrentSeasonAsync();
     }
