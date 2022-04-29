@@ -36,16 +36,23 @@ namespace Diablo3.Api.Core.Services
             return seasonDataObject.current_season;
         }
 
-        private async Task<LeaderBoard> BuildLeaderBoard(IReadOnlyList<LeaderBoardDataObject> leaderBoards)
+        private async Task<LeaderBoard> BuildLeaderBoard(IReadOnlyList<LeaderBoardDto> leaderBoards)
         {
             var leaderBoardEntries = new List<LeaderBoardEntry>();
+            var firstBoard = leaderBoards[0].row.First();
+            Console.WriteLine(firstBoard.player[0].data.Count);
+            Console.WriteLine(firstBoard.player[0].data[0].String);
+            Console.WriteLine(firstBoard.player[0].data[8].number);
+            Console.WriteLine(firstBoard.player[0].data[8].String);
+
+            var testHero = await heroFetcher.GetAsync(firstBoard.player[0].data[8].number, firstBoard.player[0].data[0].String);
             for (var i = 0; i < 6; i++)
             {
-                var heroTasks = leaderBoards[i].Row.Select(e => heroFetcher.GetAsync(e.player[8].number, e.player[0].String)).ToList();
+                var heroTasks = leaderBoards[i].row.Select(e => heroFetcher.GetAsync(e.player[0].data[8].number, e.player[0].data[0].String)).ToList();
                 await Task.WhenAll(heroTasks);
                 var heroes = heroTasks.Select(t => t.Result).ToList();
                 var itemSet = ItemSetConverter.GetConvertedSet(heroes[0].HeroClass, i);
-                var riftInfo =  leaderBoards[i].Row.Select(a => new RiftInformation(a.data[1].number, TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
+                var riftInfo =  leaderBoards[i].row.Select(a => new RiftInformation(a.data[1].number, TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
                 var entries = heroes.Select((p, index) => new LeaderBoardEntry(p, riftInfo[index])).ToList();
                 if (!entries.All(e => e.Verify()))
                     throw new ConstraintException("RiftInformation is inconsistent with Hero data.");
@@ -63,7 +70,7 @@ namespace Diablo3.Api.Core.Services
         
         
 
-        private async Task<LeaderBoardDataObject> GetDataObjectAsync(string request) => await battleNetApiHttpClient.GetBnetApiResponseAsync<LeaderBoardDataObject>(request);
+        private async Task<LeaderBoardDto> GetDataObjectAsync(string request) => await battleNetApiHttpClient.GetBnetApiResponseAsync<LeaderBoardDto>(request);
 
         private string CreateGetRequest(HeroClass heroClass, int setItemIndex, bool isHardcore, int season)
         {

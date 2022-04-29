@@ -4,14 +4,13 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string PlayerClass { get; set; }
-        public string BattleTag { get; set; }
+        public string Class { get; set; }
         public int ParagonLevel { get; set; }
         public int HighestSoloRiftCompleted { get; set; }
     
-        public Hero ToHero()
+        public Hero ToHero(string battleTag)
         {
-            var upperCaseStringRepresentation = char.ToUpper(PlayerClass[0]) + PlayerClass.Substring(1, PlayerClass.Length - 1);
+            var upperCaseStringRepresentation = char.ToUpper(Class[0]) + Class.Substring(1, Class.Length - 1);
             if (upperCaseStringRepresentation.Contains("hunter") || upperCaseStringRepresentation.Contains("doctor"))
                 upperCaseStringRepresentation = upperCaseStringRepresentation[0] 
                                                 + upperCaseStringRepresentation.Substring(1, 4)
@@ -20,7 +19,7 @@
         
             Enum.TryParse<HeroClass>(upperCaseStringRepresentation, out var playerClass);
 
-            return new Hero(Id, Name, BattleTag, playerClass, ParagonLevel, HighestSoloRiftCompleted);
+            return new Hero(Id, Name, battleTag, playerClass, ParagonLevel, HighestSoloRiftCompleted);
         }
     }
 }

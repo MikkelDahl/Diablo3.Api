@@ -5,7 +5,7 @@
         public LeaderBoardEntryObject()
         {
         }
-        public List<Data> player { get; set; }
+        public List<PlayerDataObject> player { get; set; }
         public List<Data> data { get; set; }
     }
 }

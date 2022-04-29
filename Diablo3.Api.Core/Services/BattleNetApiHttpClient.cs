@@ -15,8 +15,8 @@ namespace Diablo3.Api.Core.Services
 
     public BattleNetApiHttpClient(Credentials credentials, Region region)
     {
-        this.clientId = credentials.ClientId ?? throw new ArgumentNullException(nameof(clientId));
-        this.clientSecret = credentials.Secret ?? throw new ArgumentNullException(nameof(clientSecret));
+        clientId = credentials.ClientId ?? throw new ArgumentNullException(nameof(clientId));
+        clientSecret = credentials.Secret ?? throw new ArgumentNullException(nameof(clientSecret));
         this.region = region;
     }
 
