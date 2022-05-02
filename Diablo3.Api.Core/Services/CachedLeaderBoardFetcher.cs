@@ -7,12 +7,12 @@ namespace Diablo3.Api.Core.Services
 {
     internal class CachedLeaderBoardFetcher : ILeaderBoardFetcher
     {
-        private readonly LeaderBoardFetcher leaderBoardFetcher;
+        private readonly ILeaderBoardFetcher leaderBoardFetcher;
         private readonly CacheConfiguration cacheConfiguration;
         private readonly ILogger logger;
         private readonly ConcurrentDictionary<CacheKey, (LeaderBoard Data, DateTime CacheExpiration)> cachedData;
 
-        public CachedLeaderBoardFetcher(LeaderBoardFetcher leaderBoardFetcher, ILogger logger, CacheConfiguration cacheConfiguration)
+        public CachedLeaderBoardFetcher(ILeaderBoardFetcher leaderBoardFetcher, ILogger logger, CacheConfiguration cacheConfiguration)
         {
             this.leaderBoardFetcher = leaderBoardFetcher ?? throw new ArgumentNullException(nameof(leaderBoardFetcher));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -23,9 +23,9 @@ namespace Diablo3.Api.Core.Services
                 InitializeCache().Wait();
         }
 
-        public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass, bool hardcore)
+        public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass)
         {
-            var cacheKey = new CacheKey(heroClass, ItemSet.All, hardcore);
+            var cacheKey = new CacheKey(heroClass, ItemSet.All);
             if (cachedData.ContainsKey(cacheKey) && DateTime.UtcNow < cachedData[cacheKey].CacheExpiration) 
                 return cachedData[cacheKey].Data;
 
@@ -35,20 +35,18 @@ namespace Diablo3.Api.Core.Services
             return data;
         }
 
-        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet, bool hardcore = false)
+        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
         {
             var heroClass = ItemSetConverter.GetConvertedHeroClass(itemSet);
-            var cacheKey = new CacheKey(heroClass, itemSet, hardcore);
+            var cacheKey = new CacheKey(heroClass, itemSet);
             if (cachedData.ContainsKey(cacheKey) && DateTime.UtcNow < cachedData[cacheKey].CacheExpiration) 
                 return cachedData[cacheKey].Data;
 
-            var data = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet, hardcore);
+            var data = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet);
             cachedData[cacheKey] = (data, DateTime.UtcNow + cacheConfiguration.CacheTtl);
 
             return data;
         }
-
-        public int GetCurrentSeason() => leaderBoardFetcher.GetCurrentSeason();
 
         private async Task InitializeCache()
         {
@@ -63,9 +61,9 @@ namespace Diablo3.Api.Core.Services
                     try
                     {
                         var normalDataForItemSet = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet);
-                        var hcDataForItemSet = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet, true);
-                        var normalDataForItemSetCacheKey = new CacheKey(playerClass, itemSet, false);
-                        var hcDataForItemSetCacheKey = new CacheKey(playerClass,  itemSet, true);
+                        var hcDataForItemSet = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet);
+                        var normalDataForItemSetCacheKey = new CacheKey(playerClass, itemSet);
+                        var hcDataForItemSetCacheKey = new CacheKey(playerClass,  itemSet);
                         cachedData[normalDataForItemSetCacheKey] = (normalDataForItemSet, DateTime.UtcNow + cacheConfiguration.CacheTtl);
                         cachedData[hcDataForItemSetCacheKey] = (hcDataForItemSet, DateTime.UtcNow + cacheConfiguration.CacheTtl);
                     }

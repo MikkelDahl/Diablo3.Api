@@ -4,8 +4,7 @@ namespace Diablo3.Api.Core.Services
 {
     public interface ILeaderBoardFetcher
     {
-        Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass, bool hardcore = false);
-        Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet, bool hardcore = false);
-        int GetCurrentSeason();
+        Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass);
+        Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet);
     }
 }

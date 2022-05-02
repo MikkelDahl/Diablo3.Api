@@ -5,13 +5,17 @@ namespace Diablo3.Api.Core
 {
     public class DiabloClient : IClient
     {
-        private readonly ILeaderBoardFetcher leaderBoardFetcher;
         private readonly IHeroFetcher heroFetcher;
+        private readonly ClientConfiguration clientConfiguration;
+        private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
+        private readonly int currentSeason;
 
-        public DiabloClient(ILeaderBoardFetcher leaderBoardFetcher, IHeroFetcher heroFetcher)
+        public DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration, IBattleNetApiHttpClient battleNetApiHttpClient, int currentSeason)
         {
-            this.leaderBoardFetcher = leaderBoardFetcher ?? throw new ArgumentNullException(nameof(leaderBoardFetcher));
-            this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
+            this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher)); 
+            this.clientConfiguration = clientConfiguration;
+            this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
+            this.currentSeason = currentSeason;
         }
 
         public async Task<ICollection<LeaderBoard>> GetAllAsync()
@@ -30,7 +34,7 @@ namespace Diablo3.Api.Core
             await Task.WhenAll(dataFetchingTasks);
             return dataFetchingTasks.Select(t => t.Result).ToList();
         }
-        
+
         public async Task<ICollection<LeaderBoard>> GetAllHardcoreAsync()
         {
             var dataFetchingTasks = new List<Task<LeaderBoard>>()
@@ -48,17 +52,24 @@ namespace Diablo3.Api.Core
             return dataFetchingTasks.Select(t => t.Result).ToList();
         }
 
-        public async Task<LeaderBoard> GetForClassAsync(HeroClass heroClass) =>
-            await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+        public async Task<LeaderBoard> GetForClassAsync(HeroClass heroClass)
+        {
+            var dataFetcherFactory = new DataFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, false);
+            var leaderBoardFetcher = dataFetcherFactory.Build();
+            return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+        }
 
-        public async Task<LeaderBoard> GetHardcoreForClassAsync(HeroClass heroClass) =>
-            await leaderBoardFetcher.GetLeaderBoardAsync(heroClass, true);
+        public async Task<LeaderBoard> GetHardcoreForClassAsync(HeroClass heroClass)
+        {
+            var dataFetcherFactory = new DataFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, true);
+            var leaderBoardFetcher = dataFetcherFactory.Build();
+            return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+        }
 
-        public Hero Get(int id, string battleTag) => heroFetcher.Get(id, battleTag);
+        public Hero GetHero(int id, string battleTag) => heroFetcher.Get(id, battleTag);
 
-        public async Task<Hero> GetAsync(int id, string battleTag) => await heroFetcher.GetAsync(id, battleTag);
+        public async Task<Hero> GetHeroAsync(int id, string battleTag) => await heroFetcher.GetAsync(id, battleTag);
 
-        public int GetCurrentSeason() => leaderBoardFetcher.GetCurrentSeason();
+        public int GetCurrentSeason() => currentSeason;
     }
 }
-  
