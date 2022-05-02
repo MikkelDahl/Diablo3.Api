@@ -8,53 +8,53 @@ namespace Diablo3.Api.Core.Services
     internal class LeaderBoardFetcher : ILeaderBoardFetcher
     {
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
+        private readonly int currentSeason;
 
-        public LeaderBoardFetcher(IBattleNetApiHttpClient battleNetApiHttpClient)
+        public LeaderBoardFetcher(IBattleNetApiHttpClient battleNetApiHttpClient, int currentSeason)
         {
-            this.battleNetApiHttpClient = battleNetApiHttpClient ??
-                                          throw new ArgumentNullException(nameof(battleNetApiHttpClient));
+            this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
+            this.currentSeason = currentSeason;
         }
 
         public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass, bool hardcore = false)
         {
-            var currentSeason = await GetCurrentSeasonAsync();
-            var requests = new List<string>();
-            for (var i = 0; i < 6; i++)
-                requests.Add(CreateGetRequest(heroClass, i, hardcore, currentSeason));
+            var items = ItemSetConverter.GetForClass(heroClass);
+            var allEntries = new List<LeaderBoardEntry>();
 
-            var requestTasks = requests.Select(GetDataObjectAsync).ToList();
-            await Task.WhenAll(requestTasks);
+            foreach (var item in items)
+            {
+                var itemSetLeaderBoard = await GetLeaderBoardForItemSetAsync(item, hardcore);
+                allEntries.AddRange(itemSetLeaderBoard.Entries);
+            }
 
-            return BuildLeaderBoard(requestTasks.Select(t => t.Result).ToList());
+            return await BuildLeaderBoard(allEntries);
         }
 
-        public async Task<int> GetCurrentSeasonAsync()
+        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet, bool hardcore = false)
         {
-            const string request =
-                "https://eu.api.blizzard.com/data/d3/season/?access_token=USf56m8BU5LNl13XSnu7x8c0EMNwprwNCB";
-            var seasonDataObject = await battleNetApiHttpClient.GetBnetApiResponseAsync<SeasonDataObject>(request);
+            var heroClass = ItemSetConverter.GetConvertedHeroClass(itemSet);
+            var request = CreateGetRequest(heroClass, -1, hardcore);
+            var leaderBoardDto = await GetDataObjectAsync(request);
 
-            return seasonDataObject.current_season;
+            return BuildLeaderBoardWithItemSet(leaderBoardDto, itemSet);
         }
 
-        private static LeaderBoard BuildLeaderBoard(IReadOnlyList<LeaderBoardDataObject> leaderBoards)
+        public int GetCurrentSeason() => currentSeason;
+
+        private static LeaderBoard BuildLeaderBoardWithItemSet(LeaderBoardDataObject leaderBoardDto, ItemSet itemSet)
         {
             var leaderBoardEntries = new List<LeaderBoardEntry>();
-            for (var i = 0; i < 6; i++)
-            {
-                var heroes = leaderBoards[i].row
-                    .Select(GetLadderHero)
-                    .ToList();
+            var heroes = leaderBoardDto.row
+                .Select(GetLadderHero)
+                .ToList();
 
-                var itemSet = ItemSetConverter.GetConvertedSet(heroes[0].HeroClass, i);
-                var riftInfo = leaderBoards[i].row.Select(a => new RiftInformation(a.data[1].number,
-                    TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
-                var entries = heroes.Select((p, index) => new LeaderBoardEntry(p, riftInfo[index])).ToList();
-                if (!entries.All(e => e.Verify()))
-                    throw new ConstraintException("RiftInformation is inconsistent with Hero data.");
+            var riftInfo = leaderBoardDto.row.Select(a => new RiftInformation(a.data[1].number,
+                TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
+            var entries = heroes.Select((p, index) => new LeaderBoardEntry(p, riftInfo[index])).ToList();
+            if (!entries.All(e => e.Verify()))
+                throw new ConstraintException("RiftInformation is inconsistent with Hero data.");
 
-                leaderBoardEntries.AddRange(entries);
-            }
+            leaderBoardEntries.AddRange(entries);
 
             var trimmedEntries = leaderBoardEntries
                 .OrderByDescending(e => e.RiftInformation.Level)
@@ -62,6 +62,34 @@ namespace Diablo3.Api.Core.Services
                 .ToList();
 
             return new LeaderBoard(trimmedEntries);
+        }
+
+        private async Task<LeaderBoard> BuildLeaderBoard(List<LeaderBoardEntry> entries)
+        {
+            if (!entries.All(e => e.Verify()))
+                throw new ConstraintException("RiftInformation is inconsistent with Hero data.");
+
+
+            var trimmedEntries = entries
+                .OrderByDescending(e => e.RiftInformation.Level)
+                .Take(1000)
+                .ToList();
+
+            return new LeaderBoard(trimmedEntries);
+        }
+
+        private ItemSet FindItemSet(List<int> heroIds, HeroClass heroClass)
+        {
+            var possibleItems = ItemSetConverter.GetForClass(heroClass);
+            for (var i = 0; i < 6; i++)
+            {
+                var setLeaderBoard = Task.Run(() => GetLeaderBoardForItemSetAsync(possibleItems[i])).GetAwaiter()
+                    .GetResult();
+                if (setLeaderBoard.Entries.Any(entry => heroIds.Contains(entry.LadderHero.Id)))
+                    return possibleItems[i];
+            }
+
+            throw new ApplicationException("Unable to identify itemset");
         }
 
         private static LadderHero GetLadderHero(LeaderBoardEntryObject entry)
@@ -78,23 +106,26 @@ namespace Diablo3.Api.Core.Services
             return dto.ToLadderHero();
         }
 
-        private static int GetHeroId(IReadOnlyList<Data> data)
-        {
-            return data.Count < 8
+        private static int GetHeroId(IReadOnlyList<Data> data) =>
+            data.Count < 8
                 ? data[6].number
                 : data[8].number;
-        }
 
         private async Task<LeaderBoardDataObject> GetDataObjectAsync(string request) =>
             await battleNetApiHttpClient.GetBnetApiResponseAsync<LeaderBoardDataObject>(request);
 
-        private string CreateGetRequest(HeroClass heroClass, int setItemIndex, bool isHardcore, int season)
+        private string CreateGetRequest(HeroClass heroClass, int setItemIndex, bool isHardcore)
         {
             var region = battleNetApiHttpClient.GetCurrentRegion();
-            var setIndex = setItemIndex > 0 ? $"set{setItemIndex}" : "noset";
+            var setIndex = setItemIndex > 0
+                ? $"-set{setItemIndex}"
+                : setItemIndex == 0
+                    ? "-noset"
+                    : "";
+
             var hardcore = isHardcore ? "hardcore-" : "";
             return
-                $"https://{region.ToString().ToLower()}.api.blizzard.com/data/d3/season/{season}/leaderboard/rift-{hardcore}{heroClass.ToString().ToLower()}-{setIndex}?access_token=USSBRq1wybH5l8pk8Yy7ojhUJQX2yOOGZQ";
+                $"https://{region.ToString().ToLower()}.api.blizzard.com/data/d3/season/{currentSeason}/leaderboard/rift-{hardcore}{heroClass.ToString().ToLower()}{setIndex}?access_token=USSBRq1wybH5l8pk8Yy7ojhUJQX2yOOGZQ";
         }
     }
 }

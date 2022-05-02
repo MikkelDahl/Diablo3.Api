@@ -16,7 +16,7 @@ namespace Diablo3.Prototype
         {
             ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
-            DefaultClientConfiguration clientConfig = DefaultClientConfiguration.GetConfiguration();
+            var clientConfig = new ClientConfiguration(new CacheConfiguration(CacheOptions.Preload));
             var clientId = configuration.GetSection("Credentials").GetSection("ClientId").Value;
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
             IClient client = new DiabloClientFactory(Region.EU, clientId, clientSecret).Build(clientConfig);

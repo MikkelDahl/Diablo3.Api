@@ -7,6 +7,7 @@ namespace Diablo3.Api.Core
     public class DiabloClientFactory
     {
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
+        private readonly ISeasonIformationFetcher seasonIformationFetcher;
         private readonly Credentials credentials;
         private readonly ILogger logger;
 
@@ -14,6 +15,7 @@ namespace Diablo3.Api.Core
         {
             credentials = new Credentials(clientId, clientSecret);
             battleNetApiHttpClient = new BattleNetApiHttpClient(credentials, region);
+            seasonIformationFetcher = new SeasonIformationFetcher(battleNetApiHttpClient);
             logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
@@ -23,14 +25,15 @@ namespace Diablo3.Api.Core
 
         public IClient Build(ClientConfiguration configuration)
         {
-            var dataFetcher = BuildLeaderBoardFetcher(configuration);
+            var leaderBoardFetcher = BuildLeaderBoardFetcher(configuration);
             var heroFetcher = BuildHeroFetcher(configuration);
-            return new DiabloClient(dataFetcher, heroFetcher);
+            return new DiabloClient(leaderBoardFetcher, heroFetcher);
         }
 
         private ILeaderBoardFetcher BuildLeaderBoardFetcher(ClientConfiguration configuration)
         {
-            var leaderBoardFetcher = new LeaderBoardFetcher(battleNetApiHttpClient);
+            var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
+            var leaderBoardFetcher = new LeaderBoardFetcher(battleNetApiHttpClient, currentSeason);
             return configuration.CacheConfiguration.Options == CacheOptions.NoCache
                 ? leaderBoardFetcher
                 : new CachedLeaderBoardFetcher(leaderBoardFetcher, logger,

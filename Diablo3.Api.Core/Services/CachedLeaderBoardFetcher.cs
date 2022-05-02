@@ -20,12 +20,12 @@ namespace Diablo3.Api.Core.Services
             cachedData = new ConcurrentDictionary<CacheKey, (LeaderBoard Data, DateTime CacheExpiration)>();
 
             if (cacheConfiguration.Options == CacheOptions.Preload)
-                Task.WaitAny(InitializeCache());
+                InitializeCache().Wait();
         }
 
         public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass, bool hardcore)
         {
-            var cacheKey = new CacheKey(heroClass, hardcore);
+            var cacheKey = new CacheKey(heroClass, ItemSet.All, hardcore);
             if (cachedData.ContainsKey(cacheKey) && DateTime.UtcNow < cachedData[cacheKey].CacheExpiration) 
                 return cachedData[cacheKey].Data;
 
@@ -35,22 +35,47 @@ namespace Diablo3.Api.Core.Services
             return data;
         }
 
-        public async Task<int> GetCurrentSeasonAsync() => await leaderBoardFetcher.GetCurrentSeasonAsync();
+        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet, bool hardcore = false)
+        {
+            var heroClass = ItemSetConverter.GetConvertedHeroClass(itemSet);
+            var cacheKey = new CacheKey(heroClass, itemSet, hardcore);
+            if (cachedData.ContainsKey(cacheKey) && DateTime.UtcNow < cachedData[cacheKey].CacheExpiration) 
+                return cachedData[cacheKey].Data;
+
+            var data = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet, hardcore);
+            cachedData[cacheKey] = (data, DateTime.UtcNow + cacheConfiguration.CacheTtl);
+
+            return data;
+        }
+
+        public int GetCurrentSeason() => leaderBoardFetcher.GetCurrentSeason();
 
         private async Task InitializeCache()
         {
             logger.Information($"Cache initialization started");
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 7; i++)
             {
                 var playerClass = (HeroClass)i;
-                var normalData = await leaderBoardFetcher.GetLeaderBoardAsync(playerClass);
-                var hcData = await leaderBoardFetcher.GetLeaderBoardAsync(playerClass, true);
-                
-                var normalCacheKey = new CacheKey(playerClass, false);
-                var hcCacheKey = new CacheKey(playerClass, true);
-                cachedData[normalCacheKey] = (normalData, DateTime.UtcNow + cacheConfiguration.CacheTtl);
-                cachedData[hcCacheKey] = (hcData, DateTime.UtcNow + cacheConfiguration.CacheTtl);
-                logger.Information($"Loaded {playerClass} into cache.");
+                var allItemSets = ItemSetConverter.GetForClass(playerClass);
+                foreach (var itemSet in allItemSets)
+                {
+                    logger.Information($"Caching for set: {itemSet}");
+                    try
+                    {
+                        var normalDataForItemSet = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet);
+                        var hcDataForItemSet = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet, true);
+                        var normalDataForItemSetCacheKey = new CacheKey(playerClass, itemSet, false);
+                        var hcDataForItemSetCacheKey = new CacheKey(playerClass,  itemSet, true);
+                        cachedData[normalDataForItemSetCacheKey] = (normalDataForItemSet, DateTime.UtcNow + cacheConfiguration.CacheTtl);
+                        cachedData[hcDataForItemSetCacheKey] = (hcDataForItemSet, DateTime.UtcNow + cacheConfiguration.CacheTtl);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + $" Skipping cache load for {playerClass}/{itemSet}.");
+                    }
+                }
+
+                logger.Information($"Finished initializing cache for {playerClass}.");
             }
             
             logger.Information($"Cache initialization finished. Expiration: {DateTime.UtcNow + cacheConfiguration.CacheTtl} UTC");

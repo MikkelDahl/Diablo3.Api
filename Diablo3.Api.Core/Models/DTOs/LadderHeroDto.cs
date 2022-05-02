@@ -10,14 +10,16 @@ namespace Diablo3.Api.Core.Models.DTOs
     
         public LadderHero ToLadderHero()
         {
-            var upperCaseStringRepresentation = char.ToUpper(Class[0]) + Class.Substring(1, Class.Length - 1);
-            if (upperCaseStringRepresentation.Contains("hunter") || upperCaseStringRepresentation.Contains("doctor"))
-                upperCaseStringRepresentation = upperCaseStringRepresentation[0] 
-                                                + upperCaseStringRepresentation.Substring(1, 4)
-                                                + char.ToUpper(upperCaseStringRepresentation[6])
-                                                + upperCaseStringRepresentation.Substring(7, upperCaseStringRepresentation.Length - 7);
+            var classString = char.ToUpper(Class[0]) + Class.Substring(1, Class.Length - 1);
+            if (classString.Contains("hunter") )
+                classString = "DH";
+            else if (classString.Contains("doctor"))
+                classString = classString[0] 
+                                                + classString.Substring(1, 4)
+                                                + char.ToUpper(classString[6])
+                                                + classString.Substring(7, classString.Length - 7);
         
-            Enum.TryParse<HeroClass>(upperCaseStringRepresentation, out var playerClass);
+            Enum.TryParse<HeroClass>(classString, out var playerClass);
 
             return new LadderHero(Id, BattleTag, playerClass, ParagonLevel, RiftLevel);
         }

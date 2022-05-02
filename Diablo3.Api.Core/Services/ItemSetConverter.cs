@@ -4,79 +4,28 @@ namespace Diablo3.Api.Core.Services
 {
     internal static class ItemSetConverter
     {
-        private static readonly Dictionary<ItemSetCacheKey, ItemSet> ItemSets = new()
-        {
-            { new ItemSetCacheKey(HeroClass.Barbarian, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.Barbarian, 1), ItemSet.Raekor },
-            { new ItemSetCacheKey(HeroClass.Barbarian, 2), ItemSet.MoTE },
-            { new ItemSetCacheKey(HeroClass.Barbarian, 3), ItemSet.WhirlWind },
-            { new ItemSetCacheKey(HeroClass.Barbarian, 4), ItemSet.ImmortalKings },
-            { new ItemSetCacheKey(HeroClass.Barbarian, 5), ItemSet.NinetySavages },
-
-            { new ItemSetCacheKey(HeroClass.Crusader, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.Crusader, 1), ItemSet.Akkhan },
-            { new ItemSetCacheKey(HeroClass.Crusader, 2), ItemSet.Invoker },
-            { new ItemSetCacheKey(HeroClass.Crusader, 3), ItemSet.Roland },
-            { new ItemSetCacheKey(HeroClass.Crusader, 4), ItemSet.Seeker },
-            { new ItemSetCacheKey(HeroClass.Crusader, 5), ItemSet.Aegis },
-            
-            { new ItemSetCacheKey(HeroClass.DemonHunter, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.DemonHunter, 1), ItemSet.Marauder },
-            { new ItemSetCacheKey(HeroClass.DemonHunter, 2), ItemSet.ShadowsMantle },
-            { new ItemSetCacheKey(HeroClass.DemonHunter, 3), ItemSet.UE },
-            { new ItemSetCacheKey(HeroClass.DemonHunter, 4), ItemSet.Natalyas },
-            { new ItemSetCacheKey(HeroClass.DemonHunter, 5), ItemSet.Dreadlands },
-        
-            { new ItemSetCacheKey(HeroClass.Monk, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.Monk, 1), ItemSet.RaimentOfAThousandStorms },
-            { new ItemSetCacheKey(HeroClass.Monk, 2), ItemSet.MonkeyKing },
-            { new ItemSetCacheKey(HeroClass.Monk, 3), ItemSet.Uliana },
-            { new ItemSetCacheKey(HeroClass.Monk, 4), ItemSet.Innas },
-            { new ItemSetCacheKey(HeroClass.Monk, 5), ItemSet.PatternOfJustice },
-        
-            { new ItemSetCacheKey(HeroClass.Necromancer, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.Necromancer, 1), ItemSet.Rathma },
-            { new ItemSetCacheKey(HeroClass.Necromancer, 2), ItemSet.TragOuls },
-            { new ItemSetCacheKey(HeroClass.Necromancer, 3), ItemSet.Inarius },
-            { new ItemSetCacheKey(HeroClass.Necromancer, 4), ItemSet.Pestilence },
-            { new ItemSetCacheKey(HeroClass.Necromancer, 5), ItemSet.Masquerade },
-        
-            { new ItemSetCacheKey(HeroClass.WitchDoctor, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.WitchDoctor, 1), ItemSet.JadeHarvester },
-            { new ItemSetCacheKey(HeroClass.WitchDoctor, 2), ItemSet.HellTooth },
-            { new ItemSetCacheKey(HeroClass.WitchDoctor, 3), ItemSet.Zunnimassa },
-            { new ItemSetCacheKey(HeroClass.WitchDoctor, 4), ItemSet.Arachyr },
-            { new ItemSetCacheKey(HeroClass.WitchDoctor, 5), ItemSet.Mundunugu },
-        
-            { new ItemSetCacheKey(HeroClass.Wizard, 0), ItemSet.None },
-            { new ItemSetCacheKey(HeroClass.Wizard, 1), ItemSet.Firebird },
-            { new ItemSetCacheKey(HeroClass.Wizard, 2), ItemSet.Vyr },
-            { new ItemSetCacheKey(HeroClass.Wizard, 3), ItemSet.DMO },
-            { new ItemSetCacheKey(HeroClass.Wizard, 4), ItemSet.TalRasha },
-            { new ItemSetCacheKey(HeroClass.Wizard, 5), ItemSet.TyphonsVeil }
-        };
-
-        internal static ItemSet GetConvertedSet(HeroClass heroClass, int set)
-        {
-            var cacheKey = new ItemSetCacheKey(heroClass, set);
-            return ItemSets[cacheKey];
-        }
-        
         internal static HeroClass GetConvertedHeroClass(ItemSet itemSet)
         {
             return itemSet switch
             {
-                ItemSet.None => throw new ArgumentException($"Ambiguous parameter {itemSet}"),
+                ItemSet.All => throw new ArgumentException($"Ambiguous parameter {itemSet}"),
+                ItemSet.NoSetBarbarian => HeroClass.Barbarian,
+                ItemSet.NoSetCrusader => HeroClass.Crusader,
+                ItemSet.NoSetMonk => HeroClass.Monk,
+                ItemSet.NoSetDemonHunter => HeroClass.DH,
+                ItemSet.NoSetNecromancer => HeroClass.Necromancer,
+                ItemSet.NoSetWitchDoctor => HeroClass.WitchDoctor,
+                ItemSet.NoSetWizard => HeroClass.Wizard,
                 ItemSet.Raekor => HeroClass.Barbarian,
                 ItemSet.MoTE => HeroClass.Barbarian,
                 ItemSet.WhirlWind => HeroClass.Barbarian,
                 ItemSet.ImmortalKings => HeroClass.Barbarian,
                 ItemSet.NinetySavages => HeroClass.Barbarian,
-                ItemSet.ShadowsMantle => HeroClass.DemonHunter,
-                ItemSet.Marauder => HeroClass.DemonHunter,
-                ItemSet.Natalyas => HeroClass.DemonHunter,
-                ItemSet.Dreadlands => HeroClass.DemonHunter,
-                ItemSet.UE => HeroClass.DemonHunter,
+                ItemSet.ShadowsMantle => HeroClass.DH,
+                ItemSet.Marauder => HeroClass.DH,
+                ItemSet.Natalyas => HeroClass.DH,
+                ItemSet.Dreadlands => HeroClass.DH,
+                ItemSet.UE => HeroClass.DH,
                 ItemSet.Innas => HeroClass.Monk,
                 ItemSet.MonkeyKing => HeroClass.Monk,
                 ItemSet.PatternOfJustice => HeroClass.Monk,
@@ -105,5 +54,127 @@ namespace Diablo3.Api.Core.Services
                 _ => throw new ArgumentOutOfRangeException(nameof(itemSet), itemSet, null)
             };
         }
+        
+         internal static int GetConvertedIndex(ItemSet itemSet)
+        {
+            return itemSet switch
+            {
+                ItemSet.All => -1,
+                ItemSet.NoSetBarbarian => 0,
+                ItemSet.NoSetCrusader => 0,
+                ItemSet.NoSetMonk => 0,
+                ItemSet.NoSetNecromancer => 0,
+                ItemSet.NoSetWizard => 0,
+                ItemSet.NoSetDemonHunter => 0,
+                ItemSet.NoSetWitchDoctor => 0,
+                ItemSet.Raekor => 1,
+                ItemSet.MoTE => 2,
+                ItemSet.WhirlWind => 3,
+                ItemSet.ImmortalKings => 4,
+                ItemSet.NinetySavages => 5,
+                ItemSet.Marauder => 1,
+                ItemSet.ShadowsMantle => 2,
+                ItemSet.UE => 3,
+                ItemSet.Natalyas => 4,
+                ItemSet.Dreadlands => 5,
+                ItemSet.Innas => 4,
+                ItemSet.MonkeyKing => 2,
+                ItemSet.PatternOfJustice => 5,
+                ItemSet.RaimentOfAThousandStorms => 1,
+                ItemSet.Uliana => 3,
+                ItemSet.DMO => 3,
+                ItemSet.Firebird => 1,
+                ItemSet.TalRasha => 4,
+                ItemSet.TyphonsVeil => 5,
+                ItemSet.Vyr => 2,
+                ItemSet.Pestilence => 4,
+                ItemSet.Rathma => 1,
+                ItemSet.Inarius => 3,
+                ItemSet.TragOuls => 2,
+                ItemSet.Masquerade => 5,
+                ItemSet.Arachyr => 4,
+                ItemSet.Mundunugu => 5,
+                ItemSet.HellTooth => 2,
+                ItemSet.JadeHarvester => 1,
+                ItemSet.Zunnimassa => 3,
+                ItemSet.Aegis => 5,
+                ItemSet.Akkhan => 1,
+                ItemSet.Invoker => 2,
+                ItemSet.Roland => 3,
+                ItemSet.Seeker => 4,
+                _ => throw new ArgumentOutOfRangeException(nameof(itemSet), itemSet, null)
+            };
+        }
+         
+         internal static List<ItemSet> GetForClass(HeroClass heroClass)
+         {
+             return heroClass switch
+             {
+                 HeroClass.Barbarian => new List<ItemSet>
+                 {
+                     ItemSet.NoSetBarbarian,
+                     ItemSet.Raekor,
+                     ItemSet.MoTE,
+                     ItemSet.WhirlWind,
+                     ItemSet.ImmortalKings,
+                     ItemSet.NinetySavages
+                 },
+                 HeroClass.Crusader => new List<ItemSet>
+                 {
+                     ItemSet.NoSetCrusader,
+                     ItemSet.Akkhan,
+                     ItemSet.Roland,
+                     ItemSet.Seeker,
+                     ItemSet.Invoker,
+                     ItemSet.Aegis
+                 },
+                 HeroClass.DH => new List<ItemSet>
+                 {
+                     ItemSet.NoSetDemonHunter,
+                     ItemSet.UE,
+                     ItemSet.Dreadlands,
+                     ItemSet.Marauder,
+                     ItemSet.ShadowsMantle,
+                     ItemSet.Natalyas
+                 },
+                 HeroClass.Monk => new List<ItemSet>
+                 {
+                     ItemSet.NoSetMonk,
+                     ItemSet.Innas,
+                     ItemSet.Uliana,
+                     ItemSet.PatternOfJustice,
+                     ItemSet.RaimentOfAThousandStorms,
+                     ItemSet.MonkeyKing
+                 },
+                 HeroClass.Necromancer => new List<ItemSet>
+                 {
+                     ItemSet.NoSetNecromancer,
+                     ItemSet.Pestilence,
+                     ItemSet.Rathma,
+                     ItemSet.Inarius,
+                     ItemSet.TragOuls,
+                     ItemSet.Masquerade
+                 },
+                 HeroClass.WitchDoctor => new List<ItemSet>
+                 {
+                     ItemSet.NoSetWitchDoctor,
+                     ItemSet.Mundunugu,
+                     ItemSet.Zunnimassa,
+                     ItemSet.JadeHarvester,
+                     ItemSet.HellTooth,
+                     ItemSet.Arachyr
+                 },
+                 HeroClass.Wizard => new List<ItemSet>
+                 {
+                     ItemSet.NoSetWizard,
+                     ItemSet.DMO,
+                     ItemSet.TyphonsVeil,
+                     ItemSet.Vyr,
+                     ItemSet.Firebird,
+                     ItemSet.TalRasha
+                 },
+                 _ => throw new ArgumentOutOfRangeException(nameof(heroClass), heroClass, null)
+             };
+         }
     }
 }

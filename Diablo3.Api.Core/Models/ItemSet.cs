@@ -2,7 +2,14 @@
 {
     public enum ItemSet
     {
-        None,
+        All,
+        NoSetBarbarian,
+        NoSetCrusader,
+        NoSetDemonHunter,
+        NoSetMonk,
+        NoSetNecromancer,
+        NoSetWitchDoctor,
+        NoSetWizard,
         Raekor,
         MoTE,
         WhirlWind,

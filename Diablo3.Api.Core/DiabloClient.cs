@@ -5,12 +5,12 @@ namespace Diablo3.Api.Core
 {
     public class DiabloClient : IClient
     {
-        private readonly ILeaderBoardFetcher dataLeaderBoardFetcher;
+        private readonly ILeaderBoardFetcher leaderBoardFetcher;
         private readonly IHeroFetcher heroFetcher;
 
-        public DiabloClient(ILeaderBoardFetcher dataLeaderBoardFetcher, IHeroFetcher heroFetcher)
+        public DiabloClient(ILeaderBoardFetcher leaderBoardFetcher, IHeroFetcher heroFetcher)
         {
-            this.dataLeaderBoardFetcher = dataLeaderBoardFetcher ?? throw new ArgumentNullException(nameof(dataLeaderBoardFetcher));
+            this.leaderBoardFetcher = leaderBoardFetcher ?? throw new ArgumentNullException(nameof(leaderBoardFetcher));
             this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
         }
 
@@ -20,7 +20,7 @@ namespace Diablo3.Api.Core
             {
                 GetForClassAsync(HeroClass.Barbarian),
                 GetForClassAsync(HeroClass.Crusader),
-                GetForClassAsync(HeroClass.DemonHunter),
+                GetForClassAsync(HeroClass.DH),
                 GetForClassAsync(HeroClass.Monk),
                 GetForClassAsync(HeroClass.Necromancer),
                 GetForClassAsync(HeroClass.WitchDoctor),
@@ -37,7 +37,7 @@ namespace Diablo3.Api.Core
             {
                 GetHardcoreForClassAsync(HeroClass.Barbarian),
                 GetHardcoreForClassAsync(HeroClass.Crusader),
-                GetHardcoreForClassAsync(HeroClass.DemonHunter),
+                GetHardcoreForClassAsync(HeroClass.DH),
                 GetHardcoreForClassAsync(HeroClass.Monk),
                 GetHardcoreForClassAsync(HeroClass.Necromancer),
                 GetHardcoreForClassAsync(HeroClass.WitchDoctor),
@@ -49,16 +49,16 @@ namespace Diablo3.Api.Core
         }
 
         public async Task<LeaderBoard> GetForClassAsync(HeroClass heroClass) =>
-            await dataLeaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+            await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
 
         public async Task<LeaderBoard> GetHardcoreForClassAsync(HeroClass heroClass) =>
-            await dataLeaderBoardFetcher.GetLeaderBoardAsync(heroClass, true);
+            await leaderBoardFetcher.GetLeaderBoardAsync(heroClass, true);
 
         public Hero Get(int id, string battleTag) => heroFetcher.Get(id, battleTag);
 
         public async Task<Hero> GetAsync(int id, string battleTag) => await heroFetcher.GetAsync(id, battleTag);
 
-        public async Task<int> GetCurrentSeasonAsync() => await dataLeaderBoardFetcher.GetCurrentSeasonAsync();
+        public int GetCurrentSeason() => leaderBoardFetcher.GetCurrentSeason();
     }
 }
   

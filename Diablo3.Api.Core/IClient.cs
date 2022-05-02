@@ -11,6 +11,6 @@ namespace Diablo3.Api.Core
         Hero Get(int id, string battleTag);
         Task<Hero> GetAsync(int id, string battleTag);
 
-        Task<int> GetCurrentSeasonAsync();
+        int GetCurrentSeason();
     }
 }
