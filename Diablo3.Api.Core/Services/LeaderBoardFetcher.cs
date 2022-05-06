@@ -33,7 +33,7 @@ namespace Diablo3.Api.Core.Services
         public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
         {
             var heroClass = ItemSetConverter.GetConvertedHeroClass(itemSet);
-            var request = CreateGetRequest(heroClass, -1);
+            var request = CreateGetRequest(heroClass, ItemSetConverter.GetConvertedIndex(itemSet));
             var leaderBoardDto = await GetDataObjectAsync(request);
 
             return BuildLeaderBoardWithItemSet(leaderBoardDto, itemSet);
@@ -47,7 +47,7 @@ namespace Diablo3.Api.Core.Services
                 .ToList();
 
             var riftInfo = leaderBoardDto.row.Select(a => new RiftInformation(a.data[1].number,
-                TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.Now, itemSet)).ToList();
+                TimeSpan.FromMilliseconds(a.data[2].timestamp), DateTime.MinValue.AddMilliseconds(a.data[3].timestamp), itemSet)).ToList();
             var entries = heroes.Select((p, index) => new LeaderBoardEntry(p, riftInfo[index])).ToList();
             if (!entries.All(e => e.Verify()))
                 throw new ConstraintException("RiftInformation is inconsistent with Hero data.");
