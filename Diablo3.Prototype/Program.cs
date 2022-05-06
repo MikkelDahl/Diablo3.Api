@@ -21,7 +21,7 @@ namespace Diablo3.Prototype
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
             IClient client = new DiabloClientFactory(Region.EU, clientId, clientSecret).Build(clientConfig);
 
-            LeaderBoard leaderBoard = await client.GetForClassAsync(HeroClass.Wizard);
+            LeaderBoard leaderBoard = await client.GetLeaderBoardForClassAsync(HeroClass.Wizard);
             LadderHero player = leaderBoard.GetHighestParagonPlayer();
             LadderHero player2 = leaderBoard.GetHighestRankedPlayer();
             Console.WriteLine($"Highest paragon: {player.BattleTag}, {player.Paragon}, {player.BattleTag}");

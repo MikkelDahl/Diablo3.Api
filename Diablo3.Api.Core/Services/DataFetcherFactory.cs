@@ -31,7 +31,7 @@ namespace Diablo3.Api.Core.Services
             var cache = new Cache<CacheKey, LeaderBoard>(cacheConfiguration);
             return cacheConfiguration.Options == CacheOptions.NoCache
                 ? actualFetcher
-                : new CachedLeaderBoardFetcher(actualFetcher, logger, cache);
+                : new CachedLeaderBoardFetcher(actualFetcher, cache);
         }
 
         private ILeaderBoardFetcher BuildLeaderBoardFetcher()
