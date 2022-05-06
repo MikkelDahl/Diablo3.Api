@@ -12,7 +12,7 @@ namespace Diablo3.Api.Core.Services
                 ItemSet.NoSetBarbarian => HeroClass.Barbarian,
                 ItemSet.NoSetCrusader => HeroClass.Crusader,
                 ItemSet.NoSetMonk => HeroClass.Monk,
-                ItemSet.NoSetDemonHunter => HeroClass.DH,
+                ItemSet.NoSetDemonHunter => HeroClass.DemonHunter,
                 ItemSet.NoSetNecromancer => HeroClass.Necromancer,
                 ItemSet.NoSetWitchDoctor => HeroClass.WitchDoctor,
                 ItemSet.NoSetWizard => HeroClass.Wizard,
@@ -21,11 +21,11 @@ namespace Diablo3.Api.Core.Services
                 ItemSet.WhirlWind => HeroClass.Barbarian,
                 ItemSet.ImmortalKings => HeroClass.Barbarian,
                 ItemSet.NinetySavages => HeroClass.Barbarian,
-                ItemSet.ShadowsMantle => HeroClass.DH,
-                ItemSet.Marauder => HeroClass.DH,
-                ItemSet.Natalyas => HeroClass.DH,
-                ItemSet.Dreadlands => HeroClass.DH,
-                ItemSet.UE => HeroClass.DH,
+                ItemSet.ShadowsMantle => HeroClass.DemonHunter,
+                ItemSet.Marauder => HeroClass.DemonHunter,
+                ItemSet.Natalyas => HeroClass.DemonHunter,
+                ItemSet.Dreadlands => HeroClass.DemonHunter,
+                ItemSet.UE => HeroClass.DemonHunter,
                 ItemSet.Innas => HeroClass.Monk,
                 ItemSet.MonkeyKing => HeroClass.Monk,
                 ItemSet.PatternOfJustice => HeroClass.Monk,
@@ -128,7 +128,7 @@ namespace Diablo3.Api.Core.Services
                      ItemSet.Invoker,
                      ItemSet.Aegis
                  },
-                 HeroClass.DH => new List<ItemSet>
+                 HeroClass.DemonHunter => new List<ItemSet>
                  {
                      ItemSet.NoSetDemonHunter,
                      ItemSet.UE,

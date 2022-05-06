@@ -30,7 +30,7 @@ namespace Diablo3.Api.Core
             {
                 GetLeaderBoardForClassAsync(HeroClass.Barbarian),
                 GetLeaderBoardForClassAsync(HeroClass.Crusader),
-                GetLeaderBoardForClassAsync(HeroClass.DH),
+                GetLeaderBoardForClassAsync(HeroClass.DemonHunter),
                 GetLeaderBoardForClassAsync(HeroClass.Monk),
                 GetLeaderBoardForClassAsync(HeroClass.Necromancer),
                 GetLeaderBoardForClassAsync(HeroClass.WitchDoctor),
@@ -47,7 +47,7 @@ namespace Diablo3.Api.Core
             {
                 GetHardcoreLeaderBoardForClassAsync(HeroClass.Barbarian),
                 GetHardcoreLeaderBoardForClassAsync(HeroClass.Crusader),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.DH),
+                GetHardcoreLeaderBoardForClassAsync(HeroClass.DemonHunter),
                 GetHardcoreLeaderBoardForClassAsync(HeroClass.Monk),
                 GetHardcoreLeaderBoardForClassAsync(HeroClass.Necromancer),
                 GetHardcoreLeaderBoardForClassAsync(HeroClass.WitchDoctor),

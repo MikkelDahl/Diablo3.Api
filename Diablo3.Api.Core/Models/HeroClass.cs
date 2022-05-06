@@ -4,7 +4,7 @@
     {
         Barbarian,
         Crusader,
-        DH,
+        DemonHunter,
         Monk,
         Necromancer,
         WitchDoctor,
