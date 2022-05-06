@@ -87,6 +87,9 @@ namespace Diablo3.Api.Core
             for (var i = 0; i < 7; i++)
             {
                 var playerClass = (HeroClass)i;
+                
+                logger.Information($"Caching for all {playerClass} sets");
+                var _ = await leaderBoardFetcher.GetLeaderBoardAsync(playerClass);
                 var allItemSets = ItemSetConverter.GetForClass(playerClass);
                 foreach (var itemSet in allItemSets)
                 {
