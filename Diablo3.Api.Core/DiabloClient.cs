@@ -20,10 +20,8 @@ namespace Diablo3.Api.Core
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.currentSeason = currentSeason;
 
-            if (clientConfiguration.CacheConfiguration.Options == CacheOptions.Preload)
-            {
+            if (clientConfiguration.CacheConfiguration.Options == CacheOptions.Preload) 
                 InitializeCache().Wait();
-            }
         }
 
         public async Task<ICollection<LeaderBoard>> GetAllAsync()
@@ -86,11 +84,11 @@ namespace Diablo3.Api.Core
             var leaderBoardFetcher = dataFetcherFactory.Build();
             for (var i = 0; i < 7; i++)
             {
-                var playerClass = (HeroClass)i;
+                var heroClass = (HeroClass)i;
                 
-                logger.Information($"Caching for all {playerClass} sets");
-                var _ = await leaderBoardFetcher.GetLeaderBoardAsync(playerClass);
-                var allItemSets = ItemSetConverter.GetForClass(playerClass);
+                logger.Information($"Caching for all {heroClass} sets");
+                var _ = await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+                var allItemSets = ItemSetConverter.GetForClass(heroClass);
                 foreach (var itemSet in allItemSets)
                 {
                     logger.Information($"Caching for set: {itemSet}");
@@ -100,11 +98,11 @@ namespace Diablo3.Api.Core
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e.Message + $" Skipping cache load for {playerClass}/{itemSet}.");
+                        Console.WriteLine(e.Message + $" Skipping cache load for {heroClass}/{itemSet}.");
                     }
                 }
                 
-                logger.Information($"Finished initializing cache for {playerClass}");
+                logger.Information($"Finished initializing cache for {heroClass}");
             }
         }
     }
