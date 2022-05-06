@@ -30,7 +30,7 @@ public class DataFetcherFactory
         var actualFetcher = BuildLeaderBoardFetcher();
         return cacheConfiguration.Options == CacheOptions.NoCache
             ? actualFetcher
-            : new CachedLeaderBoardFetcher(actualFetcher, logger, cacheConfiguration);
+            : new CachedLeaderBoardFetcher(actualFetcher, logger);
     }
 
     private ILeaderBoardFetcher BuildLeaderBoardFetcher()

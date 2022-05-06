@@ -39,8 +39,6 @@ namespace Diablo3.Api.Core.Services
             return BuildLeaderBoardWithItemSet(leaderBoardDto, itemSet);
         }
 
-        public int GetCurrentSeason() => currentSeason;
-
         private static LeaderBoard BuildLeaderBoardWithItemSet(LeaderBoardDataObject leaderBoardDto, ItemSet itemSet)
         {
             var leaderBoardEntries = new List<LeaderBoardEntry>();

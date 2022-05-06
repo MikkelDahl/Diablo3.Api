@@ -1,28 +1,25 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Diablo3.Api.Core.Extensions;
+using Diablo3.Api.Core.Services;
 
 namespace Diablo3.Api.Core.Models.Cache;
 
-internal class LeaderBoardCache : ICache<CacheKey, LeaderBoard>
+internal class LeaderBoardCache : CacheBase<CacheKey, LeaderBoard>, ILeaderBoardFetcher
 {
-    private readonly IMemoryCache cache;
-
-    public LeaderBoardCache(IMemoryCache cache)
-    {
-        this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
+    public LeaderBoardCache(Func<Task<LeaderBoard>> dataFetcher, CacheConfiguration cacheConfiguration) : base(dataFetcher, cacheConfiguration)
+    { 
     }
 
-    public async Task<LeaderBoard> GetAsync(CacheKey key)
-    {
-        if (cache.TryGetValue(key, out LeaderBoard value))
-            return value;
 
-        value = await fetcher();
-        cache.Set(key, value);
-        return value;
+    public Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass)
+    {
+        var key = new CacheKey(heroClass, ItemSet.All);
+        return GetAsync(key);
     }
 
-    public async Task SetAsync()
+    public Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
     {
-        
+        var heroClass = itemSet.ToHeroClass();
+        var key = new CacheKey(heroClass, itemSet);
+        return GetAsync(key);
     }
 }
