@@ -8,13 +8,11 @@ namespace Diablo3.Api.Core.Services
     internal class CachedLeaderBoardFetcher : ILeaderBoardFetcher
     {
         private readonly ILeaderBoardFetcher leaderBoardFetcher;
-        private readonly ILogger logger;
         private readonly ICache<CacheKey, LeaderBoard> cache;
 
         public CachedLeaderBoardFetcher(ILeaderBoardFetcher leaderBoardFetcher, ILogger logger, ICache<CacheKey, LeaderBoard> cache)
         {
             this.leaderBoardFetcher = leaderBoardFetcher ?? throw new ArgumentNullException(nameof(leaderBoardFetcher));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 

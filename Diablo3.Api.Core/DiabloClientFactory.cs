@@ -1,4 +1,5 @@
 ﻿using Diablo3.Api.Core.Models;
+using Diablo3.Api.Core.Models.Cache;
 using Diablo3.Api.Core.Services;
 
 namespace Diablo3.Api.Core
@@ -26,9 +27,10 @@ namespace Diablo3.Api.Core
         private IHeroFetcher BuildHeroFetcher(ClientConfiguration configuration)
         {
             var heroFetcher = new HeroFetcher(battleNetApiHttpClient); 
+            var cache = new Cache<int, Hero>(configuration.CacheConfiguration);
             return configuration.CacheConfiguration.Options == CacheOptions.NoCache
                 ? heroFetcher
-                : new CachedHeroFetcher(heroFetcher, configuration.CacheConfiguration);
+                : new CachedHeroFetcher(heroFetcher, cache);
         }
     }
 }

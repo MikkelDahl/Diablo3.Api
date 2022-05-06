@@ -11,9 +11,12 @@ namespace Diablo3.Api.Core.Models.Cache
             data = new Dictionary<TKey, (TValue Data, DateTime CacheExpiration)>();
         }
     
-        public Task<T> GetAsync<T>(T key)
+        public TValue Get(TKey key)
         {
-            throw new NotImplementedException();
+            if (data.ContainsKey(key) && DateTime.UtcNow < data[key].CacheExpiration) 
+                return data[key].Data;
+
+            return default;
         }
 
         public async Task<TValue> GetAsync(TKey key)
