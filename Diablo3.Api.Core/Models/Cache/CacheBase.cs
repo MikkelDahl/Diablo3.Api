@@ -1,27 +1,28 @@
-﻿namespace Diablo3.Api.Core.Models.Cache;
-
-internal abstract class CacheBase<TKey, TValue>
+﻿namespace Diablo3.Api.Core.Models.Cache
 {
-    private readonly Dictionary<TKey, (TValue, DateTime)> cache;
-    private readonly Func<Task<TValue>> dataFetcher;
-    private readonly CacheConfiguration cacheConfiguration;
-
-    protected CacheBase(Func<Task<TValue>> dataFetcher, CacheConfiguration cacheConfiguration)
+    internal abstract class CacheBase<TKey, TValue>
     {
-        this.dataFetcher = dataFetcher ?? throw new ArgumentNullException(nameof(dataFetcher));
-        this.cacheConfiguration = cacheConfiguration ?? throw new ArgumentNullException(nameof(cacheConfiguration));
-        cache = new Dictionary<TKey, (TValue, DateTime)>();
-    }
+        private readonly Dictionary<TKey, (TValue, DateTime)> cache;
+        private readonly Func<Task<TValue>> dataFetcher;
+        private readonly CacheConfiguration cacheConfiguration;
 
-    protected async Task<TValue> GetAsync(TKey key)
-    {
-        if (cache.TryGetValue(key, out (TValue Data, DateTime CacheExpiration) value))
-            return value.Data;
+        protected CacheBase(Func<Task<TValue>> dataFetcher, CacheConfiguration cacheConfiguration)
+        {
+            this.dataFetcher = dataFetcher ?? throw new ArgumentNullException(nameof(dataFetcher));
+            this.cacheConfiguration = cacheConfiguration ?? throw new ArgumentNullException(nameof(cacheConfiguration));
+            cache = new Dictionary<TKey, (TValue, DateTime)>();
+        }
 
-        var cacheExpiration = DateTime.UtcNow + cacheConfiguration.CacheTtl;
-        value = (await dataFetcher(), cacheExpiration);
+        protected async Task<TValue> GetAsync(TKey key)
+        {
+            if (cache.TryGetValue(key, out (TValue Data, DateTime CacheExpiration) value))
+                return value.Data;
+
+            var cacheExpiration = DateTime.UtcNow + cacheConfiguration.CacheTtl;
+            value = (await dataFetcher(), cacheExpiration);
       
-        cache[key] = value;
-        return value.Data;
+            cache[key] = value;
+            return value.Data;
+        }
     }
 }

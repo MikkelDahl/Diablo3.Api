@@ -1,21 +1,22 @@
 ﻿using Diablo3.Api.Core.Models.DTOs;
 
-namespace Diablo3.Api.Core.Services;
-
-public class SeasonIformationFetcher : ISeasonIformationFetcher
+namespace Diablo3.Api.Core.Services
 {
-    private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
-
-    public SeasonIformationFetcher(IBattleNetApiHttpClient battleNetApiHttpClient)
+    public class SeasonIformationFetcher : ISeasonIformationFetcher
     {
-        this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
-    }
+        private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
 
-    public async Task<int> GetCurrentSeasonAsync()
-    {
-        const string request = "https://eu.api.blizzard.com/data/d3/season/?access_token=USf56m8BU5LNl13XSnu7x8c0EMNwprwNCB";
-        var seasonDataObject = await battleNetApiHttpClient.GetBnetApiResponseAsync<SeasonDataObject>(request);
+        public SeasonIformationFetcher(IBattleNetApiHttpClient battleNetApiHttpClient)
+        {
+            this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
+        }
 
-        return seasonDataObject.current_season;
+        public async Task<int> GetCurrentSeasonAsync()
+        {
+            const string request = "https://eu.api.blizzard.com/data/d3/season/?access_token=USf56m8BU5LNl13XSnu7x8c0EMNwprwNCB";
+            var seasonDataObject = await battleNetApiHttpClient.GetBnetApiResponseAsync<SeasonDataObject>(request);
+
+            return seasonDataObject.current_season;
+        }
     }
 }

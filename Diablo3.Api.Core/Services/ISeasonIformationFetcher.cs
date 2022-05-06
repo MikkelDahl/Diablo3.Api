@@ -1,6 +1,7 @@
-﻿namespace Diablo3.Api.Core.Services;
-
-public interface ISeasonIformationFetcher
+﻿namespace Diablo3.Api.Core.Services
 {
-    Task<int> GetCurrentSeasonAsync();
+    public interface ISeasonIformationFetcher
+    {
+        Task<int> GetCurrentSeasonAsync();
+    }
 }
