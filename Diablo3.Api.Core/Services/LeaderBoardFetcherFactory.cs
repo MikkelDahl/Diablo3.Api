@@ -4,7 +4,7 @@ using Serilog;
 
 namespace Diablo3.Api.Core.Services
 {
-    public class DataFetcherFactory
+    public class LeaderBoardFetcherFactory
     {
         private readonly ISeasonIformationFetcher seasonIformationFetcher;
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
@@ -12,7 +12,7 @@ namespace Diablo3.Api.Core.Services
         private readonly bool hardcore;
         private readonly ILogger logger;
 
-        public DataFetcherFactory(CacheConfiguration cacheConfiguration, IBattleNetApiHttpClient battleNetApiHttpClient, bool hardcore)
+        public LeaderBoardFetcherFactory(CacheConfiguration cacheConfiguration, IBattleNetApiHttpClient battleNetApiHttpClient, bool hardcore)
         {
             this.cacheConfiguration = cacheConfiguration;
             this.hardcore = hardcore;
@@ -39,7 +39,7 @@ namespace Diablo3.Api.Core.Services
             var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
             return hardcore
                 ? new HardcoreLeaderBoardFetcher(battleNetApiHttpClient, currentSeason)
-                : new LeaderBoardFetcher(battleNetApiHttpClient, currentSeason);
+                : new NormalLeaderBoardFetcher(battleNetApiHttpClient, currentSeason);
         }
     }
 }

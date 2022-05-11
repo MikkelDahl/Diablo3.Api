@@ -19,7 +19,7 @@ namespace Diablo3.Prototype
             var clientConfig = new ClientConfiguration(new CacheConfiguration(CacheOptions.Preload));
             var clientId = configuration.GetSection("Credentials").GetSection("ClientId").Value;
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
-            IClient client = new DiabloClientFactory(Region.EU, clientId, clientSecret).Build(clientConfig);
+            IClient client = new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).Build();
 
             LeaderBoard leaderBoard = await client.GetLeaderBoardForClassAsync(HeroClass.Wizard);
             LadderHero player = leaderBoard.GetHighestParagonPlayer();

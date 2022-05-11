@@ -1,6 +1,6 @@
 ﻿namespace Diablo3.Api.Core.Models.Cache
 {
-    internal abstract class CacheBase<TKey, TValue>
+    internal abstract class CacheBase<TKey, TValue> where TKey : notnull
     {
         private readonly Dictionary<TKey, (TValue, DateTime)> cache;
         private readonly Func<Task<TValue>> dataFetcher;

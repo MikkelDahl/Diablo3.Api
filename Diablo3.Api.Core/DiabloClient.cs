@@ -60,14 +60,14 @@ namespace Diablo3.Api.Core
 
         public async Task<LeaderBoard> GetLeaderBoardForClassAsync(HeroClass heroClass)
         {
-            var dataFetcherFactory = new DataFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, false);
+            var dataFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, false);
             var leaderBoardFetcher = dataFetcherFactory.Build();
             return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
         }
 
         public async Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass)
         {
-            var dataFetcherFactory = new DataFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, true);
+            var dataFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, true);
             var leaderBoardFetcher = dataFetcherFactory.Build();
             return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
         }
@@ -80,7 +80,7 @@ namespace Diablo3.Api.Core
 
         private async Task InitializeCache()
         {
-            var dataFetcherFactory = new DataFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, false);
+            var dataFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient, false);
             var leaderBoardFetcher = dataFetcherFactory.Build();
             for (var i = 0; i < 7; i++)
             {
