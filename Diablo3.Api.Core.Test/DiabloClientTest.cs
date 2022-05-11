@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Services;

@@ -17,7 +17,8 @@ namespace Diablo3.Api.Core.Services
 
         public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass)
         {
-            var cacheKey = new CacheKey(heroClass, ItemSet.All);
+            var hardcore = leaderBoardFetcher.GetType() == typeof(HardcoreLeaderBoardFetcher);
+            var cacheKey = new CacheKey(heroClass, ItemSet.All, hardcore);
             var cachedData = await cache.GetAsync(cacheKey);
             if (cachedData is not null)
                 return cachedData;
@@ -31,7 +32,8 @@ namespace Diablo3.Api.Core.Services
         public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
         {
             var heroClass = itemSet.ToHeroClass();
-            var cacheKey = new CacheKey(heroClass, itemSet);
+            var hardcore = leaderBoardFetcher.GetType() == typeof(HardcoreLeaderBoardFetcher);
+            var cacheKey = new CacheKey(heroClass, itemSet, hardcore);
             var cachedData = await cache.GetAsync(cacheKey);
             if (cachedData is not null)
                 return cachedData;
