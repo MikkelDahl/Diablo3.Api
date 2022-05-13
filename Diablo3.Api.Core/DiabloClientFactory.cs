@@ -32,7 +32,9 @@ namespace Diablo3.Api.Core
         {
             var heroFetcher = BuildHeroFetcher();
             var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
-            return new DiabloClient(heroFetcher, configuration, battleNetApiHttpClient, logger, currentSeason);
+            var itemFetcher = new ItemFetcher(battleNetApiHttpClient);
+            var itemCache = new ItemCache(itemFetcher, new Cache<string, ICollection<Item>>(configuration.CacheConfiguration));
+            return new DiabloClient(heroFetcher, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
         }
 
         private IHeroFetcher BuildHeroFetcher()

@@ -1,6 +1,6 @@
 namespace Diablo3.Api.Core.Models.Cache
 {
-    public class Cache<TKey, TValue> : ICache<TKey, TValue> where TKey : notnull
+    public class Cache<TKey, TValue> : ICache<TKey, TValue>
     {
         private readonly Dictionary<TKey, (TValue Data, DateTime CacheExpiration)> cachedData;
         private readonly CacheConfiguration cacheConfiguration;
@@ -11,7 +11,7 @@ namespace Diablo3.Api.Core.Models.Cache
             cachedData = new Dictionary<TKey, (TValue Data, DateTime CacheExpiration)>();
         }
     
-        public TValue Get(TKey key)
+        public TValue? Get(TKey key)
         {
             if (cachedData.ContainsKey(key) && DateTime.UtcNow < cachedData[key].CacheExpiration) 
                 return cachedData[key].Data;
@@ -19,7 +19,7 @@ namespace Diablo3.Api.Core.Models.Cache
             return default;
         }
 
-        public async Task<TValue> GetAsync(TKey key)
+        public async Task<TValue?> GetAsync(TKey key)
         {
             if (cachedData.ContainsKey(key) && DateTime.UtcNow < cachedData[key].CacheExpiration) 
                 return cachedData[key].Data;

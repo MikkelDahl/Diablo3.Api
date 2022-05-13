@@ -3,7 +3,7 @@ using Diablo3.Api.Core.Models.DTOs;
 
 namespace Diablo3.Api.Core.Services;
 
-public class ItemFetcher : IItemFetcher
+internal class ItemFetcher : IItemFetcher
 {
     private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
 

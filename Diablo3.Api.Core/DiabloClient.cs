@@ -9,18 +9,21 @@ namespace Diablo3.Api.Core
         private readonly IHeroFetcher heroFetcher;
         private readonly ClientConfiguration clientConfiguration;
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
+        private readonly IItemCache itemCache;
         private readonly ILogger logger;
         private readonly int currentSeason;
 
-        public DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration, IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, int currentSeason)
+        public DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration,
+            IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, int currentSeason, IItemCache itemCache)
         {
-            this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher)); 
+            this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
             this.clientConfiguration = clientConfiguration;
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.currentSeason = currentSeason;
+            this.itemCache = itemCache ?? throw new ArgumentNullException(nameof(itemCache));
 
-            if (clientConfiguration.CacheConfiguration.Options == CacheOptions.Preload) 
+            if (clientConfiguration.CacheConfiguration.Options == CacheOptions.Preload)
                 InitializeCache().Wait();
         }
 
@@ -60,14 +63,16 @@ namespace Diablo3.Api.Core
 
         public async Task<LeaderBoard> GetLeaderBoardForClassAsync(HeroClass heroClass)
         {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcherFactory =
+                new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
             return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
         }
 
         public async Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass)
         {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcherFactory =
+                new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
             return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
         }
@@ -75,18 +80,22 @@ namespace Diablo3.Api.Core
         public Hero GetHero(int id, string battleTag) => heroFetcher.Get(id, battleTag);
 
         public async Task<Hero> GetHeroAsync(int id, string battleTag) => await heroFetcher.GetAsync(id, battleTag);
+        public async Task<Item> GetItemAsync(string itemName) => await itemCache.GetAsync(itemName);
+
+        public async Task<ICollection<Item>> GetAllItemsAsync() => await itemCache.GetAllAsync();
 
         public int GetCurrentSeason() => currentSeason;
 
         private async Task InitializeCache()
         {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcherFactory =
+                new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
             var hardcoreLeaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
             for (var i = 0; i < 7; i++)
             {
                 var heroClass = (HeroClass)i;
-                
+
                 logger.Information($"Caching for all {heroClass} sets");
                 var normal = await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
                 logger.Information($"Caching for all {heroClass} sets (HC)");
@@ -105,7 +114,7 @@ namespace Diablo3.Api.Core
                         Console.WriteLine(e.Message + $" Skipping cache load for {heroClass}/{itemSet}.");
                     }
                 }
-                
+
                 logger.Information($"Finished initializing cache for {heroClass}");
             }
         }

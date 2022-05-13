@@ -3,7 +3,7 @@ using Diablo3.Api.Core.Models.Cache;
 
 namespace Diablo3.Api.Core.Services;
 
-internal class ItemCache
+internal class ItemCache : IItemCache
 {
     private readonly IItemFetcher itemFetcher;
     private readonly ICache<string, ICollection<Item>> cache;
@@ -16,10 +16,24 @@ internal class ItemCache
 
     public async Task<Item> GetAsync(string name)
     {
-        var allItems = await cache.GetAsync("items");
-        if (!allItems.Any()) 
-            allItems = await itemFetcher.GetAllItemsAsync();
+        var items = await cache.GetAsync("items");
+        if (items is not null) 
+            return items.First(item => item.Name.ToLower().Contains(name.ToLower()));
+        
+        items = await itemFetcher.GetAllItemsAsync();
+        await cache.SetAsync("items", items);
 
-        return allItems.First(item => item.Name.ToLower().Contains(name.ToLower()));
+        return items.First(item => item.Name.ToLower().Contains(name.ToLower()));
+    }
+
+    public async Task<ICollection<Item>> GetAllAsync()
+    {
+        var items = await cache.GetAsync("items");
+        if (items is not null) 
+            return items;
+        
+        items = await itemFetcher.GetAllItemsAsync();
+        await cache.SetAsync("items", items);
+        return items;
     }
 }
