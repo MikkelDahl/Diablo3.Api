@@ -22,7 +22,7 @@ public class ItemFetcher : IItemFetcher
         return queryTasks
             .SelectMany(t => t.Result
                 .Where(item => item.Id.Contains("Unique"))
-                .Select(i => new Item(i.Name, i.Icon)))
+                .Select(i => i.ToItem()))
             .ToList();
     }
 

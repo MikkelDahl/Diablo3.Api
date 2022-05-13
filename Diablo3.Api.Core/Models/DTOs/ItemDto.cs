@@ -1,6 +1,6 @@
 ﻿namespace Diablo3.Api.Core.Models.DTOs;
 
-public class ItemDto
+internal class ItemDto
 {
     public string Id { get; set; }
     public string Name { get; set; }
