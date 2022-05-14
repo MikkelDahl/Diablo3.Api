@@ -4,8 +4,8 @@ namespace Diablo3.Api.Core
 {
     public interface IClient
     {
-        Task<ICollection<LeaderBoard>> GetAllAsync();
-        Task<ICollection<LeaderBoard>> GetAllHardcoreAsync();
+        Task<ICollection<LeaderBoard>> GetAllLeaderBoardsAsync();
+        Task<ICollection<LeaderBoard>> GetAllHardcoreLeaderBoardsAsync();
         Task<LeaderBoard> GetLeaderBoardForClassAsync(HeroClass heroClass);
         Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass);
         Hero GetHero(int id, string battleTag);

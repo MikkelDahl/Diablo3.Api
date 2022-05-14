@@ -27,7 +27,7 @@ namespace Diablo3.Api.Core
                 InitializeCache().Wait();
         }
 
-        public async Task<ICollection<LeaderBoard>> GetAllAsync()
+        public async Task<ICollection<LeaderBoard>> GetAllLeaderBoardsAsync()
         {
             var dataFetchingTasks = new List<Task<LeaderBoard>>()
             {
@@ -44,7 +44,7 @@ namespace Diablo3.Api.Core
             return dataFetchingTasks.Select(t => t.Result).ToList();
         }
 
-        public async Task<ICollection<LeaderBoard>> GetAllHardcoreAsync()
+        public async Task<ICollection<LeaderBoard>> GetAllHardcoreLeaderBoardsAsync()
         {
             var dataFetchingTasks = new List<Task<LeaderBoard>>()
             {

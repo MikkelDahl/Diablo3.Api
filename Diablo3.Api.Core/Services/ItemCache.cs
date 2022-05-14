@@ -17,7 +17,7 @@ internal class ItemCache : IItemCache
     public async Task<Item> GetAsync(string name)
     {
         var items = await cache.GetAsync("items");
-        if (items is not null) 
+        if (items is not null && items.Any()) 
             return items.First(item => item.Name.ToLower().Contains(name.ToLower()));
         
         items = await itemFetcher.GetAllItemsAsync();
@@ -29,7 +29,7 @@ internal class ItemCache : IItemCache
     public async Task<ICollection<Item>> GetAllAsync()
     {
         var items = await cache.GetAsync("items");
-        if (items is not null) 
+        if (items is not null && items.Any()) 
             return items;
         
         items = await itemFetcher.GetAllItemsAsync();
