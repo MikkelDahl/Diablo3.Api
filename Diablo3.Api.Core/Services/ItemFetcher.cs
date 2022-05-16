@@ -29,10 +29,23 @@ internal class ItemFetcher : IItemFetcher
     private static string CreateQuery(string itemType) => 
         $"https://eu.api.blizzard.com/d3/data/item-type/{itemType}?locale=en_GB&access_token=USrytbc2GnIg6P2a9OP6PyQGJhd4P3VM6Y";
 
-    private List<string> ItemTypes => new List<string>
+    private static IEnumerable<string> ItemTypes => new List<string>
     {
         "helm",
         "gloves",
-        "legs"
+        "legs",
+        "boots",
+        "shoulders",
+        "chestarmor",
+        "amulet",
+        "ring",
+        "sword",
+        "axe",
+        "spear",
+        "shield",
+        "staff",
+        "wand",
+        "dagger",
+        "beltbarbarian"
     };
 }
