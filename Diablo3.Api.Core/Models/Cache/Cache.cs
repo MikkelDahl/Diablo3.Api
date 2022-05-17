@@ -1,6 +1,6 @@
 namespace Diablo3.Api.Core.Models.Cache
 {
-    public class Cache<TKey, TValue> : ICache<TKey, TValue>
+    public class Cache<TKey, TValue> : ICache<TKey, TValue> where TKey : notnull
     {
         private readonly Dictionary<TKey, (TValue Data, DateTime CacheExpiration)> cachedData;
         private readonly CacheConfiguration cacheConfiguration;

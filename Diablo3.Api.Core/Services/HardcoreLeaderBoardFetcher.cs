@@ -2,7 +2,7 @@
 
 namespace Diablo3.Api.Core.Services
 {
-    public class HardcoreLeaderBoardFetcher : LeaderBoardFetcher
+    internal class HardcoreLeaderBoardFetcher : LeaderBoardFetcher
     {
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
         private readonly int currentSeason;

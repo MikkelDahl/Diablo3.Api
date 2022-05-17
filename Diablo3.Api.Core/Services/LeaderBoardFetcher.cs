@@ -5,7 +5,7 @@ using Diablo3.Api.Core.Models.DTOs;
 
 namespace Diablo3.Api.Core.Services
 {
-    public abstract class LeaderBoardFetcher : ILeaderBoardFetcher
+    internal abstract class LeaderBoardFetcher : ILeaderBoardFetcher
     {
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
 

@@ -3,7 +3,7 @@ using Diablo3.Api.Core.Models.Cache;
 
 namespace Diablo3.Api.Core.Services
 {
-    public class LeaderBoardFetcherFactory
+    internal class LeaderBoardFetcherFactory
     {
         private readonly ISeasonIformationFetcher seasonIformationFetcher;
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;

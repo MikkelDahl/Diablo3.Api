@@ -17,11 +17,15 @@ namespace Diablo3.Api.Core
             IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, int currentSeason, IItemCache itemCache)
         {
             this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
-            this.clientConfiguration = clientConfiguration;
+            this.clientConfiguration = clientConfiguration ?? throw new ArgumentNullException(nameof(clientConfiguration));
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.currentSeason = currentSeason;
             this.itemCache = itemCache ?? throw new ArgumentNullException(nameof(itemCache));
+            
+            if (currentSeason <= 0) 
+                throw new ArgumentOutOfRangeException(nameof(currentSeason));
+            
+            this.currentSeason = currentSeason;
 
             if (clientConfiguration.CacheConfiguration.Options == CacheOptions.Preload)
                 InitializeCache().Wait();
