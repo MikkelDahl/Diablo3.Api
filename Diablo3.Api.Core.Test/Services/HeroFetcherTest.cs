@@ -13,8 +13,8 @@ public class HeroFetcherTest
 {
     private Mock<IBattleNetApiHttpClient> battleNetApiHttpClientMock;
     
-    [SetUp]
-    public void Setup()
+    [TearDown]
+    public void TearDown()
     {
         battleNetApiHttpClientMock = new Mock<IBattleNetApiHttpClient>();
     }
