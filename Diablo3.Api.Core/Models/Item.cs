@@ -1,13 +1,14 @@
-﻿namespace Diablo3.Api.Core.Models;
-
-public class Item
+﻿namespace Diablo3.Api.Core.Models
 {
-    public Item(string name, string iconUri)
+    public class Item
     {
-        Name = name ?? throw new ArgumentNullException(nameof(name));
-        IconUri = iconUri ?? throw new ArgumentNullException(nameof(iconUri));
-    }
+        public Item(string name, string iconUri)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            IconUri = iconUri ?? throw new ArgumentNullException(nameof(iconUri));
+        }
 
-    public string Name { get; }
-    public string IconUri { get; }
+        public string Name { get; }
+        public string IconUri { get; }
+    }
 }

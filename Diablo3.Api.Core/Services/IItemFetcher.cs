@@ -1,8 +1,9 @@
 ﻿using Diablo3.Api.Core.Models;
 
-namespace Diablo3.Api.Core.Services;
-
-public interface IItemFetcher
+namespace Diablo3.Api.Core.Services
 {
-    Task<ICollection<Item>> GetAllItemsAsync();
+    public interface IItemFetcher
+    {
+        Task<ICollection<Item>> GetAllItemsAsync();
+    }
 }
