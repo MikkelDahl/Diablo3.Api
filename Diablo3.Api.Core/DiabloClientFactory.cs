@@ -7,7 +7,6 @@ namespace Diablo3.Api.Core
 {
     public class DiabloClientFactory
     {
-
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
         private readonly ISeasonIformationFetcher seasonIformationFetcher;
         private readonly ClientConfiguration configuration;
@@ -25,16 +24,16 @@ namespace Diablo3.Api.Core
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();
-
         }
 
         public IClient Build()
         {
             var heroFetcher = BuildHeroFetcher();
+            var characterService = new Characters(heroFetcher);
             var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
             var itemFetcher = new ItemFetcher(battleNetApiHttpClient);
             var itemCache = new ItemCache(itemFetcher, new Cache<string, ICollection<Item>>(new CacheConfiguration(CacheOptions.Default, 86400)));
-            return new DiabloClient(heroFetcher, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
+            return new DiabloClient(characterService, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
         }
 
         private IHeroFetcher BuildHeroFetcher()

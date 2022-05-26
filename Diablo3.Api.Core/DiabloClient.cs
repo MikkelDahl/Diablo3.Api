@@ -6,17 +6,16 @@ namespace Diablo3.Api.Core
 {
     internal class DiabloClient : IClient
     {
-        private readonly IHeroFetcher heroFetcher;
         private readonly ClientConfiguration clientConfiguration;
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
         private readonly IItemCache itemCache;
         private readonly ILogger logger;
         private readonly int currentSeason;
 
-        internal DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration,
+        internal DiabloClient(ICharacterService heroFetcher, ClientConfiguration clientConfiguration,
             IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, int currentSeason, IItemCache itemCache)
         {
-            this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
+            this.Characters = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
             this.clientConfiguration = clientConfiguration ?? throw new ArgumentNullException(nameof(clientConfiguration));
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -30,6 +29,8 @@ namespace Diablo3.Api.Core
             if (clientConfiguration.CacheConfiguration.Options == CacheOptions.Preload)
                 InitializeCache().Wait();
         }
+
+        public ICharacterService Characters { get; }
 
         public async Task<ICollection<LeaderBoard>> GetAllLeaderBoardsAsync()
         {
@@ -92,10 +93,7 @@ namespace Diablo3.Api.Core
             var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
             return await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(set);
         }
-
-        public Hero GetHero(int id, string battleTag) => heroFetcher.Get(id, battleTag);
-
-        public async Task<Hero> GetHeroAsync(int id, string battleTag) => await heroFetcher.GetAsync(id, battleTag);
+        
         public async Task<Item> GetItemAsync(string itemName) => await itemCache.GetAsync(itemName);
 
         public async Task<ICollection<Item>> GetAllItemsAsync() => await itemCache.GetAllAsync();

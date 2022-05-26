@@ -1,4 +1,5 @@
 ﻿using Diablo3.Api.Core.Models;
+using Diablo3.Api.Core.Services;
 
 namespace Diablo3.Api.Core
 {
@@ -10,10 +11,9 @@ namespace Diablo3.Api.Core
         Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass);
         Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet set);
         Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set);
-        Hero GetHero(int id, string battleTag);
-        Task<Hero> GetHeroAsync(int id, string battleTag);
         Task<Item> GetItemAsync(string itemName);
         Task<ICollection<Item>> GetAllItemsAsync();
+        ICharacterService Characters { get; }
 
         int GetCurrentSeason();
     }
