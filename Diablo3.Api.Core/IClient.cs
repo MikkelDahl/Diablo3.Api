@@ -11,9 +11,8 @@ namespace Diablo3.Api.Core
         Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass);
         Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet set);
         Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set);
-        Task<Item> GetItemAsync(string itemName);
-        Task<ICollection<Item>> GetAllItemsAsync();
         IHeroFetcher Characters { get; }
+        IItemCache Items { get; }
 
         int GetCurrentSeason();
     }

@@ -1,7 +1,6 @@
 ﻿using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.Cache;
 using Diablo3.Api.Core.Services;
-using Diablo3.Api.Core.Services.AutoProperties;
 using Serilog;
 
 namespace Diablo3.Api.Core
@@ -30,11 +29,10 @@ namespace Diablo3.Api.Core
         public IClient Build()
         {
             var heroFetcher = BuildHeroFetcher();
-            var characterService = new CharacterService(heroFetcher);
             var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
             var itemFetcher = new ItemFetcher(battleNetApiHttpClient);
             var itemCache = new ItemCache(itemFetcher, new Cache<string, ICollection<Item>>(new CacheConfiguration(CacheOptions.Default, 86400)));
-            return new DiabloClient(characterService, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
+            return new DiabloClient(heroFetcher, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
         }
 
         private IHeroFetcher BuildHeroFetcher()
