@@ -67,18 +67,30 @@ namespace Diablo3.Api.Core
 
         public async Task<LeaderBoard> GetLeaderBoardForClassAsync(HeroClass heroClass)
         {
-            var leaderBoardFetcherFactory =
-                new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
             return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
         }
 
         public async Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass)
         {
-            var leaderBoardFetcherFactory =
-                new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
             return await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+        }
+
+        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet set)
+        {
+            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
+            return await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(set);
+        }
+
+        public async Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set)
+        {
+            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
+            var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
+            return await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(set);
         }
 
         public Hero GetHero(int id, string battleTag) => heroFetcher.Get(id, battleTag);

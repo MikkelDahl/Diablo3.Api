@@ -8,6 +8,8 @@ namespace Diablo3.Api.Core
         Task<ICollection<LeaderBoard>> GetAllHardcoreLeaderBoardsAsync();
         Task<LeaderBoard> GetLeaderBoardForClassAsync(HeroClass heroClass);
         Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass);
+        Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet set);
+        Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set);
         Hero GetHero(int id, string battleTag);
         Task<Hero> GetHeroAsync(int id, string battleTag);
         Task<Item> GetItemAsync(string itemName);
