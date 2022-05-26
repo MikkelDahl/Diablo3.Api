@@ -28,11 +28,12 @@ namespace Diablo3.Api.Core
 
         public IClient Build()
         {
+            var leaderBoardFetchers = BuildLeaderBoardFetchers();
             var heroFetcher = BuildHeroFetcher();
             var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
             var itemFetcher = new ItemFetcher(battleNetApiHttpClient);
             var itemCache = new ItemCache(itemFetcher, new Cache<string, ICollection<Item>>(new CacheConfiguration(CacheOptions.Default, 86400)));
-            return new DiabloClient(heroFetcher, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
+            return new DiabloClient(leaderBoardFetchers, heroFetcher, configuration, battleNetApiHttpClient, logger, currentSeason, itemCache);
         }
 
         private IHeroFetcher BuildHeroFetcher()
@@ -42,6 +43,20 @@ namespace Diablo3.Api.Core
             return configuration.CacheConfiguration.Options == CacheOptions.NoCache
                 ? heroFetcher
                 : new CachedHeroFetcher(heroFetcher, cache);
+        }
+        
+        private ILeaderBoardService BuildLeaderBoardFetchers()
+        {
+            var currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().Result;
+            var normalFetcher = new NormalLeaderBoardFetcher(battleNetApiHttpClient, currentSeason); 
+            var hcFetcher = new HardcoreLeaderBoardFetcher(battleNetApiHttpClient, currentSeason); 
+            var cache = new Cache<CacheKey, LeaderBoard>(configuration.CacheConfiguration);
+            var hcCache = new Cache<CacheKey, LeaderBoard>(configuration.CacheConfiguration);
+            
+            return configuration.CacheConfiguration.Options == CacheOptions.NoCache
+                ? new LeaderBoardService(normalFetcher, hcFetcher)
+                : new LeaderBoardService(new CachedLeaderBoardFetcher(normalFetcher, cache),
+                    new CachedLeaderBoardFetcher(hcFetcher, hcCache));
         }
     }
 }

@@ -14,21 +14,21 @@ namespace Diablo3.Api.Core.Services
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
         }
 
-        public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass)
+        public async Task<LeaderBoard> GetAsync(HeroClass heroClass)
         {
             var items = ItemSetConverter.GetForClass(heroClass);
             var allEntries = new List<LeaderBoardEntry>();
 
             foreach (var item in items)
             {
-                var itemSetLeaderBoard = await GetLeaderBoardForItemSetAsync(item);
+                var itemSetLeaderBoard = await GetForItemSetAsync(item);
                 allEntries.AddRange(itemSetLeaderBoard.Entries);
             }
 
             return await BuildLeaderBoard(allEntries);
         }
     
-        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
+        public async Task<LeaderBoard> GetForItemSetAsync(ItemSet itemSet)
         {
             var heroClass = ItemSetConverter.GetConvertedHeroClass(itemSet);
             var setIndex = ItemSetConverter.GetConvertedIndex(itemSet);

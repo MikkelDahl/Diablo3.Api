@@ -10,13 +10,13 @@ namespace Diablo3.Api.Core.Models.Cache
         }
 
 
-        public Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass)
+        public Task<LeaderBoard> GetAsync(HeroClass heroClass)
         {
             var key = new CacheKey(heroClass, ItemSet.All);
             return GetAsync(key);
         }
 
-        public Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
+        public Task<LeaderBoard> GetForItemSetAsync(ItemSet itemSet)
         {
             var heroClass = itemSet.ToHeroClass();
             var key = new CacheKey(heroClass, itemSet);

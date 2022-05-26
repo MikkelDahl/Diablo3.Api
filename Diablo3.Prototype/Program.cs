@@ -21,7 +21,7 @@ namespace Diablo3.Prototype
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
             var client = new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).Build();
 
-            var leaderBoard = await client.GetLeaderBoardForClassAsync(HeroClass.Wizard);
+            var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Wizard);
             var player = leaderBoard.GetHighestParagonPlayer();
             var player2 = leaderBoard.GetHighestRankedPlayer();
             Console.WriteLine($"Highest paragon: {player.BattleTag}, {player.Paragon}, {player.BattleTag}");
@@ -30,11 +30,17 @@ namespace Diablo3.Prototype
             Console.WriteLine(testItem.Name);
             var allItems = await client.Items.GetAllAsync();
             Console.WriteLine($"Fetched {allItems.Count} items");
-            var wrathBoard = await client.GetLeaderBoardForItemSetAsync(ItemSet.WhirlWind);
-            foreach (var entry in wrathBoard.Entries)
-            {
-                Console.WriteLine(entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
-            }
+            var wrathBoard = await client.LeaderBoards.Normal.GetForItemSetAsync(ItemSet.WhirlWind);
+            var wrathBoard2 = await client.LeaderBoards.Normal.GetForItemSetAsync(ItemSet.WhirlWind);
+            
+            var wrathBoard3 = await client.LeaderBoards.Hardcore.GetForItemSetAsync(ItemSet.WhirlWind);
+            var wrathBoard4 = await client.LeaderBoards.Hardcore.GetForItemSetAsync(ItemSet.WhirlWind);
+            
+            var wrathBoard5 = await client.LeaderBoards.Normal.GetForItemSetAsync(ItemSet.WhirlWind);
+            // foreach (var entry in wrathBoard.Entries)
+            // {
+            //     Console.WriteLine(entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
+            // }
         }
 
         private static void ConfigureServices(IServiceCollection serviceCollection)

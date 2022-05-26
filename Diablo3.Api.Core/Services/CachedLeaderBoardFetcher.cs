@@ -15,30 +15,29 @@ namespace Diablo3.Api.Core.Services
             this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
-        public async Task<LeaderBoard> GetLeaderBoardAsync(HeroClass heroClass)
+        public async Task<LeaderBoard> GetAsync(HeroClass heroClass)
         {
-            var hardcore = leaderBoardFetcher.GetType() == typeof(HardcoreLeaderBoardFetcher);
-            var cacheKey = new CacheKey(heroClass, ItemSet.All, hardcore);
+            var cacheKey = new CacheKey(heroClass, ItemSet.All);
             var cachedData = await cache.GetAsync(cacheKey);
             if (cachedData is not null)
                 return cachedData;
 
-            var data = await leaderBoardFetcher.GetLeaderBoardAsync(heroClass);
+            var data = await leaderBoardFetcher.GetAsync(heroClass);
             await cache.SetAsync(cacheKey, data);
 
             return data;
         }
 
-        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet itemSet)
+        public async Task<LeaderBoard> GetForItemSetAsync(ItemSet itemSet)
         {
             var heroClass = itemSet.ToHeroClass();
-            var hardcore = leaderBoardFetcher.GetType() == typeof(HardcoreLeaderBoardFetcher);
-            var cacheKey = new CacheKey(heroClass, itemSet, hardcore);
+            var cacheKey = new CacheKey(heroClass, itemSet);
             var cachedData = await cache.GetAsync(cacheKey);
+            Console.WriteLine($"Cached data: {cachedData?.Entries.First().LadderHero.BattleTag}");
             if (cachedData is not null)
                 return cachedData;
 
-            var data = await leaderBoardFetcher.GetLeaderBoardForItemSetAsync(itemSet);
+            var data = await leaderBoardFetcher.GetForItemSetAsync(itemSet);
             await cache.SetAsync(cacheKey, data);
 
             return data;
