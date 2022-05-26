@@ -4,7 +4,7 @@ using Serilog;
 
 namespace Diablo3.Api.Core
 {
-    public class DiabloClient : IClient
+    internal class DiabloClient : IClient
     {
         private readonly IHeroFetcher heroFetcher;
         private readonly ClientConfiguration clientConfiguration;
@@ -13,7 +13,7 @@ namespace Diablo3.Api.Core
         private readonly ILogger logger;
         private readonly int currentSeason;
 
-        public DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration,
+        internal DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration,
             IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, int currentSeason, IItemCache itemCache)
         {
             this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));

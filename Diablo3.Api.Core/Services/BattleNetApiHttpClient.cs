@@ -13,7 +13,7 @@ namespace Diablo3.Api.Core.Services
     private readonly string clientSecret;
     private readonly Region region;
 
-    public BattleNetApiHttpClient(Credentials credentials, Region region)
+    internal BattleNetApiHttpClient(Credentials credentials, Region region)
     {
         clientId = credentials.ClientId ?? throw new ArgumentNullException(nameof(clientId));
         clientSecret = credentials.Secret ?? throw new ArgumentNullException(nameof(clientSecret));

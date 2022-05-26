@@ -2,7 +2,7 @@
 
 namespace Diablo3.Api.Core.Services
 {
-    public class SeasonIformationFetcher : ISeasonIformationFetcher
+    internal class SeasonIformationFetcher : ISeasonIformationFetcher
     {
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
 
