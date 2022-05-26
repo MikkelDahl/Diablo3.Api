@@ -1,12 +1,12 @@
 using Diablo3.Api.Core.Models;
 
-namespace Diablo3.Api.Core.Services;
+namespace Diablo3.Api.Core.Services.AutoProperties;
 
-public class Characters : ICharacterService
+public class CharacterService : IHeroFetcher
 {
     private readonly IHeroFetcher heroFetcher;
 
-    public Characters(IHeroFetcher heroFetcher)
+    public CharacterService(IHeroFetcher heroFetcher)
     {
         this.heroFetcher = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
     }

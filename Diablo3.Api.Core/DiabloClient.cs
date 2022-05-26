@@ -12,7 +12,7 @@ namespace Diablo3.Api.Core
         private readonly ILogger logger;
         private readonly int currentSeason;
 
-        internal DiabloClient(ICharacterService heroFetcher, ClientConfiguration clientConfiguration,
+        internal DiabloClient(IHeroFetcher heroFetcher, ClientConfiguration clientConfiguration,
             IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, int currentSeason, IItemCache itemCache)
         {
             this.Characters = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
@@ -30,7 +30,7 @@ namespace Diablo3.Api.Core
                 InitializeCache().Wait();
         }
 
-        public ICharacterService Characters { get; }
+        public IHeroFetcher Characters { get; }
 
         public async Task<ICollection<LeaderBoard>> GetAllLeaderBoardsAsync()
         {

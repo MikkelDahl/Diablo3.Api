@@ -13,7 +13,7 @@ namespace Diablo3.Api.Core
         Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set);
         Task<Item> GetItemAsync(string itemName);
         Task<ICollection<Item>> GetAllItemsAsync();
-        ICharacterService Characters { get; }
+        IHeroFetcher Characters { get; }
 
         int GetCurrentSeason();
     }
