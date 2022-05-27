@@ -34,68 +34,6 @@ namespace Diablo3.Api.Core
         public IItemCache Items { get; }
         public ILeaderBoardService LeaderBoards { get; }
 
-        public async Task<ICollection<LeaderBoard>> GetAllLeaderBoardsAsync()
-        {
-            var dataFetchingTasks = new List<Task<LeaderBoard>>()
-            {
-                GetLeaderBoardForClassAsync(HeroClass.Barbarian),
-                GetLeaderBoardForClassAsync(HeroClass.Crusader),
-                GetLeaderBoardForClassAsync(HeroClass.DemonHunter),
-                GetLeaderBoardForClassAsync(HeroClass.Monk),
-                GetLeaderBoardForClassAsync(HeroClass.Necromancer),
-                GetLeaderBoardForClassAsync(HeroClass.WitchDoctor),
-                GetLeaderBoardForClassAsync(HeroClass.Wizard)
-            };
-
-            await Task.WhenAll(dataFetchingTasks);
-            return dataFetchingTasks.Select(t => t.Result).ToList();
-        }
-
-        public async Task<ICollection<LeaderBoard>> GetAllHardcoreLeaderBoardsAsync()
-        {
-            var dataFetchingTasks = new List<Task<LeaderBoard>>()
-            {
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.Barbarian),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.Crusader),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.DemonHunter),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.Monk),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.Necromancer),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.WitchDoctor),
-                GetHardcoreLeaderBoardForClassAsync(HeroClass.Wizard)
-            };
-
-            await Task.WhenAll(dataFetchingTasks);
-            return dataFetchingTasks.Select(t => t.Result).ToList();
-        }
-
-        public async Task<LeaderBoard> GetLeaderBoardForClassAsync(HeroClass heroClass)
-        {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
-            var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
-            return await leaderBoardFetcher.GetAsync(heroClass);
-        }
-
-        public async Task<LeaderBoard> GetHardcoreLeaderBoardForClassAsync(HeroClass heroClass)
-        {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
-            var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
-            return await leaderBoardFetcher.GetAsync(heroClass);
-        }
-
-        public async Task<LeaderBoard> GetLeaderBoardForItemSetAsync(ItemSet set)
-        {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
-            var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
-            return await leaderBoardFetcher.GetAsync(set);
-        }
-
-        public async Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set)
-        {
-            var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
-            var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
-            return await leaderBoardFetcher.GetAsync(set);
-        }
-
         public int GetCurrentSeason() => currentSeason;
 
         private async Task InitializeCache()
