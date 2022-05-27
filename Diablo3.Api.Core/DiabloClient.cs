@@ -86,14 +86,14 @@ namespace Diablo3.Api.Core
         {
             var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.Build();
-            return await leaderBoardFetcher.GetForItemSetAsync(set);
+            return await leaderBoardFetcher.GetAsync(set);
         }
 
         public async Task<LeaderBoard> GetHardcoreLeaderBoardForItemSetAsync(ItemSet set)
         {
             var leaderBoardFetcherFactory = new LeaderBoardFetcherFactory(clientConfiguration.CacheConfiguration, battleNetApiHttpClient);
             var leaderBoardFetcher = leaderBoardFetcherFactory.BuildHardcore();
-            return await leaderBoardFetcher.GetForItemSetAsync(set);
+            return await leaderBoardFetcher.GetAsync(set);
         }
 
         public int GetCurrentSeason() => currentSeason;
@@ -118,8 +118,8 @@ namespace Diablo3.Api.Core
                     logger.Information($"Caching for set: {itemSet}");
                     try
                     {
-                        var normalDataForItemSet = await leaderBoardFetcher.GetForItemSetAsync(itemSet);
-                        var hcDataForItemSet = await hardcoreLeaderBoardFetcher.GetForItemSetAsync(itemSet);
+                        var normalDataForItemSet = await leaderBoardFetcher.GetAsync(itemSet);
+                        var hcDataForItemSet = await hardcoreLeaderBoardFetcher.GetAsync(itemSet);
                     }
                     catch (Exception e)
                     {

@@ -15,6 +15,9 @@ namespace Diablo3.Api.Core.Services
             this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
+        public LeaderBoard Get(HeroClass heroClass) => Task.Run(() => GetAsync(heroClass)).GetAwaiter().GetResult();
+        public LeaderBoard Get(ItemSet set) => Task.Run(() => GetAsync(set)).GetAwaiter().GetResult();
+
         public async Task<LeaderBoard> GetAsync(HeroClass heroClass)
         {
             var cacheKey = new CacheKey(heroClass, ItemSet.All);
@@ -28,7 +31,7 @@ namespace Diablo3.Api.Core.Services
             return data;
         }
 
-        public async Task<LeaderBoard> GetForItemSetAsync(ItemSet itemSet)
+        public async Task<LeaderBoard> GetAsync(ItemSet itemSet)
         {
             var heroClass = itemSet.ToHeroClass();
             var cacheKey = new CacheKey(heroClass, itemSet);
@@ -37,10 +40,27 @@ namespace Diablo3.Api.Core.Services
             if (cachedData is not null)
                 return cachedData;
 
-            var data = await leaderBoardFetcher.GetForItemSetAsync(itemSet);
+            var data = await leaderBoardFetcher.GetAsync(itemSet);
             await cache.SetAsync(cacheKey, data);
 
             return data;
+        }
+
+        public async Task<ICollection<LeaderBoard>> GetAllAsync()
+        {
+            var dataFetchingTasks = new List<Task<LeaderBoard>>()
+            {
+                GetAsync(HeroClass.Barbarian),
+                GetAsync(HeroClass.Crusader),
+                GetAsync(HeroClass.DemonHunter),
+                GetAsync(HeroClass.Monk),
+                GetAsync(HeroClass.Necromancer),
+                GetAsync(HeroClass.WitchDoctor),
+                GetAsync(HeroClass.Wizard)
+            };
+
+            await Task.WhenAll(dataFetchingTasks);
+            return dataFetchingTasks.Select(t => t.Result).ToList();
         }
     }
 }

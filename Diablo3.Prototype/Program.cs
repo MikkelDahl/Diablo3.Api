@@ -30,13 +30,13 @@ namespace Diablo3.Prototype
             Console.WriteLine(testItem.Name);
             var allItems = await client.Items.GetAllAsync();
             Console.WriteLine($"Fetched {allItems.Count} items");
-            var wrathBoard = await client.LeaderBoards.Normal.GetForItemSetAsync(ItemSet.WhirlWind);
-            var wrathBoard2 = await client.LeaderBoards.Normal.GetForItemSetAsync(ItemSet.WhirlWind);
+            var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
+            var wrathBoard2 = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
             
-            var wrathBoard3 = await client.LeaderBoards.Hardcore.GetForItemSetAsync(ItemSet.WhirlWind);
-            var wrathBoard4 = await client.LeaderBoards.Hardcore.GetForItemSetAsync(ItemSet.WhirlWind);
+            var wrathBoard3 = await client.LeaderBoards.Hardcore.GetAsync(ItemSet.WhirlWind);
+            var wrathBoard4 = await client.LeaderBoards.Hardcore.GetAsync(ItemSet.WhirlWind);
             
-            var wrathBoard5 = await client.LeaderBoards.Normal.GetForItemSetAsync(ItemSet.WhirlWind);
+            var wrathBoard5 = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
             // foreach (var entry in wrathBoard.Entries)
             // {
             //     Console.WriteLine(entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);

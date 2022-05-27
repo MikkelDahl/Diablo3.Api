@@ -14,6 +14,9 @@ namespace Diablo3.Api.Core.Services
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
         }
 
+        public LeaderBoard Get(HeroClass heroClass) => Task.Run(() => GetAsync(heroClass)).GetAwaiter().GetResult();
+        public LeaderBoard Get(ItemSet set) => Task.Run(() => GetAsync(set)).GetAwaiter().GetResult();
+
         public async Task<LeaderBoard> GetAsync(HeroClass heroClass)
         {
             var items = ItemSetConverter.GetForClass(heroClass);
@@ -21,23 +24,40 @@ namespace Diablo3.Api.Core.Services
 
             foreach (var item in items)
             {
-                var itemSetLeaderBoard = await GetForItemSetAsync(item);
+                var itemSetLeaderBoard = await GetAsync(item);
                 allEntries.AddRange(itemSetLeaderBoard.Entries);
             }
 
             return await BuildLeaderBoard(allEntries);
         }
     
-        public async Task<LeaderBoard> GetForItemSetAsync(ItemSet itemSet)
+        public async Task<LeaderBoard> GetAsync(ItemSet set)
         {
-            var heroClass = ItemSetConverter.GetConvertedHeroClass(itemSet);
-            var setIndex = ItemSetConverter.GetConvertedIndex(itemSet);
+            var heroClass = ItemSetConverter.GetConvertedHeroClass(set);
+            var setIndex = ItemSetConverter.GetConvertedIndex(set);
             var request = CreateGetRequest(heroClass, setIndex);
             var leaderBoardDto = await GetDataObjectAsync(request);
 
-            return BuildLeaderBoardWithItemSet(leaderBoardDto, itemSet);
+            return BuildLeaderBoardWithItemSet(leaderBoardDto, set);
         }
-    
+
+        public async Task<ICollection<LeaderBoard>> GetAllAsync()
+        {
+            var dataFetchingTasks = new List<Task<LeaderBoard>>()
+            {
+                GetAsync(HeroClass.Barbarian),
+                GetAsync(HeroClass.Crusader),
+                GetAsync(HeroClass.DemonHunter),
+                GetAsync(HeroClass.Monk),
+                GetAsync(HeroClass.Necromancer),
+                GetAsync(HeroClass.WitchDoctor),
+                GetAsync(HeroClass.Wizard)
+            };
+
+            await Task.WhenAll(dataFetchingTasks);
+            return dataFetchingTasks.Select(t => t.Result).ToList();
+        }
+
         private static Task<LeaderBoard> BuildLeaderBoard(IReadOnlyCollection<LeaderBoardEntry> entries)
         {
             if (!entries.All(e => e.Verify()))
