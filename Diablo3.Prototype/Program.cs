@@ -21,7 +21,7 @@ namespace Diablo3.Prototype
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
             var client = await new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).BuildAsync();
 
-            var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Wizard);
+            var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Barbarian);
             var player = leaderBoard.GetHighestParagonPlayer();
             var player2 = leaderBoard.GetHighestRankedPlayer();
             Console.WriteLine($"Highest paragon: {player.BattleTag}, {player.Paragon}, {player.BattleTag}");
@@ -32,15 +32,16 @@ namespace Diablo3.Prototype
             Console.WriteLine($"Fetched {allItems.Count} items");
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
 
-            foreach (var entry in wrathBoard.Entries)
-            {
-                Console.WriteLine(entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
-            }
+            // foreach (var entry in wrathBoard.Entries)
+            // {
+            //     Console.WriteLine("GR: " + entry.RiftInformation.Level + " - " + entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
+            // }
 
             var hero = await client.Characters.GetAsync(wrathBoard.GetHighestRankedPlayer().Id,
                 wrathBoard.GetHighestRankedPlayer().BattleTag);
-
+            
             Console.WriteLine(hero.Name + $" GR: {hero.HighestGreaterRiftCompleted} - " + hero.BattleTag);
+            Console.WriteLine($"Most popular set: {leaderBoard.GetMostPopularSet().Set} - {leaderBoard.GetMostPopularSet().Count}/1000");
         }
 
         private static void ConfigureServices(IServiceCollection serviceCollection)

@@ -17,12 +17,16 @@
             .First()
             .LadderHero;
         
-        public ItemSet GetMostPopularSet() => Entries
-            .Select(e => e.RiftInformation)
-            .GroupBy(a => a.ItemSet)
-            .Select(g => new { Set = g.Key, Count = g.Count()})
-            .OrderByDescending(s => s.Count)
-            .First()
-            .Set;
+        public (ItemSet Set, int Count) GetMostPopularSet()
+        {
+            var highestCount = Entries
+                .Select(e => e.RiftInformation)
+                .GroupBy(a => a.ItemSet)
+                .Select(g => new { Set = g.Key, Count = g.Count() })
+                .OrderByDescending(s => s.Count)
+                .First();
+
+            return (highestCount.Set, highestCount.Count);
+        }
     }
 }
