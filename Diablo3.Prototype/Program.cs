@@ -26,7 +26,7 @@ namespace Diablo3.Prototype
             var player2 = leaderBoard.GetHighestRankedPlayer();
             Console.WriteLine($"Highest paragon: {player.BattleTag}, {player.Paragon}, {player.BattleTag}");
             Console.WriteLine($"Rank 1: {player2.BattleTag}, {player2.Paragon}, RiftLevel: {player2.RiftLevel}");
-            var testItem = await client.Items.GetAsync("cain");
+            var testItem = await client.Items.GetAsync("ske");
             Console.WriteLine(testItem.Name);
             var allItems = await client.Items.GetAllAsync();
             Console.WriteLine($"Fetched {allItems.Count} items");

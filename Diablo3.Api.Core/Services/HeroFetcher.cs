@@ -1,3 +1,4 @@
+using Diablo3.Api.Core.Exceptions;
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.DTOs;
 
@@ -21,9 +22,15 @@ namespace Diablo3.Api.Core.Services
         public async Task<Hero> GetAsync(int id, string battleTag)
         {
             var request = CreateGetRequest(id, battleTag);
-            var heroDto = await battleNetApiHttpClient.GetBnetApiResponseAsync<HeroDto>(request);
-
-            return heroDto.ToHero(battleTag);
+            try
+            {
+                var heroDto = await battleNetApiHttpClient.GetBnetApiResponseAsync<HeroDto>(request);
+                return heroDto.ToHero(battleTag);
+            }
+            catch (Exception e)
+            {
+                throw new HeroNotFoundException(id, battleTag);
+            }
         }
     
         private string CreateGetRequest(int id, string battleTag)

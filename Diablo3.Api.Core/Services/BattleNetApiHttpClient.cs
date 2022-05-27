@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Diablo3.Api.Core.Exceptions;
 using Diablo3.Api.Core.Models;
 using Newtonsoft.Json;
 using RestSharp;
@@ -33,9 +34,7 @@ namespace Diablo3.Api.Core.Services
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
-            Console.WriteLine("Failed request: " + request);
-            throw;
+            throw new InvalidBattleNetResponseException(e, request);
         }
     }
     
