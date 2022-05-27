@@ -4,6 +4,9 @@
     {
         public LeaderBoard(List<LeaderBoardEntry> entries)
         {
+            if (entries == null) 
+                throw new ArgumentNullException(nameof(entries));
+            
             if (entries.Any(e => e.LadderHero.HeroClass != entries[0].LadderHero.HeroClass))
                 throw new ArgumentException("Inconsistent LeaderBoard Entries: All entries must have same Hero Class", nameof(entries));
             

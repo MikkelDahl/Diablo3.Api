@@ -39,7 +39,7 @@ namespace Diablo3.Api.Core.Test.Models
 
             sut = new LeaderBoard(entries);
         }
-        
+
         [Test]
         public void Constructor_throws_on_invalid_hero_class_in_entries()
         {
@@ -82,7 +82,7 @@ namespace Diablo3.Api.Core.Test.Models
         [Test]
         public void GetMostPopularSet_returns_most_used_set()
         {
-            Assert.That(sut.GetMostPopularSet(), Is.EqualTo(ItemSet.Aegis));
+            Assert.That(sut.GetMostPopularSet().Set, Is.EqualTo(ItemSet.Aegis));
         }
     }
 }

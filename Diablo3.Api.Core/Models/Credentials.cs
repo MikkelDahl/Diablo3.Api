@@ -2,8 +2,14 @@
 {
     internal struct Credentials
     {
-        internal Credentials(string clientId, string secret)
+        public Credentials(string clientId, string secret)
         {
+            if (string.IsNullOrWhiteSpace(clientId)) 
+                throw new ArgumentNullException(nameof(clientId));
+            
+            if (string.IsNullOrWhiteSpace(secret)) 
+                throw new ArgumentNullException(nameof(secret));
+
             ClientId = clientId;
             Secret = secret;
         }
