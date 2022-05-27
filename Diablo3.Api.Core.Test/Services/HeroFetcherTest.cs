@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Diablo3.Api.Core.Exceptions;
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.DTOs;
 using Diablo3.Api.Core.Services;
@@ -51,6 +52,16 @@ namespace Diablo3.Api.Core.Test.Services
                 Assert.That(hero.Paragon, Is.EqualTo(heroDto.ParagonLevel));
                 Assert.That(hero.HighestGreaterRiftCompleted, Is.EqualTo(heroDto.HighestSoloRiftCompleted));
             });
+        }
+        
+        [Test]
+        public void GetAsync_rethrows_HeroNotFoundException_on_error()
+        {
+            battleNetApiHttpClientMock.Setup(a => a.GetCurrentRegion()).Returns(Region.EU);
+            battleNetApiHttpClientMock.Setup(a => a.GetBnetApiResponseAsync<HeroDto>(It.IsAny<string>()))!
+                .ReturnsAsync((HeroDto)null);
+
+            Assert.ThrowsAsync<HeroNotFoundException>(async () => await Sut().GetAsync(1,  "test#tag"));
         }
 
         private HeroFetcher Sut() => new(battleNetApiHttpClientMock.Object);
