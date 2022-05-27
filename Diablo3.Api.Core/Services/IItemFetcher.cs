@@ -4,6 +4,6 @@ namespace Diablo3.Api.Core.Services
 {
     public interface IItemFetcher
     {
-        Task<ICollection<Item>> GetAllItemsAsync();
+        Task<ICollection<Item>> GetAllAsync();
     }
 }

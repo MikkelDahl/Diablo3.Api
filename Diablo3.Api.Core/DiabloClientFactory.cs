@@ -126,7 +126,7 @@ namespace Diablo3.Api.Core
                 return new ItemCache(fetcher, new Cache<string, ICollection<Item>>(configuration.CacheConfiguration));
             
             var cache = new Cache<string, ICollection<Item>>(configuration.CacheConfiguration);
-            var items = await fetcher.GetAllItemsAsync();
+            var items = await fetcher.GetAllAsync();
             await cache.SetAsync("items", items);
             return new ItemCache(fetcher, cache);
         }

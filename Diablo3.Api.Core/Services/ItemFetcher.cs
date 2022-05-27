@@ -15,7 +15,7 @@ namespace Diablo3.Api.Core.Services
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<ICollection<Item>> GetAllItemsAsync()
+        public async Task<ICollection<Item>> GetAllAsync()
         {
             var queries = ItemTypes.Select(CreateQuery);
             var queryTasks = queries.Select(q => battleNetApiHttpClient.GetBnetApiResponseAsync<ICollection<ItemDto>>(q)).ToList();

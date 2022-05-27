@@ -36,7 +36,6 @@ namespace Diablo3.Api.Core.Services
             var heroClass = itemSet.ToHeroClass();
             var cacheKey = new CacheKey(heroClass, itemSet);
             var cachedData = await cache.GetAsync(cacheKey);
-            Console.WriteLine($"Cached data: {cachedData?.Entries.First().LadderHero.BattleTag}");
             if (cachedData is not null)
                 return cachedData;
 

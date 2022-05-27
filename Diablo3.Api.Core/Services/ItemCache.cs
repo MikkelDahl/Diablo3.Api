@@ -20,7 +20,7 @@ namespace Diablo3.Api.Core.Services
             if (items is not null && items.Any()) 
                 return items.First(item => item.Name.ToLower().Contains(name.ToLower()));
         
-            items = await itemFetcher.GetAllItemsAsync();
+            items = await itemFetcher.GetAllAsync();
             await cache.SetAsync("items", items);
 
             return items.First(item => item.Name.ToLower().Contains(name.ToLower()));
@@ -32,7 +32,7 @@ namespace Diablo3.Api.Core.Services
             if (items is not null && items.Any()) 
                 return items;
         
-            items = await itemFetcher.GetAllItemsAsync();
+            items = await itemFetcher.GetAllAsync();
             await cache.SetAsync("items", items);
             return items;
         }
