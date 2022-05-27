@@ -9,9 +9,8 @@ Diablo3.Api is a C# .Net library for the [Diablo 3 API](https://develop.battle.n
 # Examples
 ## Getting the highest ranked player of [class]
 ```
-var configuration = DefaultClientConfiguration.GetConfiguration();
-var client = new DiabloClientFactory(Region.EU, "[CLientId]", "[ClientSecret]").Build(configuration);
-var demonHunterSeasonalLeaderBoard = await client.GetForClassAsync(PlayerClass.DemonHunter);
+var client = await new DiabloClientFactory(Region.EU, "[CLientId]", "[ClientSecret]").BuildAsync();
+var demonHunterSeasonalLeaderBoard = await client.LeaderBoards.Normal.GetAsync(PlayerClass.DemonHunter);
 var highestRankedDemonHunter = demonHunterSeasonalLeaderBoard.Entries.First();
 Console.WriteLine($"Highest Ranked DemonHunter: {highestRankedDemonHunter.Player.Name}, RiftLevel: {highestRankedDemonHunter.RiftInformation.Level}{highestRankedDemonHunter.Player.PlayerClass}");
 ``` 
