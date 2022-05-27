@@ -7,12 +7,30 @@
 Diablo3.Api is a C# .Net library for the [Diablo 3 API](https://develop.battle.net/documentation/diablo-3/game-data-apis). Information on how to connect to blizzards API can be found here: [Get started with Blizzard API](https://develop.battle.net/documentation/guides/getting-started). Note that all leaderboard data is seasonal only. There are currently no plans to support non-seasonal leaderboards.
 
 # Examples
-## Getting the highest ranked player of [class]
+## Initializing an instance of IClient
+Creating a new instance of the DiabloClient is done through the Client Factory:
 ```
 var client = await new DiabloClientFactory(Region.EU, "[CLientId]", "[ClientSecret]").BuildAsync();
+``` 
+
+## Getting the highest ranked player of [class]
+```
 var demonHunterSeasonalLeaderBoard = await client.LeaderBoards.Normal.GetAsync(PlayerClass.DemonHunter);
 var highestRankedDemonHunter = demonHunterSeasonalLeaderBoard.GetHighestRankedPlayer();
 Console.WriteLine($"Highest Ranked DemonHunter: {highestRankedDemonHunter.Player.Name}, RiftLevel: {highestRankedDemonHunter.RiftInformation.Level}{highestRankedDemonHunter.Player.PlayerClass}");
+``` 
+
+## Getting the strongest/most popular set for [class]
+```
+var leaderBoard = await client.LeaderBoards.Normal.GetAsync(PlayerClass.Barbarian);
+var mostPopularSet = leaderBoard.GetMostPopularSet();
+Console.WriteLine($"Most popular set: {leaderBoard.GetMostPopularSet().Set} - {leaderBoard.GetMostPopularSet().Count}/{leaderBoard.Entries.Count}");
+``` 
+
+## Getting the icon/image of an item
+```
+ var item = await client.Items.GetAsync("tasker"); //Partial keyword will fetch the first matching item containing the keyword
+ var icon = item.IconUri;
 ``` 
 
 ## Caching
