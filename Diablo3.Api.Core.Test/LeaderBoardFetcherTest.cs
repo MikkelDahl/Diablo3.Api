@@ -48,7 +48,7 @@ namespace Diablo3.Api.Core.Test
                 .ReturnsAsync(leaderboardDto2);
 
             sut = new NormalLeaderBoardFetcher(battleNetApiHttpClientMock.Object, 1);
-            var actual = await sut.GetLeaderBoardAsync(HeroClass.Barbarian);
+            var actual = await sut.GetAsync(HeroClass.Barbarian);
 
             Assert.Multiple(() =>
             {
