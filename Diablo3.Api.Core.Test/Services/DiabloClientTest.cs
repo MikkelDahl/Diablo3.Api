@@ -1,5 +1,4 @@
-﻿using System;
-using Diablo3.Api.Core.Services;
+﻿using Diablo3.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
 
@@ -21,12 +20,9 @@ namespace Diablo3.Api.Core.Test.Services
         }
 
         [Test]
-        [TestCase(0)]
-        [TestCase(-1)]
-        public void Constructor_throws_if_currentSeason_is_out_of_valid_range(int season)
+        public void Constructor_throws_on_null_args()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DiabloClient(leaderBoardServiceMock.Object,
-                heroFetcherMock.Object, itemCacheMock.Object));
+           TestHelper.AssertConstructorThrowsOnNullArgs<DiabloClient>();
         }
 
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.DTOs;
 using Diablo3.Api.Core.Services;
@@ -11,7 +10,7 @@ namespace Diablo3.Api.Core.Test.Services
     [TestFixture]
     public class HeroFetcherTest
     {
-        private Mock<IBattleNetApiHttpClient> battleNetApiHttpClientMock;
+        private Mock<IBattleNetApiHttpClient> battleNetApiHttpClientMock = new();
     
         [TearDown]
         public void TearDown()
@@ -22,7 +21,7 @@ namespace Diablo3.Api.Core.Test.Services
         [Test]
         public void Constructor_throws_on_null_args()
         {
-            Assert.Throws<ArgumentNullException>(() => new HeroFetcher(null));
+            TestHelper.AssertConstructorThrowsOnNullArgs<HeroFetcher>();
         }
 
         [Test]

@@ -4,7 +4,7 @@ namespace Diablo3.Api.Core
 {
     internal class DiabloClient : IClient
     {
-        internal DiabloClient(ILeaderBoardService leaderBoardFetcher, IHeroFetcher heroFetcher, IItemCache itemCache)
+        public DiabloClient(ILeaderBoardService leaderBoardFetcher, IHeroFetcher heroFetcher, IItemCache itemCache)
         {
             Characters = heroFetcher ?? throw new ArgumentNullException(nameof(heroFetcher));
             Items = itemCache ?? throw new ArgumentNullException(nameof(itemCache));
