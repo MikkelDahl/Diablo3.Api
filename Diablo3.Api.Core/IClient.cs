@@ -7,7 +7,5 @@ namespace Diablo3.Api.Core
         IHeroFetcher Characters { get; }
         IItemCache Items { get; }
         ILeaderBoardService LeaderBoards { get; }
-
-        int GetCurrentSeason();
     }
 }

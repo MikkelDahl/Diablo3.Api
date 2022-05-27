@@ -9,7 +9,6 @@ namespace Diablo3.Api.Core.Models.Cache
         { 
         }
 
-
         public LeaderBoard Get(HeroClass heroClass) => Task.Run(() => GetAsync(heroClass)).GetAwaiter().GetResult();
         public LeaderBoard Get(ItemSet set) => Task.Run(() => GetAsync(set)).GetAwaiter().GetResult();
 
