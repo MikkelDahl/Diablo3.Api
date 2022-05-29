@@ -2,15 +2,16 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Idioms;
 
-namespace Diablo3.Api.Core.Test;
-
-public static class TestHelper
+namespace Diablo3.Api.Core.Test
 {
-    public static void AssertConstructorThrowsOnNullArgs<T>()
+    public static class TestHelper
     {
-        var fixture = new Fixture().Customize(new AutoMoqCustomization());
-        var _ = fixture.Create<T>();
-        var assertion = new GuardClauseAssertion(fixture);
-        assertion.Verify(typeof(T).GetConstructors());
+        public static void AssertConstructorThrowsOnNullArgs<T>()
+        {
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            var _ = fixture.Create<T>();
+            var assertion = new GuardClauseAssertion(fixture);
+            assertion.Verify(typeof(T).GetConstructors());
+        }
     }
 }
