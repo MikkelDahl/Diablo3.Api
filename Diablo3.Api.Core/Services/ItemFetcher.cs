@@ -78,7 +78,7 @@ namespace Diablo3.Api.Core.Services
             {
                 logger.Error("Failed to get api response for item: {Message}",e.Message);
             }
-            
+
             return queryTasks.Where(task => task.IsCompletedSuccessfully)
                 .SelectMany(t => t.Result
                     .Where(item => item.Id.Contains("Unique"))
