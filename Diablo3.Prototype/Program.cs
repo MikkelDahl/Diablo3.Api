@@ -22,12 +22,8 @@ namespace Diablo3.Prototype
             var client = await new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).BuildAsync();
 
             var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Barbarian);
-            var player = leaderBoard.GetHighestParagonPlayer();
-            var player2 = leaderBoard.GetHighestRankedPlayer();
-            Console.WriteLine($"Highest paragon: {player.BattleTag}, {player.Paragon}, {player.BattleTag}");
-            Console.WriteLine($"Rank 1: {player2.BattleTag}, {player2.Paragon}, RiftLevel: {player2.RiftLevel}");
             var testItem = await client.Items.GetAsync("ske");
-            Console.WriteLine(testItem.Name);
+            Console.WriteLine(testItem.Name + " - " + testItem.Effect);
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
 
             // foreach (var entry in wrathBoard.Entries)

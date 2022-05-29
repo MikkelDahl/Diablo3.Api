@@ -1,7 +1,8 @@
-namespace Diablo3.Api.Core.Models.DTOs;
-
-public class ItemAttributes
+namespace Diablo3.Api.Core.Models.DTOs
 {
-    public List<AttributeDataObject> primary { get; set; }
-    public List<AttributeDataObject> secondary { get; set; }
+    public class ItemAttributes
+    {
+        public List<AttributeDataObject> primary { get; set; }
+        public List<AttributeDataObject> secondary { get; set; }
+    }
 }

@@ -1,7 +1,8 @@
-namespace Diablo3.Api.Core.Models.DTOs;
-
-public class AttributeDataObject
+namespace Diablo3.Api.Core.Models.DTOs
 {
-    public string textHtml { get; set; }
-    public string text { get; set; }
+    public class AttributeDataObject
+    {
+        public string textHtml { get; set; }
+        public string text { get; set; }
+    }
 }

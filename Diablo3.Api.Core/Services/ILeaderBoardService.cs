@@ -1,7 +1,8 @@
-﻿namespace Diablo3.Api.Core.Services;
-
-public interface ILeaderBoardService
+﻿namespace Diablo3.Api.Core.Services
 {
-    ILeaderBoardFetcher Normal { get; }
-    ILeaderBoardFetcher Hardcore { get; }
+    public interface ILeaderBoardService
+    {
+        ILeaderBoardFetcher Normal { get; }
+        ILeaderBoardFetcher Hardcore { get; }
+    }
 }
