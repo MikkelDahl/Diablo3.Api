@@ -4,13 +4,13 @@ using NUnit.Framework;
 namespace Diablo3.Api.Core.Test.Models;
 
 [TestFixture]
-public class ItemTest
+public class ItemBaseTest
 {
     
     [Test]
     public void Constructor_throws_on_null_args()
     {
-        TestHelper.AssertConstructorThrowsOnNullArgs<Item>();
+        TestHelper.AssertConstructorThrowsOnNullArgs<ItemBase>();
     }
     
     [Test]
@@ -18,13 +18,15 @@ public class ItemTest
     {
         var name = "test";
         var uri = "https://test.test";
+        var path = "testpath";
 
-        var sut = new Item(name, uri);
+        var sut = new ItemBase(name, uri, path);
         
         Assert.Multiple(() =>
         {
             Assert.That(name, Is.EqualTo(sut.Name));
             Assert.That(uri, Is.EqualTo(sut.IconUri));
+            Assert.That(path, Is.EqualTo(sut.Path));
         });
     }
 }

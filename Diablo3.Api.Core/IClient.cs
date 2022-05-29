@@ -5,7 +5,7 @@ namespace Diablo3.Api.Core
     public interface IClient
     {
         IHeroFetcher Characters { get; }
-        IItemCache Items { get; }
+        IItemFetcher Items { get; }
         ILeaderBoardService LeaderBoards { get; }
     }
 }

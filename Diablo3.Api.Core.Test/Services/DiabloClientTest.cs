@@ -9,14 +9,14 @@ namespace Diablo3.Api.Core.Test.Services
     {
         private Mock<IHeroFetcher> heroFetcherMock;
         private Mock<ILeaderBoardService> leaderBoardServiceMock;
-        private Mock<IItemCache> itemCacheMock;
+        private Mock<IItemFetcher> itemCacheMock;
 
         [SetUp]
         public void Setup()
         {
             leaderBoardServiceMock = new Mock<ILeaderBoardService>(); 
             heroFetcherMock = new Mock<IHeroFetcher>();
-            itemCacheMock = new Mock<IItemCache>();
+            itemCacheMock = new Mock<IItemFetcher>();
         }
 
         [Test]

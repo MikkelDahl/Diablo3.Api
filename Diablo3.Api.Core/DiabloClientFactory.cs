@@ -31,7 +31,7 @@ namespace Diablo3.Api.Core
         public IClient Build()
         {
             var leaderBoardFetchers = Task.Run(BuildLeaderBoardFetchersAsync).GetAwaiter().GetResult();
-            var itemCache = Task.Run(BuildItemCacheAsync).GetAwaiter().GetResult();
+            var itemCache = Task.Run(BuildItemFetcherAsync).GetAwaiter().GetResult();
             var heroFetcher =  Task.Run(BuildHeroFetcher).GetAwaiter().GetResult();
             
             return new DiabloClient(leaderBoardFetchers, heroFetcher, itemCache);
@@ -40,7 +40,7 @@ namespace Diablo3.Api.Core
         public async Task<IClient> BuildAsync()
         {
             var leaderBoardFetchersTask = BuildLeaderBoardFetchersAsync();
-            var itemCacheTask = BuildItemCacheAsync();
+            var itemCacheTask = BuildItemFetcherAsync();
             var heroFetcherTask = BuildHeroFetcher();
 
             await Task.WhenAll(leaderBoardFetchersTask, itemCacheTask, heroFetcherTask);
@@ -119,16 +119,20 @@ namespace Diablo3.Api.Core
             return (normalCache, hcCache);
         }
 
-        private async Task<IItemCache> BuildItemCacheAsync()
+        private async Task<IItemFetcher> BuildItemFetcherAsync()
         {
             var fetcher = new ItemFetcher(battleNetApiHttpClient, logger);
             if (configuration.CacheConfiguration.Options != CacheOptions.Preload) 
-                return new ItemCache(fetcher, new Cache<string, ICollection<Item>>(configuration.CacheConfiguration));
+                return configuration.CacheConfiguration.Options == CacheOptions.NoCache 
+                    ? fetcher
+                    : new CachedItemFetcher(fetcher, new Cache<string, Item>(configuration.CacheConfiguration));
             
-            var cache = new Cache<string, ICollection<Item>>(configuration.CacheConfiguration);
-            var items = await fetcher.GetAllAsync();
-            await cache.SetAsync("items", items);
-            return new ItemCache(fetcher, cache);
+            //TODO: Implement preloaded cache here
+            var cache = new Cache<string, Item>(configuration.CacheConfiguration);
+            // var baseCache = new Cache<string, ICollection<ItemBase>>(configuration.CacheConfiguration);
+            // var items = await fetcher.GetAllAsync();
+            // await cache.SetAsync("items", items);
+            return new CachedItemFetcher(fetcher, cache);
         }
     }
 }

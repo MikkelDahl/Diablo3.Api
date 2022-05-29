@@ -28,8 +28,6 @@ namespace Diablo3.Prototype
             Console.WriteLine($"Rank 1: {player2.BattleTag}, {player2.Paragon}, RiftLevel: {player2.RiftLevel}");
             var testItem = await client.Items.GetAsync("ske");
             Console.WriteLine(testItem.Name);
-            var allItems = await client.Items.GetAllAsync();
-            Console.WriteLine($"Fetched {allItems.Count} items");
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
 
             // foreach (var entry in wrathBoard.Entries)
