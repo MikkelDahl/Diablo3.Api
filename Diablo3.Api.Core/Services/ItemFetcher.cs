@@ -11,10 +11,11 @@ namespace Diablo3.Api.Core.Services
         private readonly ICache<string, ICollection<ItemBase>> cache;
         private readonly ILogger logger;
 
-        public ItemFetcher(IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger)
+        public ItemFetcher(IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, ICache<string, ICollection<ItemBase>> cache)
         {
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         public async Task<Item> GetAsync(string name)

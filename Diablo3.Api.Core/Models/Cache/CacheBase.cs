@@ -16,7 +16,8 @@
         protected async Task<TValue> GetAsync(TKey key)
         {
             if (cache.TryGetValue(key, out (TValue Data, DateTime CacheExpiration) value))
-                return value.Data;
+                if (value.CacheExpiration > DateTime.UtcNow)
+                    return value.Data;
 
             var cacheExpiration = DateTime.UtcNow + cacheConfiguration.CacheTtl;
             value = (await dataFetcher(), cacheExpiration);

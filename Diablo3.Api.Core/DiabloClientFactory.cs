@@ -121,7 +121,9 @@ namespace Diablo3.Api.Core
 
         private async Task<IItemFetcher> BuildItemFetcherAsync()
         {
-            var fetcher = new ItemFetcher(battleNetApiHttpClient, logger);
+            var itemBaseCache = new Cache<string, ICollection<ItemBase>>(configuration.CacheConfiguration);
+            var fetcher = new ItemFetcher(battleNetApiHttpClient, logger, itemBaseCache);
+
             if (configuration.CacheConfiguration.Options != CacheOptions.Preload) 
                 return configuration.CacheConfiguration.Options == CacheOptions.NoCache 
                     ? fetcher
