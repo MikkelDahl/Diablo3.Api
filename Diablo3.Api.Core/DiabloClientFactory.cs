@@ -124,17 +124,12 @@ namespace Diablo3.Api.Core
             var itemBaseCache = new Cache<string, ICollection<ItemBase>>(configuration.CacheConfiguration);
             var fetcher = new ItemFetcher(battleNetApiHttpClient, logger, itemBaseCache);
 
-            if (configuration.CacheConfiguration.Options != CacheOptions.Preload) 
-                return configuration.CacheConfiguration.Options == CacheOptions.NoCache 
-                    ? fetcher
-                    : new CachedItemFetcher(fetcher, new Cache<string, Item>(configuration.CacheConfiguration));
+            if (configuration.CacheConfiguration.Options == CacheOptions.Preload)
+                await fetcher.GetAsync("s");
             
-            //TODO: Implement preloaded cache here
-            var cache = new Cache<string, Item>(configuration.CacheConfiguration);
-            // var baseCache = new Cache<string, ICollection<ItemBase>>(configuration.CacheConfiguration);
-            // var items = await fetcher.GetAllAsync();
-            // await cache.SetAsync("items", items);
-            return new CachedItemFetcher(fetcher, cache);
+            return configuration.CacheConfiguration.Options == CacheOptions.NoCache 
+                ? fetcher
+                : new CachedItemFetcher(fetcher, new Cache<string, Item>(configuration.CacheConfiguration));
         }
     }
 }
