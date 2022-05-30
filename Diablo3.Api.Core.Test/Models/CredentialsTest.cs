@@ -23,8 +23,8 @@ namespace Diablo3.Api.Core.Test.Models
         [Test]
         public void Autoproperties_are_set_from_constructor()
         {
-            var id = "test";
-            var secret = "secret";
+            const string id = "test";
+            const string secret = "secret";
 
             var sut = new Credentials(id, secret);
         

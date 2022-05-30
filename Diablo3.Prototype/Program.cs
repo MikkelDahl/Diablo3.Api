@@ -22,7 +22,7 @@ namespace Diablo3.Prototype
             var client = await new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).BuildAsync();
 
             var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Barbarian);
-            var testItem = await client.Items.GetAsync("r");
+            var testItem = await client.Items.GetAsync("p");
             Console.WriteLine(testItem.Name + " - " + testItem.Effect);
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
 
