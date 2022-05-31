@@ -1,4 +1,5 @@
 ﻿using Diablo3.Api.Core.Services;
+using Diablo3.Api.Core.Services.Characters;
 using Moq;
 using NUnit.Framework;
 
@@ -8,6 +9,7 @@ namespace Diablo3.Api.Core.Test.Services
     public class DiabloClientTest
     {
         private Mock<IHeroFetcher> heroFetcherMock;
+        private Mock<IAccountFetcher> accountFetcherMock;
         private Mock<ILeaderBoardService> leaderBoardServiceMock;
         private Mock<IItemFetcher> itemCacheMock;
 
@@ -17,6 +19,7 @@ namespace Diablo3.Api.Core.Test.Services
             leaderBoardServiceMock = new Mock<ILeaderBoardService>(); 
             heroFetcherMock = new Mock<IHeroFetcher>();
             itemCacheMock = new Mock<IItemFetcher>();
+            accountFetcherMock = new Mock<IAccountFetcher>();
         }
 
         [Test]
@@ -27,6 +30,6 @@ namespace Diablo3.Api.Core.Test.Services
 
 
         private DiabloClient Sut() =>
-            new(leaderBoardServiceMock.Object, heroFetcherMock.Object, itemCacheMock.Object);
+            new(leaderBoardServiceMock.Object, heroFetcherMock.Object, itemCacheMock.Object, accountFetcherMock.Object);
     }
 }

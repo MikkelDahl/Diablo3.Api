@@ -2,6 +2,7 @@
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.Cache;
 using Diablo3.Api.Core.Services;
+using Diablo3.Api.Core.Services.Characters;
 using Serilog;
 
 namespace Diablo3.Api.Core
@@ -33,19 +34,21 @@ namespace Diablo3.Api.Core
             var leaderBoardFetchers = Task.Run(BuildLeaderBoardFetchersAsync).GetAwaiter().GetResult();
             var itemCache = Task.Run(BuildItemFetcherAsync).GetAwaiter().GetResult();
             var heroFetcher =  Task.Run(BuildHeroFetcher).GetAwaiter().GetResult();
+            var accountFetcher =  Task.Run(BuildAccountFetcher).GetAwaiter().GetResult();
             
-            return new DiabloClient(leaderBoardFetchers, heroFetcher, itemCache);
+            return new DiabloClient(leaderBoardFetchers, heroFetcher, itemCache, accountFetcher);
         }
         
         public async Task<IClient> BuildAsync()
         {
             var leaderBoardFetchersTask = BuildLeaderBoardFetchersAsync();
             var itemCacheTask = BuildItemFetcherAsync();
+            var accountFetcherTask = BuildAccountFetcher();
             var heroFetcherTask = BuildHeroFetcher();
 
-            await Task.WhenAll(leaderBoardFetchersTask, itemCacheTask, heroFetcherTask);
+            await Task.WhenAll(leaderBoardFetchersTask, itemCacheTask, accountFetcherTask, heroFetcherTask);
             
-            return new DiabloClient(leaderBoardFetchersTask.Result, heroFetcherTask.Result, itemCacheTask.Result);
+            return new DiabloClient(leaderBoardFetchersTask.Result, heroFetcherTask.Result, itemCacheTask.Result, accountFetcherTask.Result);
         }
 
         private Task<IHeroFetcher> BuildHeroFetcher()
@@ -57,6 +60,15 @@ namespace Diablo3.Api.Core
                 : Task.FromResult<IHeroFetcher>(new CachedHeroFetcher(heroFetcher, cache));
         }
         
+        private Task<IAccountFetcher> BuildAccountFetcher()
+        {
+            var accountFetcher = new AccountFetcher(battleNetApiHttpClient); 
+            var cache = new Cache<string, Account>(configuration.CacheConfiguration);
+            return configuration.CacheConfiguration.Options == CacheOptions.NoCache
+                ? Task.FromResult<IAccountFetcher>(accountFetcher)
+                : Task.FromResult<IAccountFetcher>(new CachedAccountFetcher(accountFetcher, cache));
+        }
+
         private async Task<ILeaderBoardService> BuildLeaderBoardFetchersAsync()
         {
             var normalFetcher = new NormalLeaderBoardFetcher(battleNetApiHttpClient, currentSeason); 

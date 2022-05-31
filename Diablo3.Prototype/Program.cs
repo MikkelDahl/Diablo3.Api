@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Diablo3.Api.Core;
 using Diablo3.Api.Core.Models;
@@ -21,15 +22,17 @@ namespace Diablo3.Prototype
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
             var client = await new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).BuildAsync();
 
+            var account = await client.Accounts.GetAsync("Wenoo-2123");
+            Console.WriteLine(account.Heroes.First().Name);
             var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Barbarian);
             var testItem = await client.Items.GetAsync("p");
             Console.WriteLine(testItem.Name + " - " + testItem.Effect);
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
 
-            // foreach (var entry in wrathBoard.Entries)
-            // {
-            //     Console.WriteLine("GR: " + entry.RiftInformation.Level + " - " + entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
-            // }
+            foreach (var entry in wrathBoard.Entries)
+            {
+                Console.WriteLine("GR: " + entry.RiftInformation.Level + " - " + entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
+            }
 
             var hero = await client.Characters.GetAsync(wrathBoard.GetHighestRankedPlayer().Id,
                 wrathBoard.GetHighestRankedPlayer().BattleTag);

@@ -26,4 +26,8 @@
         </AssemblyAttribute>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\Items" />
+    </ItemGroup>
+
 </Project>
