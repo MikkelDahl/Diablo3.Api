@@ -1,6 +1,6 @@
 using Diablo3.Api.Core.Models;
 
-namespace Diablo3.Api.Core.Services
+namespace Diablo3.Api.Core.Services.Characters
 {
     public interface IHeroFetcher
     {

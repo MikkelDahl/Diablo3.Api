@@ -2,7 +2,7 @@ using Diablo3.Api.Core.Exceptions;
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.DTOs;
 
-namespace Diablo3.Api.Core.Services
+namespace Diablo3.Api.Core.Services.Characters
 {
     internal class HeroFetcher : IHeroFetcher
     {

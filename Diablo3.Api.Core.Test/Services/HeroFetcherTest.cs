@@ -3,6 +3,7 @@ using Diablo3.Api.Core.Exceptions;
 using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.DTOs;
 using Diablo3.Api.Core.Services;
+using Diablo3.Api.Core.Services.Characters;
 using Moq;
 using NUnit.Framework;
 

@@ -1,7 +1,7 @@
 ﻿using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.Cache;
 
-namespace Diablo3.Api.Core.Services
+namespace Diablo3.Api.Core.Services.Characters
 {
     internal class CachedHeroFetcher : IHeroFetcher
     {
