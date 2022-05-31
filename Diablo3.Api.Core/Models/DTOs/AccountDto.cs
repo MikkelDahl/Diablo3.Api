@@ -8,7 +8,7 @@ internal class AccountDto
     public int ParagonLevelSeason { get; set; }
     public int ParagonLevelSeasonHardcore { get; set; }
     public List<HeroDto> Heroes { get; set; }
-    public List<SeasonInfoDataObject> SeasonalProfiles { get; set; }
+    public SeasonalProfilesObject SeasonalProfiles { get; set; }
 
     public Account ToAccount()
     {
