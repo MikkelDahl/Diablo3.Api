@@ -22,9 +22,11 @@ namespace Diablo3.Prototype
             var clientSecret = configuration.GetSection("Credentials").GetSection("ClientSecret").Value;
             var client = await new DiabloClientFactory(Region.EU, clientId, clientSecret, clientConfig).BuildAsync();
 
-            var account = await client.Accounts.GetAsync("Wenoo-2123");
-            Console.WriteLine(account.Heroes.First().Name);
+          
             var leaderBoard = await client.LeaderBoards.Normal.GetAsync(HeroClass.Barbarian);
+            var highestRankedPlayer = leaderBoard.GetHighestRankedPlayer();
+            var account = await client.Accounts.GetAsync(highestRankedPlayer.BattleTag);
+            Console.WriteLine("Account Hero: " + account.Heroes.First().Name);
             var testItem = await client.Items.GetAsync("p");
             Console.WriteLine(testItem.Name + " - " + testItem.Effect);
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);

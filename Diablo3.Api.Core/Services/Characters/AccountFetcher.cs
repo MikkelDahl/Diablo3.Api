@@ -17,7 +17,8 @@ public class AccountFetcher : IAccountFetcher
 
     public async Task<Account> GetAsync(string battleTag)
     {
-        var request = CreateGetRequest(battleTag);
+        var validBattleTag = battleTag.Replace('#', '-');
+        var request = CreateGetRequest(validBattleTag);
         try
         {
             var accountDto = await battleNetApiHttpClient.GetBnetApiResponseAsync<AccountDto>(request);
