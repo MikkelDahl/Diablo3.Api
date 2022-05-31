@@ -2,7 +2,7 @@ namespace Diablo3.Api.Core.Models;
 
 internal record Account
 {
-    public string Id { get; }
+    public string BattleTag { get; }
     public List<Hero> Heroes { get; }
     public Dictionary<HeroClass, TimeSpan> TimePlayed { get; } //convert to hours by taking the number from the dto and multiply with 3000 
 

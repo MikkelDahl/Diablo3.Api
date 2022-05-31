@@ -7,6 +7,8 @@
         public string Class { get; set; }
         public int ParagonLevel { get; set; }
         public int HighestSoloRiftCompleted { get; set; }
+        private bool Hardcore { get; set; }
+        private bool Seasonal { get; set; }
     
         public Hero ToHero(string battleTag)
         {
