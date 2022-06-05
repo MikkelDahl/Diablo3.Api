@@ -27,17 +27,10 @@ namespace Diablo3.Prototype
             var account = await client.Accounts.GetAsync(highestRankedPlayer.BattleTag);
             Console.WriteLine("Account: " + account.BattleTag);
             Console.WriteLine("Playtime: " + account.TimePlayedInCurrentSeason[HeroClass.Barbarian]);
-            Console.WriteLine("Playtime: " + account.TimePlayedInCurrentSeason[HeroClass.DemonHunter]);
-            Console.WriteLine("Playtime: " + account.TimePlayedInCurrentSeason[HeroClass.Monk]);
-            Console.WriteLine("Playtime: " + account.TimePlayedInCurrentSeason[HeroClass.Wizard]);
+
             var testItem = await client.Items.GetAsync("p");
             Console.WriteLine(testItem.Name + " - " + testItem.Effect);
             var wrathBoard = await client.LeaderBoards.Normal.GetAsync(ItemSet.WhirlWind);
-
-            // foreach (var entry in wrathBoard.Entries)
-            // {
-            //     Console.WriteLine("GR: " + entry.RiftInformation.Level + " - " + entry.RiftInformation.ClearDate + " - " + entry.LadderHero.BattleTag);
-            // }
 
             var hero = await client.Characters.GetAsync(wrathBoard.GetHighestRankedPlayer().Id,
                 wrathBoard.GetHighestRankedPlayer().BattleTag);

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Diablo3.Api.Core.Models;
+﻿using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.Cache;
 using Diablo3.Api.Core.Services;
 using Diablo3.Api.Core.Services.Characters;
@@ -86,8 +85,6 @@ namespace Diablo3.Api.Core
             var normalFetcher = new NormalLeaderBoardFetcher(battleNetApiHttpClient, currentSeason); 
             var hcFetcher = new HardcoreLeaderBoardFetcher(battleNetApiHttpClient, currentSeason);
 
-            var watch = new Stopwatch();
-            watch.Start();
             for (var i = 0; i < 7; i++)
             {
                 var heroClass = (HeroClass)i;
@@ -115,8 +112,7 @@ namespace Diablo3.Api.Core
                     }
                 });
             }
-            
-            watch.Stop();
+
             return (normalCache, hcCache);
         }
 
