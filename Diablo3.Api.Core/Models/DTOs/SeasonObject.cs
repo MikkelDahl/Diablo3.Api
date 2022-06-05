@@ -1,6 +1,6 @@
 ﻿namespace Diablo3.Api.Core.Models.DTOs;
 
-public class SeasonObject
+internal class SeasonObject
 {
     public int SeasonId { get; set; }
     public int ParagonLevel { get; set; }

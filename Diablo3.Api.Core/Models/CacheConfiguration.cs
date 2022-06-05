@@ -2,7 +2,7 @@
 {
     public class CacheConfiguration
     {
-        public CacheConfiguration(CacheOptions options, int cacheTtlSeconds = 100)
+        public CacheConfiguration(CacheOptions options, int cacheTtlSeconds = 120)
         {
             Options = options;
             CacheTtl = new TimeSpan(0, 0, cacheTtlSeconds);

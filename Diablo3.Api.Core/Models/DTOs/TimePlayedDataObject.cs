@@ -2,7 +2,7 @@
 
 namespace Diablo3.Api.Core.Models.DTOs;
 
-public class TimePlayedDataObject
+internal class TimePlayedDataObject
 {
     [JsonPropertyName("demon-hunter")]
     public double DemonHunter { get; set; }
