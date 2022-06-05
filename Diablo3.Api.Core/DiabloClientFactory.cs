@@ -3,7 +3,6 @@ using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.Cache;
 using Diablo3.Api.Core.Services;
 using Diablo3.Api.Core.Services.Characters;
-using Serilog;
 
 namespace Diablo3.Api.Core
 {
@@ -12,7 +11,6 @@ namespace Diablo3.Api.Core
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
         private readonly ClientConfiguration configuration;
         private readonly int currentSeason;
-        private readonly ILogger logger;
 
         public DiabloClientFactory(Region region, string clientId, string clientSecret, ClientConfiguration? configuration = null)
         {
@@ -21,12 +19,6 @@ namespace Diablo3.Api.Core
             battleNetApiHttpClient = new BattleNetApiHttpClient(credentials, region);
             var seasonIformationFetcher = new SeasonIformationFetcher(battleNetApiHttpClient);
             currentSeason = seasonIformationFetcher.GetCurrentSeasonAsync().GetAwaiter().GetResult();
-            
-            logger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
         }
 
         public IClient Build()
@@ -99,7 +91,6 @@ namespace Diablo3.Api.Core
             for (var i = 0; i < 7; i++)
             {
                 var heroClass = (HeroClass)i;
-                logger.Information($"Caching {heroClass} sets");
                 var normalTask = normalFetcher.GetAsync(heroClass);
                 var hcTask = hcFetcher.GetAsync(heroClass);
                 var fetchingTasks = new List<Task<LeaderBoard>> { normalTask, hcTask };
@@ -120,21 +111,19 @@ namespace Diablo3.Api.Core
                     }
                     catch (Exception e)
                     {
-                        logger.Warning("{Message} - Skipping cache preload for {HeroClass}/{Set}", e.Message, heroClass, set);
+                        //do nothing
                     }
                 });
             }
             
             watch.Stop();
-            logger.Verbose("Full cache initialized in {Elapsed}s", watch.ElapsedMilliseconds / 1000);
-
             return (normalCache, hcCache);
         }
 
         private async Task<IItemFetcher> BuildItemFetcherAsync()
         {
             var itemBaseCache = new Cache<string, ICollection<ItemBase>>(configuration.CacheConfiguration);
-            var fetcher = new ItemFetcher(battleNetApiHttpClient, logger, itemBaseCache);
+            var fetcher = new ItemFetcher(battleNetApiHttpClient, itemBaseCache);
 
             if (configuration.CacheConfiguration.Options == CacheOptions.Preload)
                 await fetcher.GetAsync("s");

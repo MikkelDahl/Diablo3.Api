@@ -1,7 +1,6 @@
 ﻿using Diablo3.Api.Core.Models;
 using Diablo3.Api.Core.Models.Cache;
 using Diablo3.Api.Core.Models.DTOs;
-using Serilog;
 
 namespace Diablo3.Api.Core.Services
 {
@@ -9,12 +8,10 @@ namespace Diablo3.Api.Core.Services
     {
         private readonly IBattleNetApiHttpClient battleNetApiHttpClient;
         private readonly ICache<string, ICollection<ItemBase>> cache;
-        private readonly ILogger logger;
 
-        public ItemFetcher(IBattleNetApiHttpClient battleNetApiHttpClient, ILogger logger, ICache<string, ICollection<ItemBase>> cache)
+        public ItemFetcher(IBattleNetApiHttpClient battleNetApiHttpClient, ICache<string, ICollection<ItemBase>> cache)
         {
             this.battleNetApiHttpClient = battleNetApiHttpClient ?? throw new ArgumentNullException(nameof(battleNetApiHttpClient));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
@@ -57,7 +54,7 @@ namespace Diablo3.Api.Core.Services
             }
             catch (Exception e)
             {
-                logger.Error("Failed to get api response for item: {Message}",e.Message);
+                //do nothing
             }
             
             return queryTasks.Where(task => task.IsCompletedSuccessfully)
@@ -76,7 +73,7 @@ namespace Diablo3.Api.Core.Services
             }
             catch (Exception e)
             {
-                logger.Error("Failed to get api response for item: {Message}",e.Message);
+                //do nothing
             }
 
             return queryTasks.Where(task => task.IsCompletedSuccessfully)
